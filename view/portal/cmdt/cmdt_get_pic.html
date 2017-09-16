@@ -1,0 +1,7 @@
+<%cmdt.index_pic_url.forEach(function(ele){%>
+  <div class="col-md-3 update-pic-url">
+    <img src="<%=cdn_differ_domain%><%=ele%>" alt="">
+    <br>
+    <span class="text-danger text-button" onclick="$.ajaxModal('/cmdt/cmdt/delete_pic?url=<%=ele%>&id=<%=cmdt.id%>')">删除</span>
+  </div>
+<%})%>

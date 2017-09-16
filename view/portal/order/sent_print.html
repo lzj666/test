@@ -1,0 +1,59 @@
+<div class="modal-dialog" style="width:380px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">更改物流</h4>
+        </div>
+        <form role="form" method="post" action="/order/sent/announce_change"
+              onsubmit="return ajax.submit(this,__hideAndSearch)">
+            <input type="hidden" id="order_id" name="order_id" value="<%=current_order.order_id%>">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="box-body">
+                        <div class="print-left">
+                            <div class="form-group input-group ">
+                                <span class="input-group-addon">快递公司</span>
+                                <select class="form-control" id="express_id">
+                                    <%express.forEach(function(e){%>
+                                    <option value="<%=e.id%>"
+                                    <%=e.id==current_order.express_id?"selected":""%>><%=e.express_name%>
+                                    </option>
+                                    <%})%>
+                                </select>
+                            </div>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">快递单号</span>
+                                <input type="text" class="form-control" id="express_no"
+                                       value="<%=current_order.express_no%>" placeholder="如果不填，系统随机指定">
+                            </div>
+                        </div>
+                        <div class="print-right">
+                            <a type="button" class="btn btn-default" onclick="fill('<%=current_order.order_id%>')"
+                               style="width: 82px;">
+                                <%if(current_order.is_filled){%>
+                                重新填单
+                                <%}else{%>
+                                填&nbsp;&nbsp;&nbsp;&nbsp;单
+                                <%}%>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="box-footer footer_right">
+                        <button id="printFhd" class="btn btn-default"
+                                onclick="print_fhd('<%=current_order.order_id%>')">
+                            打印发货单
+                        </button>
+                        <button id="printwld" class="btn btn-default"
+                                onclick="print_wld('<%=current_order.order_id%>')">
+                            打印快递单
+                        </button>
+                        <button class="btn btn-success" type="submit">通知更改</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

@@ -1,0 +1,108 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">新增规格</h4>
+    </div>
+    <form role="form" method="post" action="/cmdt/cmdt/add_spec" onsubmit="return ajax.submit(this,reload_spec_partial)">
+      <input type="hidden" name="id" value="<%=id%>">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">规格名</span>
+              <input type="text" class="form-control"  name="spec_name" placeholder="必填"  required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">价格</span>
+              <input type="number" class="form-control" name="spec_price" value="" step="0.01" required>
+            </div>
+          </div>
+        </div>
+          <%if(is_show_japName){%>
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group input-group">
+                      <span class="input-group-addon">商品日文名</span>
+                      <input type="text" class="form-control"  name="jap_name" placeholder="必填"  required>
+                  </div>
+              </div>
+          </div>
+          <%}%>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">数量</span>
+              <input type="number" class="form-control" name="spec_amount" value="" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">重量(kg)</span>
+              <input type="number" class="form-control" name="spec_weight" value="" step="0.001" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">条码</span>
+              <input type="text" class="form-control" name="spec_code" value="" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">图片</span>
+              <input type="file" class="form-control" name="spec_file" accept="image/jpeg,image/png,image/bmp,image/gif" value="" required>
+            </div>
+          </div>
+            <div class="col-md-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon">规格序号</span>
+                    <input type="text" class="form-control" name="spec_sort_num" value="" required>
+                </div>
+            </div>
+            <!--zhangyuan-->
+            <div class="col-md-6">
+                <div class="form-group input-group">
+                    <span class="input-group-addon">优惠价格</span>
+                    <input type="text" class="form-control" name="sale_price" value="" placeholder="只允许输入数字">
+                </div>
+            </div>
+            <!--end-->
+        </div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="checkbox">
+		          <label ><input type="checkbox"  name="spec_sale" value="true" >&nbsp;上架</label>
+		        </div>
+			</div>
+            <!--zhangyuan-->
+            <div class="col-md-6">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="show_sale_price" value="true"
+                    >&nbsp;是否显示优惠价</label>
+                </div>
+            </div>
+            <!--end-->
+            <div class="col-md-6">
+                <div class="checkbox">
+                    <label ><input type="checkbox"  name="spec_fromJapan" value="true" >&nbsp;在日本</label>
+                </div>
+            </div>
+
+		</div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div>
+</div>

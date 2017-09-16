@@ -1,0 +1,23 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <input type="hidden" name="parameters" id="parameters" value="<%=parameters%>">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+                要导出当前时间段的订单吗？
+                <!--<%if(JSON.parse(parameters).order_type=="payed"){%>-->
+                <!--要导出当前时间段的已支付订单吗？-->
+                <!--<%}else if(JSON.parse(parameters).order_type=="sent"){%>-->
+                <!--要导出当前时间段的已发货订单吗？-->
+                <!--<%}%>-->
+            </h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success pull-left" data-dismiss="modal">完成</button>
+            <a class="btn btn-primary"
+               href="/export/order/export_order?parameters=<%=parameters%>"
+               target="_blank">确认</a>
+        </div>
+    </div>
+</div>

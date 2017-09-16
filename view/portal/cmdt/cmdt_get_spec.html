@@ -1,0 +1,20 @@
+<%skus.forEach(function(item){%>
+  <tr>
+    <td><%=item.name%></td>
+      <%if(is_show_japName){%>
+      <td><%=item.jap_name%></td>
+      <%}%>
+    <td><%=item.price%></td>
+    <td><%=item.stock.total%></td>
+    <td><%=item.weight%></td>
+    <td><%=item.bar_code%></td>
+    <td><img src="<%=cdn_domain%><%=item.pic_url%>" class="brand-img" alt=""></td>
+    <td><input type="checkbox" name="" disabled <%=item.sale_state=='ON'?'checked="checked"':''%>></td>
+	<td><input type="checkbox" name="" disabled <%=item.from_japan?'checked="checked"':''%>></td>
+    <td>
+      <span class="text-primary text-button" onclick="$.ajaxModal('/cmdt/cmdt/update_spec?id=<%=item.id%>')">修改</span>
+      <span class="explode">|</span>
+      <span class="text-danger text-button" onclick="$.ajaxModal('/cmdt/cmdt/delete_spec?id=<%=item.id%>')">删除</span>
+    </td>
+  </tr>
+<%})%>

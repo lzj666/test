@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>全部商品｜北海道土産探検隊</title>
+<link rel="dns-prefetch" href="<%=cdn_domain%>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="全部商品,日本,购物,日货,彩妆" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+      <% var nav_active_index='';%>
+        <% include ../index_nav.html%>
+        <div class="content">
+            <!--start sreach-->
+            <div class="banner">
+              <div class="index-search">
+								<form action="/cmdt/search/index" method="GET">
+										<div class="search-box">
+												<label for="search"><i class="iconfont">&#xe60f;</i></label>
+												<input type="search" id='search' name="k" placeholder='请输入您要搜索的商品名称' required />
+										</div>
+								</form>
+						</div>
+            </div>
+            <!--end sreach-->
+            <!--start 商品列表1-->
+            <%first.forEach(function(item){%>
+				<a href="/cmdt/list/index?id=<%=item.id%>%>">
+				  <div class="cover"><img class="lazy-load" src="<%=cdn_domain%>/static/images/lazyload_gray.png" data-url="<%=cdn_differ_domain%><%=item.pic_url%>" ></div>
+					<p class="tit"><%=item.name%></p>
+				</a>
+	              <!-- <div class="shop_tit"><span class="fl_l"><%=item.name%></span><a href="/cmdt/list/index?id=<%=item.id%>"><span class="fl_r">全部商品</span></a></div>
+	              <div class="category_box">
+	                <%item.seconds.forEach(function(second){%>
+	                  <a href="/cmdt/list/index?id=<%=item.id%>&second_id=<%=second.id%>">
+	                  	<div class="cover"><img class="lazy-load" src="<%=cdn_domain%>/static/images/lazyload_gray.png" data-url="<%=cdn_differ_domain%><%=second.pic_url%>" ></div>
+	                      <p class="tit"><%=second.name%></p>
+	                  </a>
+	                <%})%>
+	              </div> -->
+
+            <%})%>
+
+        </div>
+    </div>
+</div>
+
+
+
+<%include ../common_js_recource.html%>
+ <script type="text/javascript">
+  $('.lazy-load').imglazyload({
+              container: '.content',
+              innerScroll: true,
+              threshold:300
+          });
+</script>
+</body>
+</html>

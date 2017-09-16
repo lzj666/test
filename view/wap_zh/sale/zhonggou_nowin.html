@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>福利购</title>
+    <link rel="dns-prefetch" href="">
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/shop/shop.css">
+</head>
+
+<body>
+<div class="page-group">
+    <div class="page page-current">
+        <div class="content">
+            <div class="one_til">
+                <i class="icon icon-left fl_l pink" onclick="history.back()">返回</i>
+                <div class="fl_r"><a href="crowdfunding_list.html">订单管理</a></div>
+            </div>
+            <div class="pay_banner"><img src="<%=cdn_differ_domain%>/static/uimg/be15fd48959f43afbe1be1d77d474b9c.jpg"/></div>
+            <div class="crowdfunding_box">
+                <div class="crowdfunding_win">
+                    <div class="win_img"><img src="<%=cdn_differ_domain%><%=sku.pic_url%>"></div>
+                    <div class="win_info">
+                        <dl>
+                            <dt class="pink font_8 mtl_20">即将开奖<br>敬请期待</dt>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <!--start 历史中奖用户-->
+            <div class="crowdfunding_box ">
+                <div class="crowdfunding_scorll">
+                    <div class="pink font_8 mt_50">
+                        <center>新上架商品 暂无中奖纪录</center>
+                    </div>
+                </div>
+            </div>
+            <!--end 历史中奖用户-->
+        </div>
+    </div>
+</div>
+<script language="javascript">
+    function startmarquee(lh, speed, delay) {
+        var p = false;
+        var t;
+        var o = document.getElementById("marqueebox");
+        o.innerHTML += o.innerHTML;
+        o.style.marginTop = 0;
+        o.onmouseover = function () {
+            p = true;
+        }
+        o.onmouseout = function () {
+            p = false;
+        }
+
+        function start() {
+            t = setInterval(scrolling, speed);
+            if (!p) o.style.marginTop = parseInt(o.style.marginTop) - 1 + "px";
+        }
+
+        function scrolling() {
+            if (parseInt(o.style.marginTop) % lh != 0) {
+                o.style.marginTop = parseInt(o.style.marginTop) - 1 + "px";
+                if (Math.abs(parseInt(o.style.marginTop)) >= o.scrollHeight / 2) o.style.marginTop = 0;
+            }
+            else {
+                clearInterval(t);
+                setTimeout(start, delay);
+            }
+        }
+
+        setTimeout(start, delay);
+    }
+    startmarquee(30, 20, 1500);
+</script>
+</body>
+</html>

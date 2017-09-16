@@ -1,0 +1,118 @@
+<div class="box-body">
+    <table id="dt1" class="table table-bordered ">
+        <thead class="head-no-border">
+        <tr data-order="<%=order%>">
+            <th class="col-md-7.8 text-align-center">订单详情</th>
+            <th class="col-md-2.2 text-align-center">金额</th>
+            <th class="col-md-1 text-align-center">备注</th>
+            <th class="col-md-1 text-align-center">操作</th>
+        </tr>
+        </thead>
+
+        <%orders.forEach(function(item){%>
+        <tbody>
+        <tr class="spcace-line">
+            <td colspan="4"></td>
+        </tr>
+        <tr class="th-head">
+            <th colspan="3">
+                <span class="no-solid">下单时间:</span><span><%=item.createdat%></span>
+                <span class="no-solid">订单号:</span><span><%=item.order_num%></span>
+                <span class="no-solid">商品总数:</span><span><%=item.cmdt_count%></span>
+                <%if(item.is_expired){%>
+                <span class="text-danger">已过期</span>
+                <%}%>
+            </th>
+            <th class="text-align-center">
+                <a class="fa fa-trash-o" aria-hidden="true"
+                   href="javascript:deleteOrder('<%=item.order_num%>','<%=item.user_id%>')"></a>
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+            </td>
+            <td rowspan="10" style="width: 268px;">
+                <div>
+                    <div class="amount-left">
+                        <span>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:
+                            <span class="text-black"><%=item.post_fee%></span>
+                        </span><br>
+                        <span>偏远差价:
+                            <span class="text-black"><%=item.remote_money%></span>
+                        </span><br>
+                        <span>客服调价:<%if(item.cutfee>0){%>
+                                <span class="text-green">+<%=item.cutfee%></span>
+                                <%}else{%>
+                                <span class="text-danger"><%=item.cutfee%></span>
+                                <%}%>
+                        </span>
+                    </div>
+                    <div class="amount-right">
+                        <br>
+                        <span>订单总额:
+                            <span class="text-green"><%=item.sum_money%></span>
+                        </span>
+                        <br>
+                        <span>应付金额:
+                            <span class="text-green"><%=item.should_pay_money%></span>
+                        </span>
+                    </div>
+                </div>
+            </td>
+            <td rowspan="10">
+                <div class="desc">
+                    <%if(item.customerdesc!==null&&item.customerdesc.length!=0){%>
+                    <div><span class="label label-info">客户</span>:<%=item.customerdesc%>
+                    </div>
+                    <%if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                    <%}else if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                </div>
+            </td>
+            <td rowspan="10">
+                <div class="text-align-center"><a onclick="cutfee('<%=item.order_id%>')">客服修改</a></div>
+            </td>
+        </tr>
+
+        <%item.cmdts.forEach(function(cmdt){%>
+        <tr>
+            <td>
+                <div>
+                    <div class="good-img">
+                        <%if(cmdt.pic_url){%>
+                        <%var url = cmdt.pic_url.split(',')[0]%>
+                        <img src="<%=cdn_differ_domain%><%=url%>" class="brand-img"/>
+                        <%}%>
+                    </div>
+                    <div class="good-name" title="<%=cmdt.name%>"> <%=cmdt.cmdt_name%> <%=cmdt.name%></div>
+                </div>
+                <div class="good-price">￥<%=cmdt.single_price%></div>
+                <div class="good-nums">x<span class="text-danger text-bold"><%=cmdt.amount%></span></div>
+            </td>
+        </tr>
+        <%})%>
+
+        <td>
+            <div class="consignee-address">
+                <div><i class="fa fa-user text-blue" aria-hidden="true"></i>&nbsp;&nbsp;<%=item.recipient_name%>&nbsp;&nbsp;&nbsp;&nbsp;<%=item.phone%>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%=item.str_address%>
+                </div>
+            </div>
+        </td>
+        </tbody>
+        <%})%>
+    </table>
+</div>
+
+<div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

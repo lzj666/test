@@ -1,0 +1,18 @@
+<div class="modal-dialog modal-sm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">删除</h4>
+    </div>
+    <form role="form" method="post" action="/cmdt/cmdt/delete_pic"  onsubmit="return ajax.submit(this,reload_pic_partial)">
+      <input type="hidden" name="id"  value="<%=id%>" >
+      <input type="hidden" name="url"  value="<%=url%>" >
+      <div class="modal-body">
+        <h1>确定要删除吗?</h1>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-danger">删除</button>
+      </div>
+    </form>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

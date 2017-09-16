@@ -1,0 +1,116 @@
+<div class="modal-dialog " style="width:380px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">打印快递单和发货单</h4>
+        </div>
+
+        <!--<form role="form"  id="sendOrder" method="post" action="/order/payed/send" onsubmit="return ajax.submit(this,__hideAndSearch)">-->
+        <input type="hidden" id="is_filled" name="is_filled" value="<%=current_order.is_filled%>">
+        <input type="hidden" id="order_id" name="order_id" value="<%=current_order.id%>">
+        <div class="modal-body">
+            <div class="row">
+                <div class="box-body">
+                    <div class="print-left">
+                        <div class="form-group input-group ">
+                            <span class="input-group-addon">快递公司<%current_order.order_id%></span>
+                            <select class="form-control" id="express_id">
+                                <%express.forEach(function(e){%>
+                                <option value="<%=e.id%>"
+                                <%=e.id==current_order.express_id?"selected":""%>><%=e.express_name%>
+                                </option>
+                                <%})%>
+                            </select>
+                        </div>
+
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">快递单号</span>
+                            <input type="text" class="form-control" id="express_no"
+                                   value="<%=current_order.express_no%>" placeholder="如果不填，系统随机指定">
+                        </div>
+                    </div>
+                    <div class="print-right">
+                        <a type="button" class="btn btn-default" onclick="fill('<%=current_order.id%>')"
+                           style="width: 82px;">
+                            <%if(current_order.is_filled){%>
+                            重新填单
+                            <%}else{%>
+                            填&nbsp;&nbsp;&nbsp;&nbsp;单
+                            <%}%>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="box-footer footer_right">
+                    <button id="printFhd" class="btn btn-default" onclick="print_fhd('<%=current_order.id%>')"
+                            type="button">
+                        打印发货单
+                    </button>
+                    <button id="printWld" class="btn btn-default"
+                            onclick="print_wld('<%=current_order.id%>')" type="button">
+                        打印快递单
+                    </button>
+                    <button id="sendOrderButton" class="btn btn-success" type="button" onclick="submitForm()">发货
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--<div class="modal-footer">-->
+        <!--<button type="button" class="btn btn-success pull-right"  onclick="search()">完成-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</form>-->
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<script>
+    function submitForm() {
+		var buttonState=$("#sendOrderButton").attr('disabled');
+		if (buttonState=='disabled') {
+			return false;
+		}
+        var is_filled = $("#is_filled").val();
+        if (is_filled == "false") {
+            $(".notifications").notify({
+                type: 'danger',
+                message: {text: '请先进行填单操作'}
+            }).show();
+            return
+        }
+
+        var order_id = $("#order_id").val();
+		$("#sendOrderButton").attr('disabled','disabled');
+        $.post("/order/payed/send", {
+            order_id: order_id
+        }, function (r) {
+			$("#sendOrderButton").removeAttr('disabled');
+            console.log(r)
+            if (r.errno) {
+                $(".notifications").notify({
+                    type: 'danger',
+                    message: {text: '失败：' + r.errmsg}
+                }).show();
+                return;
+            }
+            $(".notifications").notify({
+                message: {text: '发货成功啦'}
+            }).show();
+            search();
+            $.closeModal();
+        }, 'json');
+
+    }
+
+    $(function () {
+        var is_filled = $("#is_filled").val();
+        if (is_filled == "ture") {
+            $("#printFhd").removeAttr('disabled');
+            $("#printWld").removeAttr('disabled');
+            $("#sendOrderButton").removeAttr('disabled');
+        } else if (is_filled == "false") {
+            $("#printFhd").attr('disabled', 'disabled');
+            $("#printWld").attr('disabled', 'disabled');
+            $("#sendOrderButton").attr('disabled', 'disabled');
+        }
+    });
+</script>

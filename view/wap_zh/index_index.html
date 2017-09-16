@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+    <script type="text/javascript">
+        window.PAGE = 'INDEX'
+    </script>
+</head>
+<body ontouchstart="">
+<div class="warp">
+    <% var nav_active_index='index';%>
+    <% include ./index_nav.html%>
+    <div class="content">
+        <!--start top_header-->
+        <div class="top_header">
+            <div class="logo">
+                <img src="<%=cdn_differ_domain%>/static/img/logo.jpg" alt="札幌药妆">
+            </div>
+            <div class="index-search">
+                <form action="/cmdt/search/index" method="GET">
+                    <div class="search-box">
+                        <label for="search"><i class="iconfont">&#xe62b;</i></label>
+                        <input type="search" id='search' name="k" placeholder='请输入您要搜索的商品名称' required/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--end top_header-->
+        <!--start 轮播-->
+        <div class="ui-slider" id="slider" style="padding-top:150px;">
+            <ul class="ui-slider-content" style="width: 300%">
+                <%data.slider.forEach(function(item){%>
+                <li class="current" onClick="window.location.href=window.location.href='<%=item.link%>'">
+                <img src="<%=cdn_domain%><%=item.img_url%>"></li>
+                <%})%>
+            </ul>
+        </div>
+        <!--end 轮播-->
+        <!--start New Product-->
+        <div class="active_box">
+            <div class="ui-slider" id="newProduct">
+                <span class="slider-indicator left"></span>
+                <span class="slider-indicator right"></span>
+                <ul class="ui-slider-content" style="width: 300%">
+                    <li class="current">
+                        <div class="col-45 selected">
+                            <div class="top_box">
+                                <img src="<%=cdn_differ_domain%>static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-45">
+                            <div class="top_box">
+                                <img src="static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-45">
+                            <div class="top_box">
+                                <img src="static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-45">
+                            <div class="top_box">
+                                <img src="static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col-45">
+                            <div class="top_box">
+                                <img src="static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-45">
+                            <div class="top_box">
+                                <img src="static/img/box_01.png">
+                            </div>
+                            <div class="active_info">
+                                <p class="active_til">1kg箱子</p>
+                                <table class="top_box_tab">
+                                    <tr>
+                                        <th>购物箱自重</th>
+                                        <td>100g</td>
+                                    </tr>
+                                    <tr>
+                                        <th>可装商品重量</th>
+                                        <td class="yellow">1.0kg</td>
+                                    </tr>
+                                    <tr>
+                                        <th>商品所需邮费</th>
+                                        <td class="yellow">69元</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--end New Product-->
+        <!--start 分类导航-->
+        <div class="nav-area">
+            <div class="row">
+                <div class="col-25">
+                    <a href="/cmdt/list/index?id=8dd43fb3-c817-48b9-8492-93958c12f9ff" class="text-gray">
+                        <i class="iconfont">&#xe626;</i>
+                        <span>彩妆</span>
+                    </a>
+                </div>
+                <div class="col-25">
+                    <a href="/cmdt/list/index?id=941c75ce-8d73-4057-a4ef-6d142e871c17" class="text-gray">
+                        <i class="iconfont">&#xe64a;</i>
+                        <span>护肤</span>
+                    </a>
+                </div>
+                <div class="col-25">
+                    <a href="/cmdt/list/index?id=0a8f0e5a-d448-4055-bcf7-f03e369df1cd" class="text-gray">
+                        <i class="iconfont">&#xe631;</i>
+                        <span>母婴</span>
+                    </a>
+                </div>
+                <div class="col-25">
+                    <a href="/cmdt/list/index?id=16fa79d4-9f43-40ef-af8a-53dc45e3b72f" class="text-gray">
+                        <i class="iconfont">&#xe632;</i>
+                        <span>日用</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--end  分类导航-->
+        <h2 class="top_title">
+            <div class="title">
+                <span class="iconfont">&#xe61f;</span> <span class="light_black">品牌推荐</span> <span class="iconfont">&#xe61f;</span>
+            </div>
+        </h2>
+        <!--start 品牌-->
+        <div class="brand_box">
+            <%data.brand .forEach(function(item){%>
+            <ul>
+                <a href="<%=item.link%>">
+                    <li><img src="<%=cdn_differ_domain%><%=item.img_url%>"></li>
+                </a>
+            </ul>
+            <%})%>
+        </div>
+        <!--end 品牌-->
+        <h2 class="top_title">
+            <div class="title">
+                <span class="iconfont">&#xe61f;</span> <span class="light_black">畅销排行</span> <span class="iconfont">&#xe61f;</span>
+            </div>
+        </h2>
+        <!--start 畅销排行-->
+        <%data.best_seller.forEach(function(item,index){%>
+        <div class="shop_com my_con">
+            <table class="my_shop_tab">
+                <tr>
+                    <th rowspan="3" class="shop_img" href="<%=item.link%>">
+                        <img src="<%=cdn_differ_domain%><%=item.img_url%>">
+                    </th>
+                    <td colspan="2" class="shop_til"><span class="yellow"><%=item.cmdt_name%></span><span class="light_black"><%=item.name%></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>价格：<span class="yellow"><%=item.price%>円 (¥<%=item.rmb_price%>元)</span></td>
+                </tr>
+                <tr>
+                    <td>重量：<%=item.weight*1000 %>g</td>
+                    <!--<td><div class="btn_cart"><span class="iconfont">&#xe62f;</span> 购物车</div></td>-->
+                </tr>
+            </table>
+        </div>
+        <%})%>
+        <!--end 畅销排行-->
+    </div>
+</div>
+<script src="<%=cdn_domain%>/static/js/dest/buddle.min.js"></script>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>
+<script type='text/javascript' src="<%=cdn_differ_domain%>/static/js/top/top_box.js" charset='utf-8'></script>
+</body>
+</html>

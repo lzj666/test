@@ -1,0 +1,109 @@
+<div class="modal-dialog" style="width: 380px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">修改</h4>
+        </div>
+        <form role="form" method="post" action="/article/article/update"
+              onsubmit="return ajax.submit(this,__hideAndSearch)">
+            <input type="hidden" name="article_id" value="<%=article.id%>">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">分类:</span>
+                            <select class="form-control" name="category_id" style="width: 100%;">
+                                <%categories.forEach(function(item){%>
+                                <option value="<%=item.id%>"
+                                <%=(item.id==article.category_id?"selected='selected'":"")%>
+                                ><%=item.article_category_name%></option>
+                                <%})%>
+                            </select>
+                        </div>
+
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">作者别名:</span>
+                            <input type="text" class="form-control" name="show_auther_name"
+                                   value="<%=article.show_auther_name%>" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">标题:</span>
+                            <input type="text" class="form-control" name="title" placeholder="必填" required
+                                   value="<%=article.title%>">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon" style="border-right: #d2d6de 1px solid;">标签:</span>
+                            <table style="padding-left:5px;">
+                                <tbody>
+                                <%tags.forEach(function(item,index){%>
+                                <%if(index%5==0){%>
+                                <tr>
+                                    <%}%>
+                                    <td>
+                                        <label class="pro-label">
+                                            <input type="checkbox" name="tags" class="tagItem" value="<%=item.id%>"
+                                            <%=(item.checked=="checked"?"checked='checked'":"")%>>
+                                            <%=item.tag_name%>
+                                        </label>
+                                    </td>
+                                    <%if(index%5==4){%>
+                                </tr>
+                                <%}%>
+                                <%})%>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">精彩段落:</span>
+                            <textarea name="perfect_part" class="form-control" required placeholder="必填"><%=article.perfect_part%></textarea>
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">图片路径:</span>
+                            <input type="text" name="pic_url" class="form-control" required placeholder="测评列表页，显示的那张图片"
+                                   value="<%=article.pic_url%>">
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="deleted" <%=(article.deleted?"checked='checked'":"")%>> 已删除
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-success pull-left" data-dismiss="modal">完成-->
+                <!--</button>-->
+                <button class="btn btn-success" onclick="return check()">提交</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function check() {
+        var tagItems = $('.tagItem');
+        var length = tagItems.length;
+        var items = [];
+        for (var i = 0; i < length; i++) {
+            if (tagItems[i].checked) {
+                items.push(tagItems[i].value);
+            }
+        }
+        if (items.length == 0) {
+            $(".notifications").notify({type: 'warning', message: {text: '请至少选择一个标签!'}}).show();
+            return false;
+        }
+        $('insertForm').submit();
+    }
+</script>
+

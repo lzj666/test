@@ -1,0 +1,29 @@
+<div class="box box-primary">
+  <div class="box-header">
+    操作日志
+  </div>
+  <div class="box-body" >
+    <table  class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>操作对象</th>
+          <th>操作</th>
+          <th>备注</th>
+          <th>操作人</th>
+          <th>时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%data.forEach(function(item){%>
+          <tr>
+            <td><%=item.target_name%> </td>
+            <td><%-item.action%> </td>
+            <td><%=item.remark%> </td>
+            <td><%=item.staff_name%> </td>
+            <td><%=item.timeat.toLocaleDateString()%> <%=item.timeat.toLocaleTimeString()%></td>
+          </tr>
+        <%})%>
+      </tbody>
+    </table>
+  </div>
+</div>

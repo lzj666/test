@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>已发货</title>
+    <link rel="dns-prefetch" href="">
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆" />
+    <meta name="description" content="札幌药妆" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <%var nav_active_index='me';%>
+    <%include ../index_nav.html%>
+    <!--start content-->
+
+    <div class="content">
+        <div class="my_box">
+            <!--start buttons-tab-->
+            <div class="tab_link">
+                <a href="/user/order/unpayment">待付款</a>
+                <a href="/user/order/tosent">待发货</a>
+                <a class="active" href="/user/order/hassent">已发货</a>
+                <a href="/user/order/returned">退款单</a>
+            </div>
+            <!--end buttons-tab-->
+            <!--start my_con 1-->
+            <%order.forEach(function(item){%>
+            <div class="my_con" data-id='<%=item.order_id%>'onclick="location='/user/order/hassent_details?order_num=<%=item.order_num%>'">
+                <dl>
+                    <dt>订单编号：<%=item.order_num%></dt>
+                    <dd><%=item.createdat%></dd>
+                </dl>
+                <%item.cmdts.forEach(function(cmdt){%>
+                <a href="deliver.html">
+                    <table class="my_shop_tab">
+                        <tr>
+                            <th rowspan="3" class="shop_img">
+                                <img src="<%=cdn_differ_domain%><%=cmdt.pic_url?cmdt.pic_url.split(',')[0]:'/static/images/none.jpg'%>">
+                            </th>
+                            <td colspan="2" class="shop_til light_black"><%=cmdt.cmdt_name%>&nbsp;<%=cmdt.name%></td>
+                        </tr>
+                        <tr>
+                            <td>价格：<span class="yellow"><%=cmdt.single_price%>円 (<%=cmdt.rmb_price%>元)</span> </td>
+                            <td class="text_r">X <%=cmdt.amount%>件</td>
+                        </tr>
+                        <tr>
+                            <td>重量：<%=cmdt.weight%>g</td>
+                        </tr>
+                    </table>
+                </a>
+                <%})%>
+                <div class="shop_text line">共<%=item.cmdt_count%>件商品  应付金额：<span class="yellow"><%=item.rmb_should_pay_money%>元</span>(含运费<%=item.rmb_post_fee>0?item.rmb_post_fee+'':'0.00'%>元)</div>
+                <div id="get_mask" class="btn_blue">物流信息</div>
+                <a href="deliver.html"><div class="btn_blue">查看详情</div></a>
+            </div>
+            <%})%>
+            <!--end my_con 1-->
+            <%if(order.length==0){%>
+            <div class="my_con">
+                <div class="no_info">
+                    <span class="iconfont">&#xe62e;</span><br>
+                    <span>没有找到相关订单</span>
+                </div>
+                <%}%>
+        </div>
+    </div>
+    <!--end content-->
+</div>
+
+
+<div class="logistic_con">
+    <div class="get_mask_tmpl">
+        <div>物流跟踪</div>
+        <table class="logistics_tab">
+            <tr>
+                <th class="width">快递公司：</th>
+                <td>百世汇通</td>
+            </tr>
+            <tr>
+                <th>订单编号：</th>
+                <td>807455896668807455896668807455896668</td>
+            </tr>
+        </table>
+        <div class="logistics_box">
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+            <ul>
+                <div class="disc"></div>
+                <li>2016-7-26  22:12:01<br>您的包裹已从微购物日本馆发出</li>
+            </ul>
+        </div>
+        <div class="close_button">关闭</div>
+    </div>
+</div>
+
+<script type='text/javascript' src="/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>
+<script type="text/javascript" src="/static/js/my/my.js"></script>
+</body>
+</html>

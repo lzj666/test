@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>北海道土産探検隊</title>
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="北海道土産探検隊"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/shop/shop.css">
+</head>
+<body>
+<div class="page-group">
+    <div class="page page-current">
+        <% var nav_active_index='index';%>
+        <% include ./index_nav.html%>
+        <div class="content">
+            <!--start banner-->
+            <div class="banner">
+                <div class="index-search">
+                    <form action="/cmdt/search/index" method="GET">
+                        <div class="search-box">
+                            <label for="search"><i class="iconfont">&#xe60f;</i></label>
+                            <input type="search" id='search' name="k" placeholder='请输入您要搜索的商品名称' required/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end banner-->
+            <!--start 轮播-->
+            <div class="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper">
+                    <%data.slider.forEach(function(item){%>
+                    <div class="swiper-slide"><a href="<%=item.link%>"><img src="<%=cdn_differ_domain%><%=item.img_url%>"></a>
+                    </div>
+                    <%})%>
+                </div>
+            </div>
+            <!--end 轮播-->
+            <!--start 分类导航-->
+            <div class="nav-area">
+                <div class="row">
+                    <div class="col-25">
+                        <a href="/cmdt/list/index?id=f0dff84b-136c-4237-98c6-04363e2493cd" class="text-gray">
+                            <i class="iconfont">&#xe60e;</i>
+                            <span>零食</span>
+                        </a>
+                    </div>
+                    <div class="col-25">
+                        <a href="/cmdt/list/index?id=e6b8f6b8-eb6f-4d1c-8077-4dc92db051bc" class="text-gray">
+                            <i class="iconfont">&#xe605;</i>
+                            <span>护肤</span>
+                        </a>
+                    </div>
+                    <div class="col-25">
+                        <a href="/cmdt/list/index?id=ecbefa3a-b7db-4b26-af25-f9eff474b371" class="text-gray">
+                            <i class="iconfont">&#xe603;</i>
+                            <span>个护</span>
+                        </a>
+                    </div>
+                    <div class="col-25">
+                        <a href="/cmdt/list/all" class="text-gray">
+                            <i class="iconfont">&#xe604;</i>
+                            <span>全部</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--end  分类导航-->
+
+            <!--start Best sellers-->
+            <div class="active_box">
+                <div class="active_til"><span></span>畅销の商品<span></span></div>
+                <div class="active_entil">Best sellers</div>
+                <% var i=0 ;%>
+                <%data.best_seller.forEach(function(item,index){%>
+                <%if(item.type=="pic"){%>
+                <a href="<%=item.link%>"><img src="<%=cdn_differ_domain%><%=item.img_url%>" style="width:100%;"></a>
+                <%}else{%>
+                <%if(i%3==0){%>
+                <div class="row">
+                    <%}%>
+                    <div class="col-33">
+                        <a href="<%=item.link%>"><img src="<%=cdn_differ_domain%><%=item.img_url%>">
+                            <p class="active_info"><%=item.name%></p></a>
+                        <p><span class="price">¥<%=item.price%></span></p>
+                    </div>
+                    <%if(i%3==2){%>
+                </div>
+                <%}%>
+                <% i++; %>
+                <%}%>
+
+                <%})%>
+            </div>
+            <!--end Best sellers-->
+            <!--start Shopping voucher-->
+            <div class="active_box">
+                <div class="active_til"><span></span>购物の券务<span></span></div>
+                <div class="active_entil">Shopping voucher</div>
+                <%data.ticket.forEach(function(item){%>
+                <a href="<%=item.link%>"><img src="<%=cdn_differ_domain%><%=item.img_url%>" style="width:100%;"></a>
+                <%})%>
+
+                <!--end Shopping voucher-->
+                <!--start copyright-->
+                <p class="copyright"> Copyright © 2017 北海道土産探検隊.<br>All Rights Reserved.<br>北海道土産探検隊 版权所有 </p>
+                <!--end copyright-->
+            </div>
+        </div>
+    </div>
+
+
+    <script type='text/javascript' src='<%=cdn_domain%>/static/js/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='<%=cdn_domain%>/static/js/sm/sm-index-page.min.js' charset='utf-8'></script>
+    <script type="text/javascript">
+        $(".swiper-container").swiper({autoplay: 3000});
+    </script>
+</body>
+</html>

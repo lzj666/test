@@ -1,0 +1,595 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%=article.title%>｜呦西推荐</title>
+    <meta name="keywords" content="Q-life">
+    <meta name="description" content="Q-life">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+    <script type='text/javascript' src="<%=cdn_domain%>/static/js/zepto/zepto.min.js" charset='utf-8'></script>
+    <script type='text/javascript' src="<%=cdn_domain%>/static/js/sm/sm.min.js" charset='utf-8'></script>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab top_nav">
+            <div class="tab-item right_line" id="doLike" onclick="doLike()">
+                <%if(JSON.parse(me).is_like){%>
+                <span class="iconfont pink article_icon">&#xe620;</span>
+                <span class="tab-label like_num pink"><%=article.like_num%></span>
+                <%}else{%>
+                <span class="iconfont article_icon">&#xe621;</span>
+                <span class="tab-label like_num"><%=article.like_num%></span>
+                <%}%>
+            </div>
+            <div class="tab-item right_line" id="goComment">
+                <span class="iconfont article_icon">&#xe61e;</span>
+                <span class="number" id="comment_num"><%=commentsCountsNum%></span>
+            </div>
+            <div class="tab-item" id="doCollect" onclick="doCollect()">
+                <%if(JSON.parse(me).is_collect){%>
+                <span class="iconfont pink article_icon">&#xe613;</span>
+                <span class="tab-label collections pink">收藏</span>
+                <%}else{%>
+                <span class="iconfont article_icon">&#xe612;</span>
+                <span class="tab-label collections">收藏</span>
+                <%}%>
+
+            </div>
+        </nav>
+        <div class="googs_til article_bg">
+            <a href="/article/article/index"><i class="icon icon-left fl_l white"></i></a>
+            <div class="text_c"> <%=article.article_category_name%></div>
+        </div>
+        <div class="content">
+            <div class="list_conent mt_50">
+                <div class="shop_til"><i><%=article.article_category_name%></i><%=article.title%></div>
+                <div class="shop_grey">
+                    <span>&nbsp<%=article.show_auther_name%></span><span><%=article.createdat%></span><span
+                        class="fl_r">标签：<%=article.tags%>&nbsp</span></div>
+                <div class="article_con">
+                    <%-article.content%>
+                </div>
+
+                <div class="shop_grey line" id="nums"><span>&nbsp阅读 <%=article.view_num%></span><span
+                        class="fl_r"><span>赞</span><span
+                        class="like_num"><%=article.like_num%></span><span>收藏</span><span class="collect_num"><%=article.collect_num%>&nbsp</span></span>
+                </div>
+
+                <div class="infinite-scroll">
+                    <div id="comments_container">
+                        <%comments.forEach(function(comment){%>
+                        <%if(comment.deleted){%>
+                        <%if(comment.child.length>0){%>
+                        <dl id="<%=comment.id%>" class="listcon">
+                            <div id="<%=comment.position%>">
+                                <dt><img class="lazy-load"
+                                         src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                         data-url="<%=comment.from_user_avatar%>"
+                                         alt="<%=comment.from_user_name%>"></dt>
+                                <dd onclick="showOperations('<%=comment.comment_from_user_id%>','<%=comment.id%>','<%=comment.from_user_name%>')">
+                                    <p class="fl_l">
+                                        <%=comment.from_user_name%></p>
+                                    <p class="fl_r"><%=comment.createdat%></p>
+                                    <p class="cl_ov">
+                                        该评论已被发布者删除啦
+                                    </p></dd>
+                            </div>
+                            <%comment.child.forEach(function(childComent){%>
+                            <dl id="<%=childComent.id%>" class="bg_grey">
+                                <div id="<%=childComent.position%>">
+                                    <div onclick="showOperations('<%=childComent.comment_from_user_id%>','<%=childComent.id%>','<%=childComent.from_user_name%>','<%=comment.id%>')">
+                                        <span style="color:#00b2d8"><%=childComent.from_user_name%></span> 回复
+                                        <%=childComent.to_user_name%> ：<%=childComent.comment_content%> <span
+                                            style="word-break: normal;" class="fl_r"><%=childComent.createdat%></span>
+                                    </div>
+                                </div>
+                            </dl>
+                            <%})%>
+                        </dl>
+                        <%}else{%>
+                        <dl class="listcon pd0"></dl>
+                        <%}%>
+                        <%}else{%>
+                        <dl id="<%=comment.id%>" class="listcon">
+                            <div id="<%=comment.position%>">
+                                <dt><img class="lazy-load"
+                                         src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                         data-url="<%=comment.from_user_avatar%>"
+                                         alt="<%=comment.from_user_name%>"></dt>
+                                <dd onclick="showOperations('<%=comment.comment_from_user_id%>','<%=comment.id%>','<%=comment.from_user_name%>')">
+                                    <p class="fl_l">
+                                        <%=comment.from_user_name%></p>
+                                    <p class="fl_r"><%=comment.createdat%></p>
+                                    <p class="cl_ov">
+                                        <%=comment.comment_content%>
+                                    </p></dd>
+                            </div>
+                            <%comment.child.forEach(function(childComent){%>
+                            <dl id="<%=childComent.id%>" class="bg_grey">
+                                <div id="<%=childComent.position%>">
+                                    <div onclick="showOperations('<%=childComent.comment_from_user_id%>','<%=childComent.id%>','<%=childComent.from_user_name%>','<%=comment.id%>')">
+                                        <span style="color:#00b2d8"><%=childComent.from_user_name%></span> 回复
+                                        <%=childComent.to_user_name%> ：<%=childComent.comment_content%> <span
+                                            style="word-break: normal;" class="fl_r"><%=childComent.createdat%></span>
+                                    </div>
+                                </div>
+                            </dl>
+                            <%})%>
+                        </dl>
+                        <%}%>
+                        <%})%>
+                    </div>
+                    <%if(comments.length==0){%>
+                    <div id="no_data" style="text-align:center;font-size:14px;color:gray;margin:5px auto">
+                        <div>该测评还没有收到评论哦</span>
+                        </div>
+                    </div>
+                    <%}else{%>
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader"></span>
+                        </div>
+                    </div>
+                    <div id="no_more" style="display:none;text-align:center;font-size:14px;color:gray;margin:5px auto">
+                        <div>没有更多评论了</span>
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:pagetop()" id="go-to-top">
+    <span class="icon icon-up"></span><br>
+    TOP
+</a>
+<!--弹出层 start-->
+<div id="commentingDiv" class="white_content">
+    <div class="til">
+        <div class="close" onClick="CloseCommentingDiv('commentingDiv')">取消</div>
+        <div class="comment" id="commentTitle">发评论</div>
+        <div class="ok no-send" onClick="sentComment()" id="buttonSent">发送</div>
+    </div>
+    <textarea id="commentContent" placeholder="写评论.........." oninput="valueChange()" style="height: 400px;"></textarea>
+</div>
+
+<!--弹出层 end-->
+
+<div id="commentFaildDiv" class="comment-failed"><span>评论失败</span></div>
+<div id="deleting" class="comment-failed"><span>删除中....</span></div>
+<div id="deleteFail" class="comment-failed"><span>删除失败</span></div>
+<div id="deleteSuccess" class="comment-failed"><span>删除成功</span></div>
+<input type="hidden" id="article_id" value="<%=article.id%>">
+<input type="hidden" id="me" value="<%=me%>">
+<input type="hidden" id="comment_from_user_id">
+<input type="hidden" id="from_user_name">
+<input type="hidden" id="comment_father_id">
+
+
+<script type="text/template" id="comments_tmpl">
+    {{#deleted}}
+    {{#childLength}}
+    <dl id="{{id}}" class="listcon">
+        <div id="{{position}}">
+            <dt><img
+                    src="{{from_user_avatar}}"
+                    alt="{{from_user_name}}"></dt>
+            <dd onclick="showOperations('{{comment_from_user_id}}','{{id}}','{{from_user_name}}')">
+                <p class="fl_l">
+                    {{from_user_name}}</p>
+                <p class="fl_r">{{createdat}}</p>
+                <p class="cl_ov">该评论已被发布者删除啦!</p></dd>
+        </div>
+        {{#child}}
+        <dl id="{{id}}" class="bg_grey">
+            <div id="{{position}}">
+                <div onclick="showOperations('{{comment_from_user_id}}','{{id}}','{{from_user_name}}','{{comment_father_id}}')">
+                    <span style="color:#00b2d8">{{from_user_name}}</span>
+                    回复 {{to_user_name}}：{{comment_content}}
+                    <span style="word-break: normal;" class="fl_r">{{createdat}}</span>
+                </div>
+            </div>
+        </dl>
+        {{/child}}
+    </dl>
+    {{/childLength}}
+    {{^childLength}}
+    <dl class="listcon pd0"></dl>
+    {{/childLength}}
+    {{/deleted}}
+
+
+    {{^deleted}}
+    <dl id="{{id}}" class="listcon">
+        <div id="{{position}}">
+            <dt><img
+                    src="{{from_user_avatar}}"
+                    alt="{{from_user_name}}"></dt>
+            <dd onclick="showOperations('{{comment_from_user_id}}','{{id}}','{{from_user_name}}')">
+                <p class="fl_l">
+                    {{from_user_name}}</p>
+                <p class="fl_r">{{createdat}}</p>
+                <p class="cl_ov">{{comment_content}}</p></dd>
+        </div>
+        {{#child}}
+        <dl id="{{id}}" class="bg_grey">
+            <div id="{{position}}">
+                <div onclick="showOperations('{{comment_from_user_id}}','{{id}}','{{from_user_name}}','{{comment_father_id}}')">
+                    <span style="color:#00b2d8">{{from_user_name}}</span>
+                    回复 {{to_user_name}}：{{comment_content}}
+                    <span style="word-break: normal;" class="fl_r">{{createdat}}</span>
+                </div>
+            </div>
+        </dl>
+        {{/child}}
+    </dl>
+    {{/deleted}}
+</script>
+<script type="text/javascript">
+    $('.lazy-load').imglazyload({
+        container: '.content',
+        innerScroll: true,
+        threshold: 300
+    });
+    $(function () {
+        'use strict';
+        //回到顶部
+        bindGoToTop();
+        //下拉更多商品
+        bindInfiniteLoad();
+    });
+    function commentFailed() {
+        document.getElementById("commentFaildDiv").style.display = 'none';
+    }
+    function valueChange() {
+        var value = $("#commentContent").val().trim();
+        if (value != null && value != "") {
+            $("#buttonSent").addClass("send");
+        } else {
+            $("#buttonSent").removeClass("send");
+        }
+    }
+    //点击回复弹出的回复或者删除的操作
+    function showOperations(comment_from_user_id, comment_id, from_user_name, comment_father_id) {
+        var me = $("#me").val();
+        var myId = JSON.parse(me).id;
+
+        //js返回结果之前，点击无反应
+        if (comment_from_user_id == null) {
+            return;
+        } else {
+            if (comment_from_user_id == myId) {
+                var cancleButton = [
+                    {
+                        text: '取消'
+                    }
+                ];
+                var button1 = [
+                    {
+                        text: '删除',
+                        bg: 'danger',
+                        onClick: function () {
+                            confirmDelete(comment_id, comment_father_id);
+                        }
+                    }
+                ];
+                var groups = [button1, cancleButton];
+                $.actions(groups);
+            } else {
+                $("#commentTitle").html("回复评论");
+                $("#comment_from_user_id").val(comment_from_user_id);
+                $("#from_user_name").val(from_user_name);
+                if (comment_father_id == null) {
+                    $("#comment_father_id").val(comment_id);
+                } else {
+                    $("#comment_father_id").val(comment_father_id);
+                }
+                $("#buttonSent").removeClass("sent");
+                $("#commentContent").val("");
+                document.getElementById("commentingDiv").style.display = 'block';
+            }
+        }
+    }
+    function confirmDelete(comment_id, comment_father_id) {
+        var deleteButton = [
+            {
+                text: '删除评论',
+                bg: 'danger',
+                bold: true,
+                onClick: function () {
+                    $.getJSON("/article/article/delete_Comment", {
+                        id: comment_id
+                    }, function (data) {
+                        console.log("delete_comment");
+                        console.log(comment_id);
+                        if (data.data) {
+                            var oriNum = $("#comment_num").html();
+                            $("#comment_num").html(parseInt(oriNum) - 1);
+                            document.getElementById("deleteSuccess").style.display = 'block';
+                            setTimeout(function () {
+                                document.getElementById('deleteSuccess').style.display = 'none'
+                            }, 2000);//2秒
+
+                            if (comment_father_id == null && $('#' + comment_id).children().last().get(0).className == "bg_grey") {
+                                var ele = $('#' + comment_id).find('.cl_ov');
+                                ele.html('该评论已被发布者删除啦!');
+                            } else {
+                                $("#" + comment_id).remove();
+                            }
+                        } else {
+                            document.getElementById("deleteFail").style.display = 'block';
+                            setTimeout(function () {
+                                document.getElementById("deleteFail").style.display = 'none'
+                            }, 2000);//2秒
+                        }
+
+                    });
+                }
+
+            }
+        ];
+        var cancleButton = [
+            {
+                text: '取消'
+            }
+        ];
+        var groups = [deleteButton, cancleButton];
+        $.actions(groups);
+    }
+    function doLike() {
+        $("#doLike").removeAttr("onclick");
+        var oriNum = $(".like_num").html();
+        var article_id = $("#article_id").val();
+        var is_like;
+        if ($("#doLike .iconfont").is(".pink")) {
+            $("#doLike .iconfont").removeClass("pink");
+            $("#doLike .like_num").removeClass("pink");
+            $("#doLike .iconfont").html('&#xe621;');
+            $(".like_num").html(parseInt(oriNum) - 1);
+            is_like = 1;
+        }
+        else {
+            $("#doLike .iconfont").addClass("pink");
+            $("#doLike .like_num").addClass("pink");
+            $("#doLike .iconfont").html('&#xe620;');
+            $(".like_num").html(parseInt(oriNum) + 1);
+            is_like = 0;
+        }
+
+        $.post("/article/article/like", {
+            article_id: article_id,
+            is_like: is_like
+        }, function (data) {
+            console.log("like-----------------");
+            if (!data.data) {
+                if ($("#doLike .iconfont").is(".pink")) {
+                    $("#doLike .iconfont").removeClass("pink");
+                    $("#doLike .iconfont").removeClass("pink");
+                    $("#doLike .iconfont").html('&#xe621;');
+                }
+                else {
+                    $("#doLike .iconfont").addClass("pink");
+                    $("#doLike .iconfont").addClass("pink");
+                    $("#doLike .iconfont").html('&#xe620;');
+                }
+                $(".like_num").html(parseInt(oriNum));
+            }
+            $("#doLike").attr("onclick", "doLike()");
+
+        }, 'json');
+    }
+    //弹出隐藏层
+    $('#goComment').click(function () {
+        $("#commentTitle").html("发表评论");
+        document.getElementById("commentingDiv").style.display = 'block';
+        $("#commentContent").val("");
+        $("#buttonSent").removeClass("send");
+    });
+    //关闭弹出层
+    function CloseCommentingDiv(show_div) {
+        document.getElementById(show_div).style.display = 'none';
+        $("#comment_from_user_id").val("");
+        $("#from_user_name").val("");
+        $("#comment_father_id").val("");
+    }
+    //评论和回复评论的处理
+    function sentComment() {
+        var comment_content = $("#commentContent").val().trim();
+        if (comment_content == null || comment_content == "") {
+            return;
+        }
+        var comment_from_user_id = $("#comment_from_user_id").val();
+        var from_user_name = $("#from_user_name").val();
+        var comment_father_id = $("#comment_father_id").val();
+
+        $("#comment_from_user_id").val("");
+        $("#from_user_name").val("");
+        $("#comment_father_id").val("");
+        document.getElementById("commentingDiv").style.display = 'none';
+        var oriNum = $("#comment_num").html();
+        var article_id = $("#article_id").val();
+
+        var me = $("#me").val();
+        var now = new Date().Format("yyyy-MM-dd hh:mm");
+        var comment_num = $("#comment_num").val();
+
+        //如果是评论
+        if (comment_from_user_id == "" && from_user_name == "") {
+            $("#comments_container").prepend(
+                    '<dl >' +
+                    '<dt><img src="' + JSON.parse(me).avatar + '"></dt>' +
+                    '<dd id="comentAddByJS" onclick="showOperations()"><p class="fl_l">' + JSON.parse(me).name + '</p>' +
+                    ' <p class="fl_r">' + now + '</p>' +
+                    '<p class="cl_ov">' + comment_content + '</p></dd>' +
+                    '</dl>');
+        } else {
+            //如果是回复
+            $('#' + comment_father_id).children().last().after('<dl class="bg_grey">' +
+                    ' <div id="comentAddByJS" onclick="showOperations()">' +
+                    ' <span style="color:#00b2d8">' + JSON.parse(me).name + '</span> 回复 ' + from_user_name + ' ：' + comment_content +
+                    ' <span style="word-break: normal;" class="fl_r">' + now + '</span>' + ' </div>' +
+                    ' </dl>');
+        }
+        $("#no_data").remove();
+
+        $("#comment_num").html(parseInt(oriNum) + 1);
+        document.getElementById("comentAddByJS").scrollIntoView();
+
+        $.getJSON("/article/article/comment?", {
+                    article_id: article_id,
+                    comment_content: comment_content,
+                    comment_reply_user_id: comment_from_user_id,
+                    comment_father_id: comment_father_id
+                },
+                function (data) {
+                    console.log("comment");
+                    console.log(data);
+                    //如果会掉函数返回为true（非0）
+                    if (data.data) {
+                        $("#comentAddByJS").parent().attr("id", data.data);
+                        $("#comentAddByJS").attr("onclick", "showOperations('" + JSON.parse(me).id + "','" + data.data + "','" + JSON.parse(me).name + "','" + comment_father_id + "')");
+                    } else {
+                        $("#comment_num").html(parseInt(oriNum));
+                        document.getElementById("commentFaildDiv").style.display = 'block';
+                        setTimeout("commentFailed()", 2000);//2秒
+                    }
+                    $("#comentAddByJS").removeAttr("id");
+                });
+    }
+
+    function doCollect() {
+        $("#doCollect").removeAttr("onclick");
+        var oriNum = $(".collect_num").html();
+        var article_id = $("#article_id").val();
+        var is_collected;
+        if ($("#doCollect .iconfont").is(".pink")) {
+            $("#doCollect .iconfont").removeClass("pink");
+            $("#doCollect .collections").removeClass("pink");
+            $("#doCollect .iconfont").html('&#xe612;');
+            $(".collect_num").html(parseInt(oriNum) - 1 + '&nbsp;');
+            is_collected = 1;
+        }
+        else {
+            $("#doCollect .iconfont").addClass("pink");
+            $("#doCollect .collections").addClass("pink");
+            $("#doCollect .iconfont").html('&#xe613;');
+            $(".collect_num").html(parseInt(oriNum) + 1 + '&nbsp;');
+            is_collected = 0;
+        }
+        $.post("/article/article/collect", {
+            article_id: article_id,
+            is_collected: is_collected
+        }, function (data) {
+            console.log("collect");
+            if (!data.data) {
+                if ($("#doCollect .iconfont").is(".pink")) {
+                    $("#doCollect .iconfont").removeClass("pink");
+                    $("#doCollect .collections").removeClass("pink");
+                    $("#doCollect .iconfont").html('&#xe612;');
+                }
+                else {
+                    $("#doCollect .iconfont").addClass("pink");
+                    $("#doCollect .collections").addClass("pink");
+                    $("#doCollect .iconfont").html('&#xe613;');
+
+                }
+                $(".collect_num").html(parseInt(oriNum) + '&nbsp;');
+            }
+            $("#doCollect").attr("onclick", "doCollect()");
+        });
+    }
+
+    //回到顶部
+    function bindGoToTop() {
+        var topBtn = $('#go-to-top');
+        topBtn.hide();
+        $('.content').scroll(function () {
+            if ($(this).scrollTop() > 900) {
+                topBtn.show();
+            } else {
+                topBtn.hide();
+            }
+        });
+
+        topBtn.click(function () {
+            $('.content').scrollTop(0, 1000);
+            return false;
+        });
+    }
+    //下拉更多评论
+    function bindInfiniteLoad() {
+        $(document).on("pageInit", "#page-action", function (e, id, page) {
+            var loading = false;
+            var loadData = function () {
+                // 如果正在加载，则退出
+                if (loading) return;
+                // 设置flag
+                loading = true;
+                var lastIndex = $('.listcon').length;
+                //加载
+                $.get('/article/article/more_comments', {
+                    article_id: $('#article_id').val(),
+                    offset: lastIndex
+                }, function (r) {
+                    if (r.data == 0) {
+                        // 加载完毕，则注销无限加载事件，以防不必要的加载
+                        $.detachInfiniteScroll($('.infinite-scroll'));
+                        // 删除加载提示符
+                        $('.infinite-scroll-preloader').remove();
+                        $("#no_more").show();
+                        return;
+                    }
+                    var comments = r.data.comments;
+                    console.log(comments);
+
+                    var template = $("#comments_tmpl").html();
+                    var container = $("#comments_container");
+                    Mustache.parse(template);
+                    for (var i = 0; i < comments.length; i++) {
+                        comments[i].childLength = comments[i].child.length;
+                        for (var l = 0; l < comments[i].child.length; l++) {
+                            comments[i].child[l].comment_father_id = comments[i].id;
+                        }
+                        var row = Mustache.render(template, comments[i]);
+                        container.append($(row));
+                    }
+                    loading = false;
+
+                }, 'json');
+
+            };
+            $(page).on('infinite', loadData);
+//            loadData();
+        });
+        $.init();
+    }
+
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+</script>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/mustache/mustache.min.js' charset='utf-8'></script>
+</body>
+</html>

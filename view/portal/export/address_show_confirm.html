@@ -1,0 +1,18 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <input type="hidden" name="parameters" id="parameters" value="<%=parameters%>">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+                要导出当前时间段的地址吗？
+            </h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success pull-left" data-dismiss="modal">完成</button>
+            <a class="btn btn-primary"
+               href="/export/address/export_address?parameters=<%=parameters%>"
+               target="_blank">确认</a>
+        </div>
+    </div>
+</div>

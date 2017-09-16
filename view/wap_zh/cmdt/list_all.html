@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>一级分类</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <% var nav_active_index='category';%>
+    <% include ../index_nav.html%>
+    <div class="content">
+        <div class="brand_search">
+            <form action="/cmdt/search/index" method="GET">
+                <a href="#"><span class="back iconfont">&#xe639;</span></a>
+                <div class="search-box"><input type="search" id='search' name="k" placeholder='输入商品名称' required /></div>
+                <span class="search iconfont">&#xe62b;</span>
+            </form>
+        </div>
+        <!--start 分类-->
+        <!--start 商品列表1-->
+        <%first.forEach(function(item){%>
+        <a href="/cmdt/list/index?id=<%=item.id%>%>">
+            <h2 class="top_title other">
+                <div class="title">
+                    <span class="iconfont">&#xe61f;</span> <span class="light_black"><%=item.name%></span> <span
+                        class="iconfont">&#xe61f;</span>
+                </div>
+            </h2>
+        </a>
+        <div class="more"><a href="/cmdt/list/index?id=<%=item.id%>">全部商品</a></div>
+        <div class="classification_con">
+            <%item.seconds.forEach(function(second){%>
+            <a href="/cmdt/list/index?id=<%=item.id%>&second_id=<%=second.id%>">
+                <div class="classification_box">
+                    <img src="<%=cdn_differ_domain%><%=second.pic_url%>">
+                    <p><%=second.name%></p>
+                </div>
+            </a>
+            <%})%>
+        </div>
+        <%})%>
+        <!--end 分类-->
+    </div>
+</div>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js"
+        charset='utf-8'></script>
+<script type="text/javascript" src="<%=cdn_differ_domain%>/static/js/list/list.js"></script>
+</body>
+</html>

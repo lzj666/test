@@ -1,0 +1,28 @@
+<div class="box-body">
+
+
+        <div class="box-header">
+            <h3 class="box-title">查询结果</h3>
+            <div class="row" style="margin-top: 4px">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>SKU条码</th>
+                        <th>SKU名称</th>
+                        <th>购买总数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%skus.forEach(function(sku){%>
+                    <tr>
+                        <td><%=sku.bar_code%></td>
+                        <td><%=sku.cmdt_name%></td>
+                        <td><%=sku.sum_amount%></td>
+                    </tr>
+                    <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+</div>

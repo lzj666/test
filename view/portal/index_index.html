@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed-<%=user.shop.name%></title>
+  <base href="/">
+  <link rel="shortcut icon" href="<%=cdn_domain%>/static/favico.ico">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <% include ./partial/bootstrap_fontawesome_css.html %>
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/skins/skin-black-light.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+
+</head>
+<body class="skin-black-light sidebar-mini ">
+  <div class="wrapper">
+    <header class="main-header">
+      <a href="/" class="logo">
+        <!-- LOGO -->
+        reed system
+      </a>
+
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top" role="navigation">
+        <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas">
+          <span class="icon-bar"></span>
+        </a>
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="<%=cdn_domain%><%=user.avatar%>" class="user-image" alt="User Image">
+                <span class="hidden-xs"><%=user.name%></span>
+              </a>
+              <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="<%=cdn_domain%><%=user.avatar%>" class="img-circle" alt="User Image">
+
+                <p>
+                  <%=user.name%>
+                  <small><%=user.createdat.toString()%> 加入</small>
+                </p>
+              </li>
+
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <a href="/index/logout" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li>
+            </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <aside class="main-sidebar">
+      <!-- Inner sidebar -->
+      <div class="sidebar">
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu">
+          <li class="header">导航菜单</li>
+          <%-menu%>
+        </ul><!-- /.sidebar-menu -->
+      </div><!-- /.sidebar -->
+    </aside>
+    <div class="content-wrapper" style="overflow:hidden;">
+      <div  style="background-color:white">
+        <div class="nav-tabs-custom" id="top_router_outlet" style="margin-bottom:0px !important;">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" >
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content" >
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="main-footer" style="padding:5px">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.0.0
+    </div>
+    <strong>Copyright © 2009-2016 <a target="blank" href="http://www.nets-tech.com/">纳思达科技（大连）有限公司</a>.</strong> All rights
+    reserved.
+  </footer>
+  </div>
+  <!-- <script src="/static/js/jquery/jquery-2.2.0.min.js"></script> -->
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <!-- <script src="/static/js/bootstrap/bootstrap.min.js"></script> -->
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/app.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+
+  <script type="text/javascript">
+    $.Reed.router.init('#top_router_outlet');
+
+  </script>
+</body>
+</html>

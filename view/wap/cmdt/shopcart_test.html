@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<div style="height:200px"></div>
+<button class="btn">点击</button>
+    <script src="/static/js/zepto/zepto.min.js"></script>
+
+    <script>
+        //8e74a984-ded0-4165-856b-55a6d6fca8e8
+$(".btn").click(function(){
+   $.post("/wap/cmdt/shopcart/add",{cmdt_id:'f1fdfd68-6224-4eec-86c3-7632ee601ac5',sku_id:'0c2fcb65-19dc-47c9-9a49-00790c324dc6',sc_cmdt_id:'49f9167c-96c5-48a0-aabd-010188727cd0',single_price:5000,amount:2},function(res){
+
+       alert(res.data.state);
+   },"json")
+})
+    </script>
+</body>
+
+</html>

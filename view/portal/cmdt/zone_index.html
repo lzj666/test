@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+</head>
+<body class="skin-black-light">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <div class="pull-left form-inline condition-area">
+                <input type="text" class="form-control"  id="search_name" placeholder="名称" >
+                <button type="button" class="btn btn-default condition-area-search" onclick="search({page:1})"><i class="fa fa-search"></i> 搜索</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-primary" onclick="$.ajaxModal('/cmdt/zone/insert')"><i class="fa fa-plus"></i> 新增</button>
+              </div>
+            </div>
+            <div id="bodyAndFooter">
+              <% include zone_table.html %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+  <script type="text/javascript">
+  function search(param){
+    var name=$("#search_name").val().trim();
+    if(name&&name.length>0){
+      ajax.addParam({name:name});
+    }else{
+      ajax.removeParam('name');
+    }
+    if(param && typeof param=='object'){
+      ajax.addParam(param);
+    }
+
+    ajax.refresh(bindImgZoom);
+  }
+  function bindImgZoom(){
+    ajax.order();
+    $('.brand-img').imgZoom();
+  }
+  var ajax;
+  $(function(){
+    ajax=$.Reed.router.ajax();
+    ajax.init('/cmdt/zone/table','#bodyAndFooter');
+    $('.brand-img').imgZoom();
+  });
+
+  function search_sku(page,shop_id,cdn){
+    $.get('/cmdt/photo/search',{
+      category_id:$('#__imgselect_category'+suffix).val(),
+      name:$('#__imgselect_name'+suffix).val().trim(),
+      date:$('#__imgselect_date'+suffix).val().trim(),
+      shop_id:shop_id,
+      page:page
+    },function(r){
+      var label_tmpl='<label class="imgselect-label" title="{{title}}">'+
+      '<img src="'+cdn+'{{src}}" alt="">'+
+      '<input type="'+(chose_type=='checkbox'?'checkbox':'radio')+'" name="imgselect" value="{{src}}">'+
+      '<span class="imgselect-name">{{name}}</span>'+
+      '</label>';
+      //清空原来的内容
+      var label_wraper=$("#__imgselect-imgwraper"+suffix);
+      var page_ul=$("#__imgselect_paginationul"+suffix);
+      var empty_info='<p style="margin-top:20px;text-align:center;color:darkgray">请搜索图片</p>';
+      label_wraper.empty();
+      page_ul.empty();
+      if (r.data.data.length>0) {
+        //填充新数据
+        r.data.data.forEach(function(ele,index){
+          label_wraper.append($(label_tmpl.replace('{{title}}',ele.original_name)
+                                          .replace(/{{src}}/g,ele.url)
+                                          .replace('{{name}}',ele.description)));
+        });
+        //处理分页符
+        var page_first_tmpl='<li><a href="javascript:__searchImg(\''+suffix+'\',1,\''+chose_type+'\',\''+shop_id+'\',\''+cdn+'\')" ><span>&laquo;</span></a></li>';
+        var page_end_tmpl='<li><a  href="javascript:__searchImg(\''+suffix+'\',{{page}},\''+chose_type+'\',\''+shop_id+'\',\''+cdn+'\')" ><span>&raquo;</span></a></li>';
+        var page_middle_tmpl='<li class="{{class}}"><a href="javascript:__searchImg(\''+suffix+'\',{{page}},\''+chose_type+'\',\''+shop_id+'\',\''+cdn+'\')">{{page}}</a></li>';
+
+        page_ul.append($(page_first_tmpl));
+        for (var i = 1; i <= r.data.totalPages; i++) {
+          page_ul.append($(page_middle_tmpl.replace('{{class}}',i==r.data.currentPage?'active':'').replace(/{{page}}/g,i)));
+        }
+        page_ul.append($(page_end_tmpl.replace('{{page}}',i-1)));
+      }else{
+        label_wraper.append($(empty_info));
+      }
+    });
+  }
+  </script>
+</body>
+</html>

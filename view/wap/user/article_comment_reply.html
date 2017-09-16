@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>评论和回复｜呦西推荐</title>
+    <link rel="dns-prefetch" href="//wstatic.paduola.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="我的,日本,购物,日货,彩妆,呦西推荐"/>
+    <meta name="description" content="我的页面，更多正品日货尽在呦西推荐"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+            <%var nav_active_index='me';%>
+            <%include ../index_nav.html%>
+        <div class="content">
+            <div class="my_box">
+                <!--start my header-->
+                <%include ./user_info_area.html%>
+                <!--end my header-->
+                <!--start my content-->
+                <div class="buttons-tab">
+                    <a href='/user/order/index' class="button">订单管理</a>
+                    <!-- <a href="/user/coupon/index" class="button">卡券管理</a>-->
+                    <a href="/user/favorite/index" class="button">我的收藏</a>
+                    <a href="/user/article/collections" class="active button">我的测评</a>
+                    <a href="/user/address/index" class="button">地址管理</a>
+                </div>
+                <div class="content-block">
+                    <div class="tabs">
+                        <div class="tab active">
+                            <div class="content-block">
+                                <div class="buttons-row">
+                                    <!--<a href="/user/article/index" class="button">发布测评</a>-->
+                                    <a href="/user/article/collections" class="button">收藏测评</a>
+                                    <a href="/user/article/likes" class=" button">赞过测评</a>
+                                    <a href="/user/article/comment_reply" class="active button">评论回复</a>
+                                </div>
+                                <div class="tabs">
+                                    <div class='tab  active cart_box' id='tab1-4'>
+                                        <%if(comments_replies.length==0){%>
+                                        <div class="my_add">
+                                            <span class="iconfont">&#xe61b;</span><br>
+                                            <span class="shop_grey">您还未评论或收到评论，快去</span><span class="black">测评</span><span class="shop_grey">看看吧！</span>
+                                        </div>
+                                        <%}else{%>
+                                        <div class="my_con">
+                                            <%comments_replies.forEach(function(item){%>
+                                            <%if(item.to_user_name==null){%>
+                                            <div class="coment_con">
+                                                <dl class="coment_dl">
+                                                    <dt><img class="lazy-load"
+                                                             src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                                             data-url="<%=item.from_user_avatar%>"
+                                                             alt="<%=item.from_user_name%>"></dt>
+                                                    <dd><p class="fl_l font_8"><%=item.from_user_name%></p>
+                                                        <p class="fl_r"><%=item.createdat%></p></dd>
+                                                </dl>
+                                                <div class="coment_box">
+                                                    <p class="coment_left">
+                                                        <%=item.comment_content%></p>
+                                                </div>
+                                                <div class="coment_til"><a
+                                                        href="/article/article/details?article_id=<%=item.comment_article_id%>"><%=item.title%></a>
+                                                </div>
+                                            </div>
+                                            <%}else{%>
+                                            <div class="coment_con">
+                                                <dl class="coment_dl">
+                                                    <dt><img class="lazy-load"
+                                                             src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                                             data-url="<%=item.from_user_avatar%>"
+                                                             alt="<%=item.from_user_name%>"></dt>
+                                                    <dd><p class="fl_l font_8"><%=item.from_user_name%></p>
+                                                        <p class="fl_r"><%=item.createdat%></p></dd>
+                                                </dl>
+                                                <div class="coment_box">
+                                                    <p class="coment_left">
+                                                        回复<span style="color:#00b2d8"><%=item.to_user_name%></span>：
+                                                        <%=item.comment_content%></p>
+                                                    <%if(item.comment_from_user_id!=user.user_id){%>
+                                                    <a class="coment_right"
+                                                       href="/article/article/details?article_id=<%=item.comment_article_id%>#<%=item.position%>">查看&nbsp</a>
+                                                    <%}%>
+                                                </div>
+                                                <div class="coment_til"><a
+                                                        href="/article/article/details?article_id=<%=item.comment_article_id%>"><%=item.title%></a>
+                                                </div>
+                                            </div>
+                                            <%}%>
+                                            <%})%>
+                                        </div>
+                                        <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%include ../common_js_recource.html%>
+<script type="text/javascript">
+    $('.lazy-load').imglazyload({
+        container: '.content',
+        innerScroll: true,
+        threshold: 300
+    });
+</script>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/my_order.js?v=2" charset='utf-8'></script>
+</body>
+</html>

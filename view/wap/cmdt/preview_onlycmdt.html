@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title><%=cmdt.name%>｜呦西推荐</title>
+<link rel="dns-prefetch" href="//jpgw.anneijia.com">
+<link rel="dns-prefetch" href="//wstatic.paduola.com">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="<%=cmdt.cmdt_name%>" />
+<meta name="description" content="<%=cmdt.cmdt_name%>" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="<%=cdn_domain%>/static/logo.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+<link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm-extend.css">
+
+<script type="text/javascript">
+  var cdn='<%=cdn_domain%>';
+  var sku_sell_pro=<%-JSON.stringify(sku_sell_pro)%>;
+  var cmdt_pics=<%-JSON.stringify(cmdt_pics)%>;
+  var cmdt_id='<%=cmdt.id%>';
+  var skus=<%-JSON.stringify(skus)%>;
+  var channel_cmdt_id='<%=cmdt.id%>';
+  var sku_id='<%=sku.id%>';
+</script>
+<style media="screen">
+  .lazy-load{
+    display:block;
+    margin:0 auto;
+  }
+</style>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab">
+          <a class="tab-item external" href="/">
+            <span class="icon iconfont">&#xe601;</span>
+            <span class="tab-label">首页</span>
+          </a>
+          <a class="tab-item external" href="javascript:;" id="fa">
+            <span class="icon iconfont" id="faStar">&#xe630;</span>
+            <span class="tab-label" id="faText">收藏</span>
+          </a>
+          <a class="tab-item external" href="/cmdt/shopcart/index">
+            <span class="icon iconfont">&#xe603;</span>
+            <span class="tab-label">购物车</span>
+            <span class="badge" id="cartAmount" style="display:none"></span>
+          </a>
+          <a class="tab-item external cart_btn" id="addCart">加入购物车</a>
+          <a class="tab-item external pay_btn" id="buyNow">立即购买</a>
+          <div class="display_none" id="info">
+            <div class="text_disable"></div>
+            <p class="word_disable">此商品库存不足</p>
+          </div>
+        </nav>
+        <div  class="content">
+            <!--start 商品图片-->
+            <div class="swiper-container" id="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper" >
+									<%cmdt_pics.forEach(function(item){%>
+										<div class="swiper-slide"><img src="<%=cdn_domain%><%=item%>" alt="<%=cmdt.cmdt_name%>"></div>
+									<%})%>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!--end 商品图片-->
+            <!--start 商品信息-->
+            <div class="shop_box">
+                <div class="shop_til" id="skuName"><%=cmdt.name%>&nbsp;&nbsp;<%=sku.name%></div>
+								<% var price=cmdt.price.toString().split('.');%>
+                <div class="shop_price"><span class="font_12" id="price_front">¥<%=price[0]%></span><span class="font_9" id="price_back"><%=price.length>1?"."+price[1]:".00"%></span><div class="original_price" id="original_price">¥<%=cmdt.original_price%></div></div>
+
+
+    <!--        <div class="shop_zan">赞 <span class="icon iconfont">&#xe639;</span><br>
+                <span class="number">（9人）</span>
+                </div>-->
+            </div>
+             <div class="shop_content">
+                <dl>
+                    <dt class="width_65">促销</dt>
+                    <dd><div class="sale_til">
+                        <div class="fl_l">可享受以下促销</div><div class="fl_r icon icon-down"></div>
+                        </div>
+                        <div class="sale">
+
+                       </div>
+                   </dd>
+               </dl>
+            </div>
+            <div class="shop_content">
+                <%sell_pros.forEach(function(item){%>
+                  <dl >
+                    <dt class="width_65"><div class="pt_number"><%=item.name%></div></dt>
+                    <dd>
+                        <ul class="shop_rule">
+                            <li>
+                                <dl class="shop_rule_select">
+                                    <%item.sells.forEach(function(inner_item){%>
+                                      <label class="<%=inner_item.is_current?'selected':''%><%=inner_item.is_available?'':' sy_minu'%>" data-id="<%=inner_item.id%>"><input type="radio" value="<%=inner_item.id%>" ><a class="ok"><%=inner_item.value%></a></label>
+                                    <%})%>
+                                </dl>
+                            </li>
+                        </ul>
+                    </dd>
+                  </dl>
+                <%})%>
+
+            </div>
+            <div class="shop_content">
+                <dl>
+                    <dt class="width_65"><div class="pt_number">购买数量</div></dt>
+                    <dd class="p_num">
+                        <span class="icon iconfont sy_minu" id="sy_minus_gid1">&#xe66a;</span>
+                        <div class="shop_number"><input class="sy_num" id="sy_num_gid1" type="number" name="number1" value="1"  data-min="1"   required/></div>
+                        <span class="icon iconfont" id="sy_plus_gid1">&#xe66c;</span>
+                    </dd>
+                </dl>
+            </div>
+
+            <!--end 商品信息-->
+            <!--start 商品详情-->
+              <div class="buttons-tab" >
+                <a href="#tab1" class="tab-link line active button">商品详情</a>
+                <a href="#tab2" id="otherPro" class="tab-link button">商品参数</a>
+             </div>
+              <div class="content-block">
+                <div class="tabs">
+                  <div id="tab1" class="tab active">
+                    <div class="content-block">
+                      <%-cmdt.intro%>
+                    </div>
+                  </div>
+    		       <div id="tab2" class="tab">
+                    <div class="content-block">
+                      <table class="shop_tab" id="otherProTable">
+
+                      </table>
+                    </div>
+                  </div>
+            </div>
+              </div>
+            <!--end 商品详情-->
+        </div>
+    </div>
+    <a href="javascript:pagetop()" id="go-to-top">
+    <span class="icon icon-up"></span><br>
+    TOP
+    </a>
+</div>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/sm/sm-extend.min.js" charset='utf-8'></script>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/preview.js?v=3" charset='utf-8'></script>
+<script type="text/javascript">
+$('.lazy-load').imglazyload({
+    container: '.content',
+    innerScroll: true,
+    threshold:300
+});
+</script>
+</body>
+</html>

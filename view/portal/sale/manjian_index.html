@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+
+</head>
+<body class="skin-green fixed">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <div id="channel_list">
+    <section class="content" >
+
+        <div class="box">
+          <div class="box-header">
+            <div class="pull-left form-inline condition-area">
+              <div class="form-group input-group">
+                <span class="input-group-addon">满减名称</span>
+                <input type="text" class="form-control"  id="search_name" placeholder="名称">
+              </div>
+              <button type="button" class="btn btn-default" onclick="search()"><i class="fa fa-search"></i> 搜索</button>
+            </div>
+            <div class="pull-right">
+              <button type="button" class="btn btn-primary" onclick="$.ajaxModal('/sale/manjian/insert')"><i class="fa fa-plus"></i> 新增</button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <!--start body and footer-->
+          <div id="bodyAndFooter">
+            <%include ./manjian_table.html%>
+          </div>
+        </div>
+        <!--end body and footer-->
+
+
+
+    </section>
+  </div>
+    <div id="channel_sku_list">
+
+    </div>
+  </div>
+
+  <div class="modal"  role="dialog" id="modal"></div>
+
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <!-- <script src="/static/js/bootstrap/bootstrap.min.js"></script> -->
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/plugins/select2/select2.full.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/plugins/select2/i18n/zh-CN.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/app.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+  <script type="text/javascript">
+  function search(param){
+    var name=$("#search_name").val().trim();
+    if(name&&name.length>0){
+      ajax.addParam({name:name});
+    }else{
+      ajax.removeParam('name');
+    }
+    if(param && typeof param=='object'){
+      ajax.addParam(param);
+    }
+
+    ajax.refresh(bindImgZoom);
+  }
+  function bindImgZoom(){
+    ajax.order();
+    $('.brand-img').imgZoom();
+  }
+
+  var ajax;
+  $(function(){
+    ajax=$.Reed.router.ajax();
+    ajax.init('/sale/manjian/table','#bodyAndFooter');
+  });
+
+  </script>
+</body>
+</html>

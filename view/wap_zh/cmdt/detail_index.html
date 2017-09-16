@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%=cmdt.name%>｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="<%=cmdt.cmdt_name%>" />
+    <meta name="description" content="<%=cmdt.cmdt_name%>" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<script type="text/javascript">
+
+    var cdn='<%=cdn_differ_domain%>';
+    var cmdt_pics=<%-JSON.stringify(cmdt_pics)%>;
+    var cmdt_id='<%=cmdt.id%>';
+    var skus=<%-JSON.stringify(skus)%>;
+    var sku_id='<%=sku.id%>';
+    var cmdt=<%-JSON.stringify(cmdt)%>;
+    var exchange_rate=<%=exchange_rate%>;
+    window.PAGE='INDEX'
+</script>
+</head>
+<body ontouchstart="">
+<div class="warp">
+    <nav class="bar-tab">
+        <a class="tab-shopicon active" href="/">
+            <span class="iconfont">&#xe645;</span>
+            <span class="tab-label">首页</span>
+        </a>
+        <a class="tab-shopicon active" href="javascript:;" id="fa">
+            <span class="iconfont">&#xe635;</span>
+            <span class="tab-label" id="faText">收藏</span>
+        </a>
+        <a class="tab-shopicon active" href="/cmdt/shopcart/index">
+            <span class="iconfont">&#xe644;</span>
+            <span class="tab-label">购物车</span>
+            <span class="badge" id="cartAmount">0</span>
+        </a>
+        <a class="tab-shopico">
+            <p class="tab-item external cart_btn" id="addCart">加入购物车</p>
+        </a>
+        <a class="tab-shopico">
+            <p class=" tab-item external pay_btn" id="buyNow">立即购买</p>
+        </a>
+        <p class="word_disable">此商品库存不足</p>
+    </nav>
+    <div  class="content">
+        <!--start 轮播-->
+        <div class="swiper-container" id="slider">
+            <%cmdt_pics.forEach(function(item){%>
+            <ul class="ui-slider-content" style="width: 300%">
+                <li class="current"><img src="<%=cdn_differ_domain%><%=item%>" alt="<%=cmdt.cmdt_name%>"></li>
+            </ul>
+            <%})%>
+        </div>
+        <!--end 轮播-->
+        <!--start 商品信息-->
+        <div class="shop_box">
+            <div class="shop_til" id="skuName"><%=cmdt.name%>&nbsp;<%=sku.sku_name%></div>
+            <% var price=sku.price.toString().split('.');%>
+            <div class="shop_price"><span class="font_9" id="price_front">￥<%=price[0]%>円 </span>
+                <span class="font_7" id="rmb_price">(约<%=sku.rmb_price%>元)</span></div>
+            <%if(cmdt.is_baoyou){%>
+            <div class="shipping">包邮</div>
+            <%}else{%>
+
+            <%}%>
+        </div>
+        <div class="shop_content">
+            <dl>
+                <dt>购买数量</dt>
+                <dd>
+                    <span class="iconfont" id="sy_minus_gid1">&#xe627;</span>
+                    <div class="shop_number"><input class="sy_num" id="sy_num_gid1" type="number" name="number1" value="1" data-min="1"  required/></div>
+                    <span class="iconfont"  id="sy_plus_gid1">&#xe62f;</span>
+                </dd>
+            </dl>
+        </div>
+        <div class="shop_content">
+            <dl>
+                <dt>商品规格</dt>
+                <dd>
+                    <ul class="shop_rule">
+                        <li>
+                            <dl id="shop_rule_select" class="shop_rule_select">
+                                <%skus.forEach(function(inner_item){%>
+                                <label class="<%=inner_item.is_current?'selected':''%><%=inner_item.available>0?'':' sy_minu'%>" data-cmdtid="<%=inner_item.cmdt_id%>" data-skuid="<%=inner_item.id%>">
+                                    <input type="radio" value="15ml"><a class="ok"><%=inner_item.name%></a></label>
+                                <%})%>
+                            </dl>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div class="shop_content">
+            <dl>
+                <dt>商品重量</dt>
+                <dd>
+                    <ul class="shop_rule">
+                        <li>
+                            <dl id="shop_weight_select">
+                                <%skus.forEach(function(inner_item){%>
+                                <label><input type="radio" value="10g"><a class="ok"><%=sku.weight*1000%>g</a></label>
+                                <%})%>
+                            </dl>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+
+        <!--end 商品信息-->
+        <!--start 商品详情-->
+        <div class="shop-content">
+            <div class="shop-til" href="#tab1">商品详情</div>
+            <div class="tabs">
+                <div id="tab1" class="tab active">
+                    <div class="content-block">
+                        <%-cmdt.intro%>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <!--end 商品详情-->
+        <a id="go-to-top">
+            <span class="iconfont">&#xe623;</span><br>
+            TOP
+        </a>
+    </div>
+</div>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/sm/sm-extend.min.js" charset='utf-8'></script>
+<script type='text/javascript' src="<%=cdn_differ_domain%>/static/js/shop/shop.js?v=6" charset='utf-8'></script>
+<script type="text/javascript">
+    $('.lazy-load').imglazyload({
+        container: '.content',
+        innerScroll: true,
+        threshold:300
+    });
+</script>
+<!--<script src="<%=cdn_domain%>/static/js/dest/buddle.min.js"></script>-->
+<!--<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>-->
+<!--<script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/shop.js" charset='utf-8'></script>-->
+<script type="text/javascript" src="<%=cdn_differ_domain%>/static/js/pagetop/pagetop.js"></script>
+</body>
+</html>

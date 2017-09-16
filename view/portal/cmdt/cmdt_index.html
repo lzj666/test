@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <style media="screen">
+        .cc-container {
+            overflow-x: auto;
+        }
+
+        .cc-selector {
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 300px;
+        }
+
+        .cc-selector ul {
+            padding: 5px;
+        }
+
+        .cc-selector li {
+            list-style: none;
+            padding: 3px;
+            cursor: pointer;
+        }
+
+        .cc-selector li span {
+            margin-top: 2px;
+            margin-right: 3px;
+        }
+
+        .cc-selector li:hover, .cc-selector li.active {
+            background-color: steelblue;
+            color: white;
+        }
+
+        .cc-selector .cc-wraper {
+            border: 1px solid #f2f2f2;
+            overflow-y: auto;
+            height: 100%;
+            padding: 0px;
+        }
+    </style>
+</head>
+<body class="skin-black-light">
+<div class='notifications top-right'></div>
+<div class="content-container">
+    <div id="main_section">
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <div class="pull-left form-inline condition-area">
+                                <input type="text" class="form-control" id="search_name" placeholder="名称">
+                                <input type="text" class="form-control" id="search_code" placeholder="规格条码">
+								<input type="text" class="form-control" id="cc_name" placeholder="类别">
+                                <button type="button" class="btn btn-default condition-area-search"
+                                        onclick="search({page:1})"><i class="fa fa-search"></i> 搜索
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary"
+                                        onclick="$.ajaxModal('/cmdt/cmdt/chose_cc')"><i class="fa fa-plus"></i> 新增
+                                </button>
+                            </div>
+                        </div>
+                        <div id="bodyAndFooter">
+                            <% include cmdt_table.html %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="insert_section" style="background-color:#f2f2f2">
+
+    </div>
+    <div id="update_section" style="background-color:#f2f2f2">
+
+    </div>
+</div>
+
+
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script type="text/javascript">
+    function search(param) {
+        var name = $("#search_name").val().trim();
+        if (name && name.length > 0) {
+            ajax.addParam({name: name});
+        } else {
+            ajax.removeParam('name');
+        }
+
+		var cc_name = $("#cc_name").val().trim();
+        if (cc_name && cc_name.length > 0) {
+            ajax.addParam({cc_name: cc_name});
+        } else {
+            ajax.removeParam('cc_name');
+        }
+
+        var code = $("#search_code").val().trim();
+        if (code && code.length > 0) {
+            ajax.addParam({bar_code: code});
+        } else {
+            ajax.removeParam('bar_code');
+        }
+
+        if (param && typeof param == 'object') {
+            ajax.addParam(param);
+        }
+
+        ajax.refresh(bindImgZoom);
+    }
+    function bindImgZoom() {
+        ajax.order();
+        $('.brand-img').imgZoom();
+    }
+    function insert_cmdt(_this) {
+        var li = $("#cc-selector .cc-wraper:last li.active");
+        if (li.length == 0) {
+            $(".notifications").notify({type: 'warning', message: {text: '请选择类目'}}).show();
+            return;
+        }
+        var cc_id = li.data('id');
+        $.closeModal();
+        ajax.load('/cmdt/cmdt/insert?cc_id=' + cc_id, '#main_section', '#insert_section');
+    }
+
+    function change_cc(_this) {
+        _this = $(_this);
+        _this.addClass('active').siblings().removeClass('active');
+        $.get('/cmdt/category/child', {cc_id: _this.data('id')}, function (r) {
+            if (!r.errno) {
+                _this.closest('.cc-wraper').next().remove();
+                if (r.data.length > 0) {
+                    var li_tmpl = '<li data-id="{{id}}" onclick="change_cc(this)">{{name}}<span class="fa fa-angle-right pull-right"></li>';
+                    var wraper = $('<div class="col-md-4 cc-wraper"></div>');
+                    _this.closest('.cc-selector').append(wraper);
+                    var ul = $('<ul>');
+                    wraper.append(ul);
+                    for (var i = 0; i < r.data.length; i++) {
+                        var item = r.data[i];
+                        ul.append($(li_tmpl.replace('{{id}}', item.id).replace('{{name}}', item.name)));
+                    }
+                } else {
+                    _this.find('span.fa').remove();
+                }
+
+            }
+        });
+    }
+    var ajax;
+    $(function () {
+        ajax = $.Reed.router.ajax();
+        ajax.init('/cmdt/cmdt/table', '#bodyAndFooter');
+        $('.brand-img').imgZoom();
+    });
+</script>
+</body>
+</html>

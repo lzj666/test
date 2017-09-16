@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>购物车｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="购物车,日本,购物,日货,彩妆,札幌药妆"/>
+    <meta name="description" content="购物车页面，更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon " href="<%=cdn_differ_domain%>/static/img/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <%var nav_active_index='shopcart';%>
+    <%include ../index_nav.html%>
+
+    <div class="no_info" onClick="location='/'">
+        <span class="iconfont light_gray">&#xe62d;</span><br>
+        <span>购物车内还没有商品<br>去商场看看吧</span>
+    </div>
+</div>
+</body>
+</html>

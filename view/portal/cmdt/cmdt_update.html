@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/js/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/js/wangeditor/css/wangeditor.min.css">
+    <style media="screen">
+        .content {
+            min-height: 150px;
+        }
+
+        .pic-url-file {
+            display: inline-block !important;
+        }
+
+    </style>
+    <script type="text/javascript">
+        var img_upload_param = {
+            description: '商品详情图片',
+            shop_id: '<%=cmdt.shop_id%>',
+            category_id: '<%=cmdt.cc_id%>'
+        }
+    </script>
+</head>
+<body class="skin-black-light" style="background-color:transparent">
+<div class='notifications top-right'></div>
+<div>
+    <div style="background-color:white;height:50px;position:fixed;width:100%;top:0px;z-index:2" class="light-shadow">
+        <a href="javascript:goback()" style="position:absolute;z-index:3;left:10px;top:10px"><span
+                class="fa fa-chevron-left"></span>&nbsp;返回商品列表</a>
+        <h4 class="text-muted"
+            style="position:absolute;z-index:2;left:0px;top:10px;width:100%;text-align:center;cursor:pointer"
+            onclick="window.location.reload()">修改商品</h4>
+    </div>
+    <div class="form-horizontal" style="margin-top:60px;">
+        <input type="hidden" name="cmdt_detail" id="cmdt_detail" value="">
+
+        <div style="width:1024px;margin:auto;background-color:white" class="light-shadow">
+            <div class="content">
+                <fieldset>
+                    <legend>商品信息</legend>
+                    <div class="content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品类别</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static"><%=cmdt.cc_name%></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static" id="cmdt-name"><%=cmdt.name%></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">商品品牌</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static" id="brand-name"><%=cmdt.brand_name%></p>
+                            </div>
+                        </div>
+
+                        <%if(!think.isEmpty(cmdt.counter_id)){%>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">店铺名称</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static" id="counter-name"><%=cmdt.counter_name%></p>
+                            </div>
+                        </div>
+                        <%}%>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">邮费模板</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static" id="pt-name"><%=cmdt.postage_template_name%></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static" id="cmdt-description"><%=cmdt.description%></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">包邮</label>
+                            <div class="col-sm-10" style="padding-top:6px;">
+                                <input id="is_baoyou" type="checkbox" disabled name="is_baoyou" value="true"
+                                <%=cmdt.is_baoyou?'checked="checked"':''%> >
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <button type="button" name="button" class="btn btn-default btn-sm pull-right"
+                                    onclick="$.ajaxModal('/cmdt/cmdt/update_cmdt?id=<%=cmdt.id%>')">修改
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>规格</legend>
+                    <div class="content" style="padding-left: 0 !important;padding-right: 0px !important;">
+                        <button type="button" class="btn btn-default btn-sm" name="button"
+                                onclick="$.ajaxModal('/cmdt/cmdt/add_spec?id=<%=cmdt.id%>')">添加规格
+                        </button>
+                        <br><br>
+                        <table class="spec-table" id="spec-table">
+                            <thead>
+                            <th style="width:14%;">规格名</th>
+                            <%if(shop.sub_domain!="m"){%>
+                            <th style="width:24%;">日文全名</th>
+                            <%}%>
+                            <th style="width:10%;">价格</th>
+                            <th style="width:5%;">数量</th>
+                            <th style="width:6%;">重量(kg)</th>
+                            <th style="width:12%;">条码</th>
+                            <th style="width:5%;">图片</th>
+                            <th style="width:5%;">上架</th>
+							<th style="width:5%;">在日本</th>
+                            <th style="width:14%;">操作</th>
+                            </thead>
+                            <tbody>
+                            <%skus.forEach(function(item){%>
+                            <tr>
+                                <td><%=item.name%></td>
+                                <%if(shop.sub_domain!="m"){%>
+                                <td><%=item.jap_name%></td>
+                                <%}%>
+                                <td><%=item.price%></td>
+                                <td><%=item.total%></td>
+                                <td><%=item.weight%></td>
+                                <td><%=item.bar_code%></td>
+                                <td><img src="<%=cdn_differ_domain%><%=item.pic_url%>" class="brand-img" alt=""></td>
+                                <td><input type="checkbox" name="" disabled
+                                    <%=item.sale_state=='ON'?'checked="checked"':''%>>
+                                </td>
+								<td><input type="checkbox" name="" disabled
+                                    <%=item.from_japan?'checked="checked"':''%>>
+                                </td>
+                                <td>
+                                    <span class="text-primary text-button"
+                                          onclick="$.ajaxModal('/cmdt/cmdt/update_spec?id=<%=item.id%>')">修改</span>
+                                    <span class="explode">|</span>
+                                    <span class="text-danger text-button"
+                                          onclick="$.ajaxModal('/cmdt/cmdt/delete_spec?id=<%=item.id%>')">删除</span>
+                                    <span class="explode">|</span>
+                                    <span class="text-info text-button"
+                                          onclick="prompt('商品id：','<%=item.id%>')">id</span>
+                                    <br/>
+                                    <span class="text-info text-button"
+                                          onclick="prompt('页面链接：','http://<%=shop.sub_domain%>.paduola.com/cmdt/detail/index?sku_id=<%=item.id%>')">链接</span>
+                                    <span class="explode">|</span>
+                                    <span class="text-info text-button"
+                                          onclick="sale('<%=item.id%>')">营销</span>
+                                </td>
+                            </tr>
+                            <%})%>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>商品图片</legend>
+                    <div class="content">
+                        <button type="button" class="btn btn-default btn-sm" name="button"
+                                onclick="$.ajaxModal('/cmdt/cmdt/add_pic?id=<%=cmdt.id%>')">添加图片
+                        </button>
+                        <br><br>
+                        <div class="row" id="pic-url-wrapper">
+                            <%cmdt.index_pic_url.forEach(function(ele){%>
+                            <div class="col-md-3 update-pic-url">
+                                <img src="<%=cdn_differ_domain%><%=ele%>" alt="">
+                                <br>
+                                <span class="text-danger text-button"
+                                      onclick="$.ajaxModal('/cmdt/cmdt/delete_pic?url=<%=ele%>&id=<%=cmdt.id%>')">删除</span>
+                            </div>
+                            <%})%>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>图文详情</legend>
+                    <div class="content">
+                        <div class="" id="cmdt-detail" style="min-height:400px;">
+                            <%-cmdt.intro%>
+                        </div>
+                        <div style="border:1px solid #ccc;border-top:none;text-align:right;padding:5px">
+                            <button type="button" name="button" class="btn btn-default btn-sm" onclick="save()">保存图文详情
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<form id="detail-form" action="/cmdt/cmdt/update_detail" method="post">
+    <input type="hidden" name="id" value="<%=cmdt.id%>">
+    <input type="hidden" name="detail" value="" id="detail-hidden">
+</form>
+
+<aside class="control-sidebar control-sidebar-light" style="padding:5px">
+  <!-- Content of the sidebar goes here -->
+  <div>
+    <a role="button" data-toggle="control-sidebar"><span class="fa fa-arrow-left"></span>&nbsp;关闭</a>
+  </div>
+  <br>
+  <div id="sale_content">
+
+  </div>
+</aside>
+<!-- The sidebar's background -->
+<!-- This div must placed right after the sidebar for it to work-->
+<div class="control-sidebar-bg"></div>
+
+<script type="text/template" id="loading-tmpl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="fa fa-spin fa-spinner"></span> 请稍候...
+            </div>
+        </div>
+    </div>
+</script>
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/plugins/select2/select2.full.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/plugins/select2/i18n/zh-CN.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/wangeditor/js/wangeditor.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/app.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/cmdt_update.js"></script>
+
+</body>
+</html>

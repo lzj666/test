@@ -1,0 +1,115 @@
+<div class="box-body">
+    <table class="table table-bordered">
+        <thead class="head-no-border">
+        <tr data-order="<%=order%>">
+            <th class="col-md-7.8 text-align-center">订单详情</th>
+            <th class="col-md-2.2 text-align-center">金额</th>
+            <th class="col-md-1 text-align-center">备注</th>
+            <th class="col-md-1 text-align-center">操作</th>
+        </tr>
+        </thead>
+
+        <%orders.forEach(function(item){%>
+        <tbody>
+        <tr class="spcace-line">
+            <td colspan="4"></td>
+        </tr>
+        <tr class="th-head">
+            <th colspan="4">
+                <span class="no-solid">支付时间:</span><span><%=item.payedtime%></span>
+                <span class="no-solid">订单号:</span><span><%=item.order_num%></span>
+                <span class="no-solid">商品总数:</span><span><%=item.cmdt_count%></span>
+                <!--<%if(item.is_print){%>-->
+                <!--<span class="no-solid text-danger">打印时间:</span><span><%=item.print_time%></span>-->
+                <!--<%}%>-->
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+            </td>
+						<!--zhangyuan  -->
+            <td rowspan="10" style="width: 268px;">
+						<div  style="width: 260px; margin: 0 auto;">
+			<span>邮费金额:
+							<span class="text-black"><%=item.post_fee%></span>
+							</span>
+			<span>商品总额:
+								<span class="text-info"><%=item.original_cmdt_money%></span>
+								</span><br>
+			<span>偏远差价:
+								<span class="text-primary"><%=item.remote_money%></span>
+								</span>
+			<span>优惠金额:
+								<span class="text-green"><%=item.sale_money%></span>
+								</span><br>
+			<span>订单总额:
+								<span class="text-primary"><%=item.sum_money%></span>
+								</span>
+			<span>实付金额:
+								<span class="text-green"><%=item.payed_money%></span>
+								</span>
+						</div>
+				</td>
+				<!-- end -->
+
+            <td rowspan="10">
+                <div class="desc">
+                    <%if(item.customerdesc!==null&&item.customerdesc.length!=0){%>
+                    <div><span class="label label-info">客户</span>:<%=item.customerdesc%>
+                    </div>
+                    <%if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                    <%}else if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                </div>
+            </td>
+            <td rowspan="10" class="text-align-center">
+                <div><a href="javascript:print('<%=item.order_id%>')">打&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;印</a>
+                </div>
+                <div><a href="#" onclick="change_note('<%=item.order_id%>')">客服修改</a></div>
+            </td>
+        </tr>
+        <%item.cmdts.forEach(function(cmdt){%>
+        <tr>
+            <td>
+                <div>
+                    <div class="good-img">
+                        <%if(cmdt.pic_url){%>
+                        <%var url = cmdt.pic_url.split(',')[0]%>
+                        <img src="<%=cdn_differ_domain%><%=url%>" class="brand-img"/>
+                        <%}%>
+                    </div>
+                    <div class="good-bar-code" title="<%=cmdt.bar_code%>"> <%=cmdt.bar_code%></div>
+                    <div class="payed-good-name" title="<%=cmdt.name%>"> <%=cmdt.cmdt_name%> <%=cmdt.name%></div>
+                </div>
+                <div class="good-price">￥<%=cmdt.single_price%></div>
+                <div class="good-nums">x<span class="text-danger text-bold"><%=cmdt.amount%></span></div>
+            </td>
+        </tr>
+
+        <%})%>
+        <td>
+            <div class="consignee-address">
+                <div><i class="fa fa-user text-blue" aria-hidden="true"></i>&nbsp;&nbsp;
+                    <%=item.recipient_name%>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%=item.phone%>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%=item.str_addr%>
+                </div>
+            </div>
+        </td>
+        </tbody>
+        <%})%>
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

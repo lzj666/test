@@ -1,0 +1,118 @@
+<div class="box-body">
+    <table class="table table-bordered  ">
+        <thead class="head-no-border">
+        <tr data-order="<%=order%>">
+            <th class="col-md-7.5 text-align-center" >订单详情</th>
+            <th class="col-md-1.5 text-align-center">金额</th>
+            <th class="col-md-1 text-align-center">快递信息</th>
+            <th class="col-md-1 text-align-center">备注</th>
+            <th class="col-md-1 text-align-center">操作</th>
+        </tr>
+        </thead>
+        <%orders.forEach(function(item){%>
+        <tbody>
+        <tr class="spcace-line">
+            <td colspan="5"></td>
+        </tr>
+        <tr class="th-head">
+            <th colspan="5">
+                <span class="no-solid">发货时间:</span><span><%=item.sendtime%></span>
+                <span class="no-solid">订单号:</span><span><%=item.order_num%></span>
+                <span class="no-solid">商品总数:</span><span><%=item.cmdt_count%></span>
+            </th>
+        </tr>
+
+        <tr>
+            <td>
+            </td>
+            <td rowspan="10" style="width: 130px;">
+                <div  style="width: 125px; margin: 0 auto;">
+					<span>商品总额:
+                    <span class="text-info"><%=item.original_cmdt_money%></span>
+
+                    </span><br>
+                    <span>邮费金额:
+                            <span class="text-black"><%=item.post_fee%></span>
+                    </span><br>
+
+										<span>偏远差价:
+											<span class="text-black"><%=item.remote_money%></span>
+										</span><br>
+
+										<span>优惠金额:
+														<span class="text-red"><%=item.sale_money%></span>
+										</span><br>
+
+                    <span>订单总额:
+                            <span class="text-primary"><%=item.sum_money%></span>
+                    </span><br>
+                    <span>实付金额:
+                            <span class="text-green"><%=item.payed_money%></span>
+                    </span>
+                </div>
+
+            </td>
+            <td rowspan="10">
+                <div><span><%=item.express_name%>:</span><br>
+                    <span><%=item.express_no%></span></div>
+            </td>
+            <td rowspan="10">
+                <div class="desc">
+                    <%if(item.customerdesc!==null&&item.customerdesc.length!=0){%>
+                    <div><span class="label label-info">客户</span>:<%=item.customerdesc%>
+                    </div>
+                    <%if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                    <%}else if(item.desc!==null&&item.desc.length!=0){%>
+                    <div><span class="label label-info">客服</span>:<%=item.desc%></div>
+                    <%}%>
+                </div>
+            </td>
+            </td>
+            <td rowspan="10" class="text-align-center">
+                <div><a href="javascript:change('<%=item.order_id%>')">更改物流</a></div>
+                <div><a onclick="change_note('<%=item.order_id%>')">客服修改</a></div>
+            </td>
+        </tr>
+        <%item.cmdts.forEach(function(cmdt){%>
+        <tr>
+            <td>
+                <div>
+                    <div class="good-img">
+                        <%if(cmdt.pic_url){%>
+                        <%var url = cmdt.pic_url.split(',')[0]%>
+                        <img src="<%=cdn_differ_domain%><%=url%>" class="brand-img"/>
+                        <%}%>
+                    </div>
+                    <div class="good-bar-code" title="<%=cmdt.bar_code%>"> <%=cmdt.bar_code%></div>
+                    <div class="payed-good-name" title="<%=cmdt.name%>"> <%=cmdt.cmdt_name%> <%=cmdt.name%></div>
+                </div>
+                <div class="good-price">￥<%=cmdt.single_price%></div>
+                <div class="good-nums">x<span class="text-danger text-bold"><%=cmdt.amount%></span></div>
+            </td>
+        </tr>
+
+        <%})%>
+        <td>
+            <div class="consignee-address ">
+                <div><i class="fa fa-user text-blue" aria-hidden="true"></i>&nbsp;&nbsp;
+                    <%=item.recipient_name%>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%=item.phone%>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <%=item.str_address%>
+                </div>
+            </div>
+        </td>
+        </tr>
+        </tbody>
+        <%})%>
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="pull-left">
+    </div>
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

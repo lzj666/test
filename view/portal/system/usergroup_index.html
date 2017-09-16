@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+</head>
+<body class="skin-black-light">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+
+              <div class="pull-left form-inline condition-area">
+                <div class="input-group">
+                  <span class="input-group-addon">名称</span>
+                  <input type="text" class="form-control"  id="search_name"  >
+                </div>
+                <button type="button" class="btn btn-default condition-area-search" onclick="search({page:1})"><i class="fa fa-search"></i> 搜索</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-primary" onclick="$.ajaxModal('/system/usergroup/insert')"><i class="fa fa-plus"></i> 新增</button>
+              </div>
+            </div>
+            <div id="bodyAndFooter">
+              <% include usergroup_table.html %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+  <script type="text/javascript">
+  function search(param){
+    var name=$("#search_name").val().trim();
+    if(name&&name.length>0){
+      ajax.addParam({name:name});
+    }else{
+      ajax.removeParam('name');
+    }
+    if(param && typeof param=='object'){
+      ajax.addParam(param);
+    }
+
+    ajax.refresh(ajax.order);
+  }
+  //搜索菜单
+  function searchMenu(suffix,page,usergroup_id){
+    $.get('/system/menu/menus',{
+      name:$('#__menu_name'+suffix).val().trim(),
+      usergroup_id:usergroup_id,
+      page:page
+    },function(r){
+      var label_tmpl='<label class="imgselect-label" title="{{name}}">'+
+      '<p style="text-align:center"><i class="fa fa-{{icon}}"></i></p>'+
+      '<input type="checkbox" {{checked}} name="selected_id" value="{{id}}">'+
+      '<span class="imgselect-name">{{name}}</span>'+
+      '</label>';
+      //清空原来的内容
+      var label_wraper=$("#__menu_wraper"+suffix);
+      var page_ul=$("#__menu_paginationul"+suffix);
+      var empty_info='<p style="margin-top:20px;text-align:center;color:darkgray">请搜索菜单</p>';
+      label_wraper.empty();
+      page_ul.empty();
+      if (r.data.data.length>0) {
+        //填充新数据
+        r.data.data.forEach(function(ele,index){
+          label_wraper.append($(label_tmpl.replace('{{icon}}',ele.icon)
+                                          .replace(/{{id}}/g,ele.id)
+                                          .replace(/{{name}}/g,ele.name)
+                                          .replace('{{checked}}',ele.usergroup_menu_id?'checked="checked"':'')));
+        });
+        //处理分页符
+        var page_first_tmpl='<li><a href="javascript:searchMenu(\''+suffix+'\',1,\''+usergroup_id+'\')" ><span>&laquo;</span></a></li>';
+        var page_end_tmpl='<li><a  href="javascript:searchMenu(\''+suffix+'\',{{page}},\''+usergroup_id+'\')" ><span>&raquo;</span></a></li>';
+        var page_middle_tmpl='<li class="{{class}}"><a href="javascript:searchMenu(\''+suffix+'\',{{page}},\''+usergroup_id+'\')">{{page}}</a></li>';
+
+        page_ul.append($(page_first_tmpl));
+        for (var i = 1; i <= r.data.totalPages; i++) {
+          page_ul.append($(page_middle_tmpl.replace('{{class}}',i==r.data.currentPage?'active':'').replace(/{{page}}/g,i)));
+        }
+        page_ul.append($(page_end_tmpl.replace('{{page}}',i-1)));
+      }else{
+        label_wraper.append($(empty_info));
+      }
+    });
+  }
+
+  var ajax;
+  $(function(){
+    ajax=$.Reed.router.ajax();
+    ajax.init('/system/usergroup/table','#bodyAndFooter');
+    $('.brand-img').imgZoom();
+  });
+  </script>
+</body>
+</html>

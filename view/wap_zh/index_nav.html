@@ -1,0 +1,20 @@
+<nav class="bar-tab">
+    <a class="tab-item<%=nav_active_index=='index'?' active':''%>" href="/">
+        <span class="icon iconfont"><%-nav_active_index=='index'?'&#xe641;':'&#xe645;'%></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item<%=nav_active_index=='category'?' active':''%>" href="/cmdt/list/all">
+        <span class="icon iconfont"><%-nav_active_index=='category'?'&#xe63f;':'&#xe643;'%></span>
+        <span class="tab-label">分类</span>
+    </a>
+
+    <a class="tab-item<%=nav_active_index=='shopcart'?' active':''%>" href="/cmdt/shopcart/index">
+        <span class="icon iconfont"><%-nav_active_index=='shopcart'?'&#xe640;':'&#xe644;'%></span>
+        <span class="tab-label">购物车</span>
+    </a>
+
+    <a class="tab-item<%=nav_active_index=='me'?' active':''%>" href="/user/my/index">
+        <span class="icon iconfont"><%-nav_active_index=='me'?'&#xe622;':'&#xe646;'%></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>

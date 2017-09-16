@@ -1,0 +1,62 @@
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">修改用户信息</h4>
+    </div>
+    <form role="form" method="post" action="/system/staff/update" onsubmit="return ajax.submit(this,__hideAndSearch)">
+      <input type="hidden" name="id" value="<%=staff.id%>"/>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-3" style="border-right:1px solid #eee">
+            <div class="form-group">
+              <label for="add_staff_name">名称</label>
+              <input type="text" class="form-control"  name="name" value="<%=staff.name%>" placeholder="必填" required>
+            </div>
+
+            <div class="form-group">
+              <label for="add_staff_pwd">密码</label>
+              <input type="password" class="form-control"  name="password" placeholder="必填" >
+            </div>
+
+            <div class="form-group">
+              <label for="add_usergroup">用户组</label>
+              <select class="form-control" name="usergroup_id" id="add_usergroup">
+                <%usergroups.forEach(function(item){%>
+                  <option value="<%=item.id%>" <%=item.id==staff.usergroup_id?"selected='selected'":""%>><%=item.name%></option>
+                <%})%>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="add_usergroup">当前头像</label>
+              <img src="<%=cdn_domain%><%=staff.avatar%>" style="width:100px" alt="">
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="is_admin" <%=(staff.is_admin?"checked='checked'":"")%> > 是管理员
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="deleted" <%=(staff.deleted?"checked='checked'":"")%> > 已删除
+              </label>
+            </div>
+          </div>
+          <div class="col-xs-9">
+            <div class="form-group">
+              <p>选择头像</p>
+              <% locals.imgselect_box_type='radio' %>
+              <% include ../imgselect.html %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div>
+</div>

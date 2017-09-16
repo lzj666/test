@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <head>
+        <meta charset="utf-8">
+        <title>测评｜呦西推荐</title>
+        <link rel="dns-prefetch" href="//wstatic.paduola.com">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="购物资讯,日本,购物,日货,彩妆"/>
+        <meta name="description" content="购物资讯，更多正品日货尽在呦西推荐"/>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+       <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="Expires" content="0">
+        <%include ../common_css_resource.html%>
+    </head>
+<body>
+<input type="hidden" id="category_id" value="<%=category_id%>">
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <%var nav_active_index='article';%>
+        <%include ../index_nav.html%>
+        <div class="list_box">
+            <div class="list_conbox article_bg">
+                <div class="list_til">
+                    <%=seleted_category_name%> <span class="up"><a class="icon icon-down "
+                                                                   style="color:white;"></a></span> <span
+                        class=" down display_none"><a class="icon icon-up" style="color:white;"></a></span>
+                </div>
+            </div>
+            <div class="listbox">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="/article/article/index">全部测评</a>
+                        </td>
+                    </tr>
+                    <%categories.forEach(function(item){%>
+                    <tr>
+                        <td>
+                            <a href="/article/article/index?category_id=<%=item.id%>"><%=item.article_category_name%></a>
+                        </td>
+                    </tr>
+                    <%})%>
+                </table>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="infinite-scroll">
+                <div id="article_container">
+                    <%articles.forEach(function(item){%>
+                    <div class="listcon">
+                        <div class="list_conent" onclick="location='/article/article/details?article_id=<%=item.id%>'">
+                            <div class="shop_left article_icon">
+                                <div class="shop_til"><a href="#"><i><%=item.article_category_name%></i><%=item.title%></a>
+                                </div>
+
+                                <div class="cl_ov">
+                                    <div class="shop_grey">标签：<%=item.tags%>
+                                    </div>
+                                </div>
+                                <!--<div class="cl_ov">-->
+                                <!--<div class="shop_grey"><span>&nbsp<%=item.show_auther_name%></span> <a class="pink"><%=item.view_num%>&nbsp;&nbsp;阅读</a> <span class="fl_r"><%=item.createdat%>&nbsp</span></div>-->
+                                <!--</div>-->
+                                <div class="cl_ov">
+                                    <div class="shop_grey">
+                                        <div style="width:45%;float:left;-webkit-line-clamp: 1;display: -webkit-box;">
+                                            <%=item.show_auther_name%>
+                                        </div>
+                                        <a class="pink"><i class="iconfont">&#xe61f;</i><%=item.view_num%></a> <span
+                                            class="fl_r"><%=item.createdat%></span></div>
+                                </div>
+
+                                <!--<div class="cl_ov">-->
+                                <!--<div class="shop_grey"><a class="pink"><i class="iconfont">&#xe61f;</i>(<%=item.view_num%>)</a><a-->
+                                <!--class="pink"><i class="iconfont">&#xe620;</i>(<%=item.like_num%>)</a>-->
+                                <!--<span class="fl_r"><%=item.createdat%>&nbsp</span></div>-->
+                                <!--</div>-->
+                            </div>
+                            <div class="shop_right article_icon">
+                                <img class="lazy-load" src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                     data-url="<%=cdn_domain%><%=item.pic_url%>" alt="<%=item.title%>">
+                            </div>
+                        </div>
+                    </div>
+                    <%})%>
+                </div>
+
+                <%if(articles.length==0){%>
+                <div id="no_data" style="text-align:center;font-size:14px;color:gray;margin:5px auto">
+                    <div>该分类下暂无测评</span>
+                    </div>
+                </div>
+                <%}else{%>
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader">加载更多 ...</span>
+                    </div>
+                </div>
+                <div id="no_more" style="display:none;text-align:center;font-size:14px;color:gray;margin:5px auto">
+                    <div>没有更多测评了</span>
+                    </div>
+                </div>
+                <%}%>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:pagetop()" id="go-to-top">
+    <span class="icon icon-up"></span><br>
+    TOP
+</a>
+
+<script type="text/template" id="article_tmpl">
+
+    <div class="listcon">
+        <div class="list_conent" onclick="location='/article/article/details?article_id={{id}}'">
+            <div class="shop_left article_icon">
+                <div class="shop_til"><a href="#"><i>{{article_category_name}}</i>{{title}}</a></div>
+
+                <div class="cl_ov">
+                    <div class="shop_grey">标签：{{tags}}
+                    </div>
+                </div>
+                <div class="cl_ov">
+                    <div class="shop_grey">
+                        <div style="width:45%;float:left;-webkit-line-clamp: 1;display: -webkit-box;">
+                            {{show_auther_name}}
+                        </div>
+                        <a class="pink"><i class="iconfont">&#xe61f;</i>{{view_num}}</a> <span class="fl_r">{{createdat}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="shop_right article_icon"><img src="<%=cdn_domain%>{{pic_url}}"
+                                                      alt="{{title}}"></div>
+        </div>
+    </div>
+</script>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/article/list.js?v=8' charset='utf-8'></script>
+<script type="text/javascript">
+    $('.lazy-load').imglazyload({
+        container: '.content',
+        innerScroll: true,
+        threshold: 300
+    });
+</script>
+
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/mustache/mustache.min.js' charset='utf-8'></script>
+</body>
+</html>

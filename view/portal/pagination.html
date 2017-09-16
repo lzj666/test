@@ -1,0 +1,33 @@
+<span class="pagination-info">
+  <%=startIndex%>-<%=endIndex%>条， 共<%=itemsCount%>条，<%=totalPages%>页
+</span>
+<ul class="pagination">
+  <li>
+    <a href="javascript:search({page:1})" title="首页">
+      <span class="glyphicon glyphicon-step-backward"></span>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:search({page:<%=currentPage-1%>})" title="上一页">
+      <span class="glyphicon glyphicon-triangle-left"></span>
+    </a>
+  </li>
+  <li>
+    <a style="padding:4px"><input type="text" onclick="select()" name="name" value="<%=currentPage%>" placeholder="页码"  style="margin:0px;padding:0px 0px 0px 3px;width:3em"></a>
+  </li>
+  <li>
+    <a style='border-left:none;cursor: pointer;'  onclick="window.search({page:$(this).parent().prev().find('input').val()})" title="跳至指定页">
+      GO
+    </a>
+  </li>
+  <li>
+    <a href="javascript:search({page:<%=currentPage+1%>})" title="下一页">
+      <span class="glyphicon glyphicon-triangle-right"></span>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:search({page:<%=totalPages%>})" title="尾页">
+      <span class="glyphicon glyphicon-step-forward"></span>
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.css" rel="stylesheet">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/js/plugins/daterangepicker/daterangepicker.css">
+    <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="<%=cdn_domain%>/static/js/plugins/daterangepicker/moment.js"></script>
+    <script src="<%=cdn_domain%>/static/js/plugins/daterangepicker/daterangepicker.js"></script>
+    <style media="screen">
+        .cmdt-table {
+            width: 100%;
+            margin: 0px;
+            border: 1px solid darkgreen;
+            border-collapse: collapse;
+        }
+
+        .cmdt-table td {
+            text-align: left;
+            border: 1px solid darkgreen;
+        }
+
+    </style>
+</head>
+
+<body class="skin-green fixed">
+<div class='notifications top-right'></div>
+<div class="content-container">
+    <section class="content">
+
+        <div class="box">
+            <div class="box-header">
+                <div class="pull-left form-inline">
+
+                    <!--<input type="text" class="form-control" id="order_num" placeholder="订单编号">-->
+                    <!--<button type="button" class="btn btn-default" onclick="search({page:1})"><i-->
+                    <!--class="fa fa-search"></i> 搜索-->
+                    <!--</button>-->
+                    <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon"><i
+                                                    class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                        <input type="text" style="width: 350px" name="reservation"
+                               id="reservationtime" class="form-control"
+                               value="点击选择订单开始和结束时间" class="span4"/>
+                        &nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-default margin-left-4 "
+                                onclick="exportOrderConfirm()"><i
+                                class="fa fa-space-shuttle"></i> 导出订单
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="bodyAndFooter">
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<input type="hidden" id="startTime" name="startTime">
+<input type="hidden" id="endTime" name="endTime">
+<div class="modal" role="dialog" id="modal" tabindex="-1"></div>
+
+<script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/app.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script>
+
+    $(document).ready(function () {
+                $('#reservationtime').daterangepicker({
+                    "timePicker": true,
+                    "timePickerIncrement": 1,
+                    "timePicker24Hour": true,
+                    "autoUpdateInput": false,
+                    "format": 'MM/DD/YYYY HH:mm'
+                }, function (start, end, label) {
+
+                });
+                $('#reservationtime').on('apply.daterangepicker', function (ev, picker) {
+                    var start = picker.startDate.format('YYYY-MM-DD HH:mm');
+                    var end = picker.endDate.format('YYYY-MM-DD HH:mm');
+                    $("#startTime").val(start);
+                    $("#endTime").val(end);
+                    $('#reservationtime').val(start + " - " + end);
+                });
+                $('#reservationtime').on('cancel.daterangepicker', function (ev, picker) {
+                    $("#startTime").val(null);
+                    $("#endTime").val(null);
+                    $('#reservationtime').val("点击选择订单开始和结束时间");
+                });
+            }
+    );
+
+    function exportOrderConfirm() {
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
+        if (startTime && startTime.length > 0 && endTime && endTime.length > 0) {
+            var parameters = {
+                startTime: startTime,
+                endTime: endTime
+            };
+            $.get("/export/payed/show_confirm", {parameters: JSON.stringify(parameters)}, function (r) {
+                $("#modal").html(r).modal('show');
+            }, 'html');
+        }
+        else {
+            alert("请点击选择正确的时间！");
+        }
+    }
+    //    function search(param) {
+    //
+    //        var order_num = $("#order_num").val().trim();
+    //        if (order_num && order_num.length > 0) {
+    //            ajax.addParam({order_num: order_num});
+    //        } else {
+    //            ajax.removeParam('order_num');
+    //        }
+    //
+    //        var page = $("#__pagination_page_index").val() || $(".pagination > li.current").data("id");
+    //        console.log(page);
+    //        if (page) {
+    //            ajax.addParam({page: page});
+    //        }
+    //        if (param && typeof param == 'object') {
+    //            ajax.addParam(param);
+    //        }
+    //
+    //        ajax.refresh(ajax.order);
+    //    }
+    //
+
+
+    var ajax;
+    $(function () {
+        ajax = $.Reed.router.ajax();
+//        ajax.init('/export/payed/table', '#bodyAndFooter');
+    });
+</script>
+</body>
+
+</html>

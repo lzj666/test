@@ -1,0 +1,68 @@
+<div class="box-body">
+  <table id="dt1" class="table table-bordered table-hover">
+    <thead>
+      <tr data-order="<%=order%>">
+        <th data-field="shangpin_name" onclick="order(this)">商品和SKU名称</th>
+        <th data-field="original_price" onclick="order(this)">原价格</th>
+        <th data-field="total_people_amount" onclick="order(this)">总人次</th>
+        <th data-field="now_people_amopunt" onclick="order(this)">当前人次</th>
+        <th data-field="total_turn" onclick="order(this)">总轮次</th>
+        <th data-field="now_turn" onclick="order(this)">当前轮次</th>
+        <th data-field="price" onclick="order(this)">价格</th>
+        <th data-field="is_open_award" onclick="order(this)">已开奖</th>
+        <th data-field="has_sent" onclick="order(this)">已发货</th>
+        <th data-field="createdat" onclick="order(this)">创建时间</th>
+        <th data-field="updatedat" onclick="order(this)">更新时间<span class="fa fa-sort-desc pull-right text-success order"></th>
+        <th data-field="deleted" onclick="order(this)">已删除</th>
+        <th >操作</th>
+      </tr>
+    </thead>
+    <% var i=0;%>
+    <tbody>
+      <%staffs.forEach(function(item){%>
+        <tr>
+          <td><%=item.shangpin_name%> </td>
+          <td><%=item.original_price%> </td>
+          <td><%=item.total_people_amount%></td>
+          <td><%=item.now_people_amount%></td>
+          <td><%=item.total_turn%></td>
+          <td><%=item.now_turn%></td>
+          <td><%=item.price%></td>
+          <td>
+          <%if(item.is_open_award){%>
+            <i class="fa fa-check"></i>
+          <%}%>
+          </td>
+          <td>
+          <%if(item.has_sent){%>
+            <i class="fa fa-check"></i>
+          <%}%>
+          </td>
+          <td><%=item.createdat%> </td>
+          <td><%=item.updatedat%> </td>
+          <td>
+          <%if(item.deleted){%>
+            <i class="fa fa-check"></i>
+          <%}%>
+          </td>
+          <td>
+            <a href="javascript:$.ajaxModal('/sale/zhonggou/update',{id:'<%=item.id%>'})">修改</a>
+            <span class="explode">|</span>
+            <a href="javascript:$.ajaxModal('/sale/zhonggou/delete',{id:'<%=item.id%>'})" class="text-danger">删除</a>
+          </td>
+        </tr>
+        <%})%>
+
+      </tbody>
+
+    </table>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+      <%include ../pagination.html%>
+    </div>
+  </div>

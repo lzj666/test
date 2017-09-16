@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>确认支付｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆,札幌药妆"/>
+    <meta name="description" content="更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="address_list" class="page page-current">
+        <div class="content">
+            <input type="hidden" name="current_id" id="current_id" value="<%=current_id%>"/>
+            <input type="hidden" name="addr_order_num" id="addr_order_num" value="<%=ordernum%>"/>
+            <div class="preferential_box">
+                <a class="button-link button-nav pull-left router back">
+                    <span class="icon iconfont">&#xe611;</span>
+                </a>
+                <div class="add_tit">收货地址</div>
+            </div>
+            <!--satrt add con-->
+            <div class="add_box" onclick="showAddAddress()">
+                <table class="add_red open-about">
+                    <tr>
+                        <td class="addinfo">+ 新增收货地址</td>
+                    </tr>
+                </table>
+            </div>
+            <!--end add con-->
+            <!--satrt add-->
+            <div class="cartbox">
+                <div class="cart_box" id="addressList">
+                    <%contacts.forEach(function(item){%>
+                    <div class="moren_box" data-id='<%=item.id%>'>
+                        <div class="cart_con">
+                            <table class="cart_tab">
+                                <tr>
+                                    <td rowspan="2" width="40"><input class="<%=item.id==current_id?'checked':''%>"
+                                                                      name="地址" type="radio"></td>
+                                    <td><%=item.recipient_name%></td>
+                                    <td><%=item.phone%><br><%if(item.cert_no&&item.cert_no.length>0){%>
+                                        <%=item.cert_no.substr(0,5)+'************'+item.cert_no.substr(-3)%>
+                                        <%}%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <%if(item.is_default){%>
+                                        <div class="bg_moren is_default">默认</div>
+                                        <%}%>
+                                        <%=item.str_address%>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="btn_edit open-services" onclick="showEditAddress('<%=item.id%>')">编辑</div>
+                        <%if(item.id!=current_id){%>
+                        <div class="btn_dele" onclick="deleteAddr(this)">删除</div>
+                        <%}%>
+                    </div>
+                    <%})%>
+
+                </div>
+            </div>
+            <!--end add-->
+        </div>
+        <a href="javascript:changeAddress4Order()">
+            <div class="btnsure">确认</div>
+        </a>
+    </div>
+
+    <div class="popup popup-add-address add_pop">
+        <div class="content-block ">
+            <div class="add_til">联系人信息</div>
+            <table class="add_tab">
+                <tr>
+                    <td>姓名</td>
+                    <td><input type="text" id="addr_name"></td>
+                </tr>
+                <tr>
+                    <td>电话</td>
+                    <td><input type="tel" id="addr_phone"></td>
+                </tr>
+                <tr>
+                    <td>身份证</td>
+                    <td><input type="text" required placeholder="必填 用于直邮商品海关清关" id="addr_cert_no"></td>
+                </tr>
+                <tr>
+                    <td>省市区县</td>
+										<td class="add_select">
+								<select id="input_Pro" name="province" required></select>
+								<select id="input_City" name="city" required></select>
+								<select id="input_Region" name="region" required></select>
+							</td>
+                </tr>
+                <tr>
+                    <td class="vertical_top pt_1">详细地址</td>
+                    <td>
+                        <textarea placeholder="街道,楼牌号等" id="addr_detail_addr" oninput="addressValueChange()"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="vertical_top pt_1">拼音详细地址</td>
+                    <td>
+                        <textarea placeholder="Zhong Shan Lu 226 Hao,1-602 Shi" id="eg_addr_detail_addr"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="default_box">
+                <dl>
+                    <dt><input type="radio" value="confirmPinyin"></dt>
+                    <dd><span class="font_6">我已确认拼音地址准确,有误请手动修改</span></dd>
+                </dl>
+            </div>
+            <div class="default_box">
+                <dl>
+                    <dt><input type="radio" value="默认地址"></dt>
+                    <dd><span class="font_6">设为默认地址</span><span class="font_5">（每次购物时会默认使用该地址）</span></dd>
+                </dl>
+            </div>
+            <div class="btn_close close-popup bg-close iconfont"></div>
+        </div>
+        <div class="btn_sure" onclick="confirmAddress()">保存</div>
+    </div>
+    <script type="text/template" id="address_tmpl">
+        <div class="moren_box" data-id='{{id}}'>
+            <div class="cart_con">
+                <table class="cart_tab">
+                    <tr>
+                        <td rowspan="2" width="40"><input class="{{checked}}" name="地址" type="radio"></td>
+                        <td>{{recipient_name}}</td>
+                        <td>{{phone}}<br>{{cert_no}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            {{is_default}}
+                            {{str_address}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="btn_edit open-services" onclick="showEditAddress('{{id}}')">编辑</div>
+            {{delete}}
+        </div>
+    </script>
+    <script type="text/javascript">
+        $('#addressList').on('click', 'input', function () {
+            $('#addressList').find('input').removeClass('checked');
+            $(this).addClass('checked');
+        });
+
+        function addressValueChange() {
+            var value = $("#addr_detail_addr").val().trim();
+            transl.config({lowercase: false});
+            if (value != null && value != "") {
+                $("#eg_addr_detail_addr").val(transl(value));
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

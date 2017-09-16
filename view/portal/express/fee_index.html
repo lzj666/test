@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+  <style media="screen">
+    .pro-label{
+      margin-right:5px;
+      font-weight: normal;
+    }
+    .fee-table{
+      width:100%;
+      table-layout: fixed;
+    }
+    .fee-table th{
+      background-color: #EDEDED;
+      border: 1px solid #D7D7D7;
+      font-weight: 400;
+      height: 25px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .fee-table tbody td{
+      text-align: center;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      padding:5px;
+    }
+    .fee-table tbody tr td:first-child{
+      border-left: 1px solid #ccc;
+    }
+    .fee-table tbody td input{
+      width:100%;
+    }
+  </style>
+</head>
+<body class="skin-black-light">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+
+              <div class="pull-left form-inline condition-area">
+                <div class="input-group">
+                  <span class="input-group-addon">名称</span>
+                  <input type="text" class="form-control"  id="search_name"  >
+                </div>
+                <button type="button" class="btn btn-default condition-area-search" onclick="search({page:1})"><i class="fa fa-search"></i> 搜索</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-primary" onclick="$.ajaxModal('/express/fee/insert')"><i class="fa fa-plus"></i> 新增</button>
+              </div>
+            </div>
+            <div id="bodyAndFooter">
+              <% include fee_table.html %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="text/template" id="fee-tr-tmpl">
+    <tr>
+      <td>
+        <input type="number" name="start" value="{{start}}" placeholder="请输入起始值" min="0" step="0.01" required>
+      </td>
+      <td>
+        <input type="number" name="end" value="{{end}}" placeholder="请输入结束值" min="0" step="0.01" required>
+      </td>
+      <td>
+        <input type="number" name="fee" value="{{fee}}" placeholder="请输入邮费" min="0" step="0.01" required>
+      </td>
+      <td>
+        <input type="number" name="remote_fee" value="{{remote_fee}}" min="0" placeholder="仅适用于偏远地区" step="0.01" required>
+      </td>
+      <td>
+        <span class="text-danger text-button" onclick="del_fee(this)">删除</span>
+        {{btn}}
+      </td>
+    </tr>
+  </script>
+  <script type="text/template" id="btn-tmplate">
+    <span class="explode">|</span><span class="text-primary text-button" onclick="add_fee(this)">添加</span>
+  </script>
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/fee.js"></script>
+</body>
+</html>

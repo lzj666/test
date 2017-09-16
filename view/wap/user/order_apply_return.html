@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>退款申请｜呦西推荐</title>
+<link rel="dns-prefetch" href="//wstatic.paduola.com">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="退款申请,日本,购物,日货,彩妆,呦西推荐" />
+<meta name="description" content="退款申请车页面，更多正品日货尽在呦西推荐" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="//wstatic.paduola.com/static/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+
+</head>
+<body>
+<div class="page-group">
+  <form method="post" id="f" onsubmit="return a();" enctype="multipart/form-data">
+
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab">
+
+        	<button class="btnsure" style="border:none">提交申请</button>
+
+        </nav>
+
+        <div class="content">
+            <div class="preferential_box">
+                <a class="button-link button-nav pull-left cart_no" href="javascript:window.history.back()">
+                  <span class="icon iconfont">&#xe611;</span>
+                </a>
+                <div class="add_tit">退款申请</div>
+            </div>
+            <%if(locals.errmsg){%>
+              <p style="text-align:center"><%=errmsg%></p>
+            <%}else{%>
+              <input type="hidden" name="order_num" value="<%=order.order_num%>" id="order_num"/>
+              <div class="cart_box">
+                  <div class="cart_con">
+                      <table class="cart_tab">
+                          <tr>
+                              <td class="pink">订单号：<%=order.order_num%></td>
+                          </tr>
+                       </table>
+                  </div>
+                  <div class="cart_con">
+                       <div class="refund_box">
+                          <table class="add_tab">
+                               <tr>
+                                  <td>是否收货</td>
+                                  <td><div class="radio"><span class="checked" id="order_state"><input type="radio" value="to_sent" name="order_state" class="vertical_middle" checked="checked" required> 未收货</span><span><input type="radio" value="has_sent" name="order_state" class="checked vertical_middle" required> 已到货</span> </div></td>
+                              </tr>
+                               <tr>
+                                  <td>联系方式</td>
+                                  <td><input type="tel" id="contact" name="contact" class="input_b" required placeholder="电话或者微信号"><span class="pink"> *</span></td>
+                              </tr>
+                               <tr>
+                                  <td>退款金额</td>
+                                  <td><input type="number" step='0.01' id="return_money" name="return_money" class="input_s" required min="0" max='<%=order.payed_money%>' value="<%=order.payed_money%>"><span class="pink"> *</span> <span class="font_6">可退款<span class="pink"><%=order.payed_money%></span>元</span></td>
+                              </tr>
+                              <tr>
+                                 <td class="pt_1">退款方式</td>
+                                 <td class="pt_1">
+                                     <select id="return_way" name="return_way" required>
+                                         <option value="alipay">支付宝（快速）</option>
+                                         <option value="wx">微信支付</option>
+                                         <option value="bank">银行转账</option>
+                                     </select>
+                                     <span class="pink"> *</span>
+                                 </td>
+                             </tr>
+                              <tr>
+                                 <td class="vertical_top">账户信息</td>
+                                 <td><textarea name="return_account" id="return_account" required></textarea>
+                                    <span class="pink"> *</span>
+                                 </td>
+                             </tr>
+                               <tr>
+                                  <td>退款原因</td>
+                                  <td>
+                                      <select name='return_reason' id="return_reason">
+                                          <option value="buy_wrong">我买错了</option>
+                                          <option value="less">少发/漏发</option>
+                                          <option value="bad_goods">商品有破损</option>
+                                          <option value="bad_helper">客服态度不好</option>
+                                          <option value="diff_goods">商品和宣传的不一样</option>
+                                          <option value="cant_use">这是什么东西不会用</option>
+                                          <option value="accident_operation">抱歉，操作错误</option>
+                                          <option value="bad_price">价格不合适</option>
+                                          <option value="others">其他</option>
+                                      </select>
+                                  </td>
+                              </tr>
+                               <tr>
+                                  <td class="vertical_top">退款说明</td>
+                                  <td><textarea name='return_desc' id="return_desc"></textarea></td>
+                              </tr>
+                               <tr>
+                                  <td>证明图片<br/><span style="font-size:12px;color:blue">(不超过1m)</span></td>
+                                  <td><input type="file" class="input_nb" name="pic_url" accept="image/*" value=""></td>
+                              </tr>
+
+                          </table>
+                       </div>
+                  </div>
+               </div>
+            <%}%>
+
+        </div>
+      </form>
+    </div>
+
+</div>
+<script src="<%=cdn_domain%>/static/js/zepto/zepto.min.js"></script>
+ <script type="text/javascript">
+  $(document).ready(function(){
+	$(".refund_box .radio span").click(function () {
+		$(this).addClass("checked").siblings().removeClass("checked");
+	})
+});
+
+function a() {
+  if ($('$return_money').val()>$('#return_money').data('max')) {
+    alert('退款金额不能超过'+$('#return_money').data('max'));
+    return false;
+  }
+
+}
+</script>
+</body>
+</html>

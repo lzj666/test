@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>搜索结果｜北海道土産探検隊</title>
+<link rel="dns-prefetch" href="<%=cdn_differ_domain%>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="全部零食,日本,购物,日货,彩妆" />
+<meta name="description" content="全部零食,日本,购物,日货,彩妆"  />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <div class="content">
+          <a href="/cmdt/shopcart/index"  style="left:5px;bottom:10px;position:fixed;background-color:rgba(200,200,200,0.5);width:35px;height:35px;padding:6px 6px;border-radius:100%;z-index:1000">
+             <span class="iconfont" style="font-size:16px"> &#xe609;</span>
+             <span class="badge" id="cartAmount" style="display:none;position:absolute;right:-7px;top:-10px;color:#fff;background-color:#95725c;;font-size:16px;padding:0.1rem 0.2rem;">0</span>
+         </a>
+          <div class="search_index">
+            <form  method="GET">
+                <a class="icon icon-left close-popup pull-left" onclick="history.back()"></a>
+                <div class="search-box">
+                  <label for="search"><i class="iconfont">&#xe60f;</i></label>
+                  <input type="search" id='search' name="k" placeholder='请输入您要搜索的商品名' required value='<%=k%>'/>
+                </div>
+                <button type="submit" class="button button-fill pull-right">
+                  搜索
+                </button>
+            </form>
+          </div>
+            <div class="infinite-scroll pd0" >
+              <div id="cmdt_container">
+                <!--start listcon-->
+                <%data.forEach(function(item){%>
+                  <div class="listcon">
+                    <div class="list_con">
+                      <div class="shop_left" onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.id%>'">
+                        <img class="lazy-load" src="<%=cdn_domain%>/static/images/lazyload_gray.png" data-url="<%=cdn_domain%><%=item.pic_url%>" alt="">
+                        <%if(item.available==0){%>
+                          <i class="sold_out">已售罄</i>
+                        <%}%>
+                      </div>
+                      <div class="shop_right" onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.id%>'">
+                          <div class="shop_til" ><%=item.cmdt_name%>&nbsp;<%=item.name%></div>
+                          <div class="shop_price fl_l" style="padding:0.1rem 0 0 0;"><%=item.price%>
+                              <span class="font_6">円</span>
+                              <span class="pink01">（约 <%=item.rmb_price%>RMB）</span>
+                          </div>
+                          <%if(item.is_baoyou){%>
+                          <div class="category bg_pink">包邮</div>
+                          <%}%>
+                          <%if(item.available>0){%>
+                            <a href="javascript:;" onclick="bindAddCart(this)" class="cart_btn" data-stock='<%=item.available%>' data-skuid='<%=item.id%>' data-cmdtid='<%=item.cmdt_id%>'>
+                                + 购物车
+                            </a>
+                          <%}%>
+                      </div>
+                      </div>
+                  </div>
+                <%})%>
+              </div>
+
+
+                <%if(data&&data.length>0){%>
+                  <!--start 加载提示符 -->
+                  <div class="infinite-scroll-preloader">
+                    <div class="preloader">加载更多 ...</span>
+                    </div>
+                  </div>
+                  <!--end 加载提示符 -->
+                  <!--start 加载提示符 -->
+                  <div id="no_more" style="display:none;text-align:center;font-size:14px;color:gray;margin:5px auto">
+                    <div >没有更多商品了</span>
+                    </div>
+                  </div>
+                  <!--end 加载提示符 -->
+                <%}else{%>
+                  <div  style="text-align:center;font-size:14px;color:gray;margin:15px auto">
+                    <div >没找到你要的商品，换个关键词试试吧</span>
+                    </div>
+                  </div>
+                <%}%>
+
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:pagetop()" id="go-to-top">
+    <span class="icon icon-up"></span><br>
+    TOP
+</a>
+<script type="text/template" id="cmdt_tmpl">
+  <div class="listcon">
+    <div class="list_con">
+      <div class="shop_left" onclick="location='/cmdt/detail/index?cmdt_id={{cmdt_id}}&sku_id={{id}}'">
+        <img src="<%=cdn_domain%>{{pic_url}}" alt="">
+        {{^available}}
+          <i class="sold_out">已售罄</i>
+        {{/available}}
+      </div>
+      <div class="shop_right" onclick="location='/cmdt/detail/index?cmdt_id={{cmdt_id}}&sku_id={{id}}'">
+          <div class="shop_til" >{{name}}</div>
+          <div class="shop_price fl_l" style="padding:0.1rem 0 0 0;">{{price}}
+              <span class="font_6">円</span>
+              <span class="pink01">（约 {{rmb_price}}RMB）</span>
+          </div>
+          {{#is_baoyou}}
+          <div class="category bg_pink">包邮</div>
+          {{/is_baoyou}}
+          {{#available}}
+          <a href="javascript:;" onclick="bindAddCart(this)" class="cart_btn" data-stock='{{available}}' data-skuid='{{id}}' data-cmdtid='{{cmdt_id}}' >
+              + 购物车
+          </a>
+          {{/available}}
+      </div>
+      </div>
+  </div>
+</script>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/shop/search.js?v=4' charset='utf-8'></script>
+<script type="text/javascript">
+$('.lazy-load').imglazyload({
+            container: '.content',
+            innerScroll: true,
+            threshold:300
+        });
+</script>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/mustache/mustache.min.js' charset='utf-8'></script>
+</body>
+</html>

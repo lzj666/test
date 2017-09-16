@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>地址管理｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <% var nav_active_index='index';%>
+    <% include ../index_nav.html%>
+    <div class="list_box" onClick="window.location.href='/user/address/add'">
+        <div class="list_til"><span class="iconfont">&#xe62f;</span> 新增收货地址</div>
+    </div>
+    <div class="my_con">
+        <div class="no_info" onClick="window.location.href='/user/address/add/pay'">
+            <span class="iconfont">&#xe64d;</span><br>
+            <span>还没有收货地址<br>请添加</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

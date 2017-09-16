@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的</title>
+    <link rel="dns-prefetch" href="">
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆" />
+    <meta name="description" content="札幌药妆" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link rel="shortcut icon " href="<%=cdn_differ_domain%>/static/img/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <%var nav_active_index='me';%>
+    <%include ../index_nav.html%>
+    <!--start content-->
+    <div class="content">
+        <div class="my_box">
+            <!--start my header-->
+            <div class="my_header">
+                <p><img src="<%=user.headimgurl==null||user.headimgurl.length==0?cdn_domain+'/static/images/lazyload_gray.png':user.headimgurl%>"></p>
+                <p>札幌药妆小粉丝</p>
+            </div>
+            <!--end my header-->
+            <!--start buttons-tab-->
+            <div class="buttons-tab">
+                <a href="/user/order/unpayment">
+                    <span class="iconfont">&#xe628;</span>
+                    <span class="tab-label">待付款</span>
+                </a>
+                <a href="/user/order/tosent">
+                    <span class="iconfont">&#xe647;</span>
+                    <span class="tab-label">待发货</span>
+                </a>
+                <a href="/user/order/hassent">
+                    <span class="iconfont">&#xe64c;</span>
+                    <span class="tab-label">已发货</span>
+                </a>
+                <a href="/user/order/returned">
+                    <span class="iconfont">&#xe651;</span>
+                    <span class="tab-label">退款单</span>
+                </a>
+            </div>
+            <!--end buttons-tab-->
+            <!--start my content-->
+            <div class="my_con">
+                 <div class="my_list">
+                    <ul>
+                        <a href="/user/favorite/index"><li class="start">收藏宝贝</li></a>
+                    </ul>
+                </div>
+             	<div class="my_list">
+                    <ul>
+                        <a href="/user/address/index"><li class="add">地址管理</li></a>
+                    </ul>
+                </div>
+             	<div class="my_list">
+                    <ul>
+                        <a href="/index/helper.html"><li class="helper">联系客服</li></a>
+                    </ul>
+                </div>
+            </div>
+            <!--end my content-->
+        </div>
+    </div>
+    <!--end content-->
+</div>
+</body>
+</html>

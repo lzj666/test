@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%=shop.name%></title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <style type='text/css'>
+        * {
+            font-family: '黑体'
+        }
+
+        .h-center {
+            text-align: center;
+        }
+
+        .container {
+            width: 980px;
+            margin: auto;
+        }
+
+        .t1 {
+            width: 100%;
+            text-align: left;
+            font-size: 18px;
+        }
+
+        .cmdt-table {
+            font-size: 22px;
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        .cmdt-table td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .cmdt-table th {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .p-info {
+            line-height: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1 class="h-center"><%=shop.name%>发货单</h1>
+    <br>
+    <table class="t1">
+        <tr>
+            <td style="width:9%">
+                收件人:
+            </td>
+            <td style="width:35%">
+                <%=deliver.recipient_name%>
+            </td>
+            <td style="width:6%">
+                电话:
+            </td>
+            <td style="width:30%">
+                <%=deliver.phone%>
+            </td>
+            <td style="text-align:right;width:20%">
+                <%=today%>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                客户地址:
+            </td>
+            <td colspan="4">
+                <%=deliver.str_address%>
+            </td>
+        </tr>
+    </table>
+    <%order.forEach(function(item){%>
+    <h3>订单号：<%=item.order_num%></h3>
+    <%if(item.desc&&item.desc.length>0){%>
+    <h4>客服备注：<%=item.desc%></h4>
+    <%}%>
+    <%if(item.customerdesc&&item.customerdesc.length>0){%>
+    <h3>用户备注：<%=item.customerdesc%></h3>
+    <%}%>
+    <table class="cmdt-table">
+        <thead>
+        <tr>
+            <th>
+                商品编码
+            </th>
+            <th>
+                商品名
+            </th>
+            <th>
+                数量
+            </th>
+            <th>
+                单价
+            </th>
+            <th>
+                金额
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <%item.cmdts.forEach(function(cmdt){%>
+        <tr>
+            <td>
+                <%=cmdt.bar_code%>
+            </td>
+            <td>
+                <%=cmdt.cmdt_name%> <%=cmdt.name%>
+            </td>
+            <td>
+                <b><%=cmdt.amount%></b>
+            </td>
+            <td>
+                <%=cmdt.single_price%>
+            </td>
+            <td>
+                <%=cmdt.total%>
+            </td>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+    <%})%>
+    <br/>
+    <br/>
+
+    <%if(shop.sub_domain=="m"){%>
+    <p class="p-info">
+        <%=shop.name%>
+        <span style="float: right;"> 总金额：<%=order_info.sum_money%></span>
+    </p>
+    <p class="p-info">
+        微信ID：&nbsp;&nbsp;nihontj
+        <span style="float: right;">优惠金额：<%=order_info.sale_money%></span>
+    </p>
+    <%}else if(shop.sub_domain=="bhd"){%>
+    <p class="p-info">
+        <%=shop.name%>
+    </p>
+    <p class="p-info">
+        +81-123-24-0003
+        <span style="float: right;"> 总金额：<%=order_info.sum_money%></span>
+    </p>
+
+    <p class="p-info">
+        066-0043 北海道千歳市朝日町8丁目1206　小笠原商店通販部
+        <span style="float: right;">优惠金额：<%=order_info.discount%></span>
+    </p>
+    <%}%>
+    <p class="p-info">
+        <i>感谢您对<%=shop.name%>的支持！有任何问题随时联系客服。</i>
+        <span style="float: right;">实际金额： <%=order_info.payed_money%></span>
+    </p>
+
+</div>
+<script type="text/javascript">
+    window.print();
+</script>
+</body>
+
+</html>

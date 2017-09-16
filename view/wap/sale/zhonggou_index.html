@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>福利购</title>
+  <link rel="dns-prefetch" href="">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="日本,购物,日货,彩妆" />
+  <meta name="description" content="呦西推荐" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm-extend.min.css" />
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/shop/shop.css">
+</head>
+
+<body>
+  <div class="page-group">
+    <div class="page page-current">
+      <nav class="bar bar-tab">
+        <a class="tab-item" href="/">
+          <span class="icon iconfont">&#xe602;</span>
+          <span class="tab-label">首页</span>
+        </a>
+        <a class="tab-item active" href="/sale/zhonggou/index">
+          <span class="icon iconfont">&#xe658;</span>
+          <span class="tab-label">福利购</span>
+        </a>
+      </nav>
+      <div class="content">
+        <div class="one_til">
+          <i class="icon icon-left fl_l pink" onclick="history.back()">返回</i>
+        </div>
+        <div class="swiper-container" data-space-between='10'>
+            <div class="swiper-wrapper">
+                  <div class="swiper-slide"> <img src="<%=cdn_domain%>/static/uimg/be15fd48959f43afbe1be1d77d474b9c.jpg"> </div>
+                  <div class="swiper-slide"> <img src="<%=cdn_domain%>/static/uimg/1d81a7a9c6ee4a658bdbf48949887dd8.jpg"> </div>
+            </div>
+       </div>
+        <!--start 参与记录-->
+        <div class="crowdfunding_box">
+          <p class="pink font_8">参与记录</p>
+          <div class="crowdfunding_active">
+          <%buys.forEach(function(item){%>
+            <p><%=item.nick_name%> <span class="pink">于<%=item.createdat%> 购买</span><%=item.shangpin_name%> <span class="pink">1人次</span></p>
+          <%})%>
+          </div>
+        </div>
+        <!--end 参与记录-->
+        <!--start 商品-->
+        <%zhonggou.forEach(function(item){%>
+          <div class='cart_box'>
+            <div class="cart_con">
+              <table class="cart_tab">
+                <tr>
+                  <td width="30%" rowspan="3">
+                    <a href="#"><div class="shop_img"><img src="<%=cdn_domain%><%=item.pic_url%>" ></div>
+                    </a></td>
+                    <td><a href="#"><p class="shop_til"><%=item.shangpin_name%></p></a></td>
+                  </tr>
+                  <tr>
+                    <td><span class="fl_l">期号:第<%=item.now_turn%>期</span><span class="fl_r">抽奖金额:<%=item.price%>元/次</span>
+                      <p class="progress" ><span style="width:<%=parseInt(item.now_people_amount*1.0/item.total_people_amount*100)%>%"></span></p>
+                    </td>
+
+                  </tr>
+                  <tr>
+                    <td><span>已参与:<%=item.now_people_amount%>/<%=item.total_people_amount%>人</span></td>
+                  </tr>
+                </table>
+              </div>
+              <div class="btn_box">
+                <button class="btn_grab" onClick="location.href='/sale/zhonggou/detail?id=<%=item.id%>'">立即夺宝</button>
+                <button class="btn_win"  onClick="location.href='/sale/zhonggou/win?id=<%=item.id%>'">中奖名单</button>
+              </div>
+            </div>
+        <%})%>
+          <!--end 商品-->
+          <!--start 规则-->
+          <div class="crowdfunding_box">
+            <p class="pink font_8">福利购规则</p>
+            <ul>
+              <li>支付0.1元即可参加福利购活动，集满参与人数开奖1次，每次中奖名额为1人；</li>
+              <li>活动人数集满后自动开奖，奖品将按顺序发货；</li>
+              <li>本次活动期间，每个微信号每种“福利购”商品只能购买一次；</li>
+              <li>未中奖用户，所拍金额不返还。</li>
+              <ul>
+              </div>
+              <!--end 规则-->
+            </div>
+          </div>
+          <a href="javascript:pagetop()" id="go-to-top">
+            <span class="iconfont">&#xe614;</span><br>
+            TOP
+          </a>
+        </div>
+        <script type='text/javascript' src="<%=cdn_domain%>/static/js/zepto/zepto.min.js" charset='utf-8'></script>
+        <script type='text/javascript' src='<%=cdn_domain%>/static/js/sm/sm-index-page.min.js' charset='utf-8'></script>
+        <script type="text/javascript">
+            $(".swiper-container").swiper({autoplay:3000});
+         </script>
+      </body>
+      </html>

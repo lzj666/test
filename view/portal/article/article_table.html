@@ -1,0 +1,48 @@
+<div class="box-body">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr data-order="<%=articles%>">
+            <th>分类</th>
+            <th>标题</th>
+            <th style="text-align: center">精彩段落</th>
+            <th>作者</th>
+            <th>作者别名</th>
+            <th>创建日期</th>
+            <th>标签</th>
+            <th>图片</th>
+            <th>已删除</th>
+            <th>浏览</th>
+            <th>点赞</th>
+            <th>收藏</th>
+            <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%articles.forEach(function(item){%>
+        <tr>
+            <td><%=item.article_category_name%></td>
+            <td><%=item.title%></td>
+            <td style="text-align: center"><a class="fa fa-eye" href="javascript:detail('<%=item.perfect_part%>')"></a></td>
+            <td><%=item.auther_name%></td>
+            <td><%=item.show_auther_name%></td>
+            <td><%=item.createdat%></td>
+            <td><%=item.tags%></td>
+            <td><img src="<%=cdn_domain%><%=item.pic_url%>" class="brand-img"/></td>
+            <td><%=item.deleted%></td>
+            <td><%=item.view_num%></td>
+            <td><%=item.like_num%></td>
+            <td><%=item.collect_num%></td>
+            <td style="text-align: center"><a href="javascript:modify('<%=item.id%>')">修改</a>&nbsp;|
+                <a href="javascript:ajax.load('/article/article/intro?article_id=<%=item.id%>','#cmdt_html','#cmdt_pro_html')">编辑内容</a>
+            </td>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

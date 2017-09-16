@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+  <style media="screen">
+    .inline-box{
+      border:1px solid #d2d6de;
+      background-color: #d2d6de;
+      margin: 3px;
+      display: inline-block;
+    }
+    .inline-box .name{
+      border-right: 1px solid #d2d6de;
+      display: inline-block;
+      padding: 5px;
+    }
+    .inline-box .op{
+      background-color: #fff;
+      display: inline-block;
+      padding: 5px;
+      padding-left: :0px;
+    }
+  </style>
+</head>
+<body class="skin-black-light">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <div class="pull-left form-inline condition-area">
+                <input type="text" class="form-control"  id="search_name" placeholder="名称" >
+                <button type="button" class="btn btn-default condition-area-search" onclick="search({page:1})"><i class="fa fa-search"></i> 搜索</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-primary" onclick="$.ajaxModal('/cmdt/category/insert')"><i class="fa fa-plus"></i> 新增</button>
+              </div>
+            </div>
+            <div id="bodyAndFooter">
+              <% include category_table.html %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+  <script type="text/javascript">
+  function search(param){
+    var name=$("#search_name").val().trim();
+    if(name&&name.length>0){
+      ajax.addParam({name:name});
+    }else{
+      ajax.removeParam('name');
+    }
+    if(param && typeof param=='object'){
+      ajax.addParam(param);
+    }
+
+    ajax.refresh(bindImgZoom);
+  }
+  function bindImgZoom(){
+    ajax.order();
+    $('.brand-img').imgZoom();
+  }
+  function add_prpt_popover(){
+    var txt=$("#add_prpt_text").val().trim();
+    if(txt.length==0){
+      alert('请填写属性名');
+      return;
+    }
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{name:txt,id:category_prpt_id,action:"add"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+
+  function change_prpt_editable(item_id,_this){
+    var category_prdt_id=$("#category_prpt_id").val();
+    var editable=$(_this).val();
+  }
+
+  function modify_prpt(v,_this){
+    var txt=$(_this).parent().siblings('input:eq(0)').val().trim();
+    var is_editable=$(_this).parent().siblings('input:eq(1)').is(':checked');
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{name:txt,is_editable:is_editable,id:v,action:"modify"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function del_prpt(v){
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{id:v,action:"delete"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function add_prpt_value(v,_this){
+    var txt=$(_this).siblings('input').val().trim();
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{name:txt,id:v,action:"add_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function modify_prpt_value(v,_this){
+    var txt=$(_this).parent().siblings('input').val().trim();
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{name:txt,id:v,action:"modify_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function del_prpt_value(v){
+    var category_prpt_id=$("#category_prpt_id").val();
+    $.post("/cmdt/category/prpt",{id:v,action:"delete_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/prpt",{id:category_prpt_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+
+  function add_spec_popover(){
+    var txt=$("#add_spec_text").val().trim();
+    if(txt.length==0){
+      alert('请填写属性名');
+      return;
+    }
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{name:txt,id:category_spec_id,action:"add"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+
+  function modify_spec(v,_this){
+    var txt=$(_this).parent().siblings('input').val().trim();
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{name:txt,id:v,action:"modify"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function del_spec(v){
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{id:v,action:"delete"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function add_spec_value(v,_this){
+    var txt=$(_this).siblings('input').val().trim();
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{name:txt,id:v,action:"add_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function modify_spec_value(v,_this){
+    var txt=$(_this).parent().siblings('input').val().trim();
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{name:txt,id:v,action:"modify_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+  function del_spec_value(v){
+    var category_spec_id=$("#category_spec_id").val();
+    $.post("/cmdt/category/spec",{id:v,action:"delete_value"},function(r){
+      if(r.errno){
+        $(".notifications").notify({
+          type:'danger',
+          message:{text:'操作失败 '+r.errmsg}
+        }).show();
+      }else{
+        $(".notifications").notify({
+          message:{text:'操作成功'}
+        }).show();
+      }
+      $.get("/cmdt/category/spec",{id:category_spec_id},function(r){
+        $.getModal().html(r);
+      },'html');
+    },'json');
+  }
+
+  var ajax;
+  $(function(){
+    ajax=$.Reed.router.ajax();
+    ajax.init('/cmdt/category/table','#bodyAndFooter');
+    $('.brand-img').imgZoom();
+  });
+  </script>
+</body>
+</html>

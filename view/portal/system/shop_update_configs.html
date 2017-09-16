@@ -1,0 +1,247 @@
+<div class="modal-dialog" style="width: 900px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="search()"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">修改店铺配置</h4>
+        </div>
+        <input type="hidden" id="configs"  value="<%=JSON.stringify(configs)%>" >
+        <script>
+            function changePayType() {
+                var payType = $("#pay_type").val();
+                var configs = JSON.parse($("#configs").val());
+                console.log(configs);
+                if (payType == "WePay") {
+                    $(".StarPay").remove();
+                    $("#pay_type_tr").after(
+                            '<tr class="WePay">' +
+                            '<td><label>商户秘钥</label> <br> ' +
+                            '<input type="text" class="form-control" name="wepay_partnerKey" value="'+configs.wepay_partnerKey+'" placeholder="必填"required></td>' +
+                            '<td><label>支付回调Url</label>' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_notify_url" value="'+configs.wepay_notify_url+'" placeholder="必填"required></td>' +
+                            '<td><label>商户号</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_partner" value="'+configs.wepay_partner+'" placeholder="必填"required></td>' +
+                            '</tr>' +
+                            '<tr class="WePay">' +
+                            '<td><label>证书路径</label>' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_certPath" value="'+configs.wepay_certPath+'" placeholder="必填"required></td> ' +
+                            '<td><label>证书密码</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_certPwd" value="'+configs.wepay_certPwd+'" placeholder="必填"required></td> ' +
+                            '<td><label>财付通密码</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_TenpayPwd" value="'+configs.wepay_TenpayPwd+'" placeholder="必填"required></td> ' +
+                            '</tr> ' +
+                            '<tr class="WePay"> ' +
+                            '<td><label>币种</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_fee_type" value="'+configs.wepay_fee_type+'" placeholder="默认(CNY)"> </td> ' +
+                            '<td><label>银行种类</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_bank_type" value="'+configs.wepay_bank_type+'" placeholder="默认(WX)"> ' +
+                            '</td> ' +
+                            '<td><label>编码格式</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_input_charset" value="'+configs.wepay_input_charset+'" placeholder="默认(UTF-8)"></td> ' +
+                            '</tr>'
+                    );
+                    if(configs.pay_type!="WePay"){
+                        $(".WePay input").val("");
+                    }
+                } else if (payType == "StarPay") {
+                    $(".WePay").remove();
+                    $("#pay_type_tr").after(
+                            '<tr class="StarPay"> ' +
+                            '<td><label>商户merch_id</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_merch_id" value="'+configs.starpay_merch_id+'" placeholder="必填"required></td> ' +
+                            '<td><label>sign_key</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_sign_key" value="'+configs.starpay_sign_key+'" placeholder="必填"required></td> ' +
+                            '<td><label>银行种类</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_bank_type" value="'+configs.starpay_bank_type+'" placeholder="默认(WX)"></td> ' +
+                            '</tr> ' +
+                            '<tr class="StarPay"> ' +
+                            '<td><label>币种</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="starpay_fee_type" value="'+configs.starpay_fee_type+'" placeholder="默认(CNY)"></td> ' +
+                            '<td><label>支付回调Url</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="starpay_notify_url" value="'+configs.starpay_notify_url+'" placeholder="必填"required></td> ' +
+                            '</tr>'
+                    );
+                    if(configs.pay_type!="StarPay"){
+                        $(".StarPay input").val("");
+                    }
+                }
+            }
+        </script>
+        <form role="form" method="post" action="/system/shop/update_configs"
+              onsubmit="return ajax.submit(this,__hideAndSearch)">
+            <input type="hidden" id="shop_id" name="shop_id" value="<%=configs.shop_id%>">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="border-right:1px solid #eee">
+                        <table class="store_tab">
+                            <tr>
+                                <th class="ml_10 store_til btn">七牛</th>
+                            </tr>
+                            <tr>
+                                <td><label>AccessKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_ak"
+                                           value="<%=configs.qiniu_ak%>" required></td>
+                                <td><label>SecretKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_sk"
+                                           value="<%=configs.qiniu_sk%>" required></td>
+                                <td><label>静态文件域名前缀</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="cdn_domain_prefix"
+                                           value="<%=configs.cdn_domain_prefix%>" placeholder="默认(空字符串)"></td>
+                            </tr>
+                            <tr>
+                                <td><label>上传空间名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_bucket"
+                                           value="<%=configs.qiniu_bucket%>" required></td>
+                                <td><label>Js、CSS、系统图片、文件获取域名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_cdn_domain"
+                                           value="<%=configs.qiniu_cdn_domain%>" placeholder="必填" required></td>
+                            </tr>
+
+                            <tr>
+                                <td><label>要区分的上传空间名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_differ_bucket"
+                                           value="<%=configs.qiniu_differ_bucket%>" required></td>
+                                <td><label>要区分的域名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_differ_cdn_domain" placeholder="必填"
+                                           value="<%=configs.qiniu_differ_cdn_domain%>" required></td>
+                            </tr>
+                            <tr>
+                                <th class="ml_10 mt_10 store_til btn">微信服务号</th>
+                            </tr>
+                            <tr>
+                                <td><label>appid</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appid"
+                                           value="<%=configs.wechat_appid%>" required></td>
+                                <td><label>app秘钥</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appsecret"
+                                           value="<%=configs.wechat_appsecret%>" required></td>
+                                <td><label>获取baseTokenUrl</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_get_basetoken_url"
+                                           value="<%=configs.wechat_get_basetoken_url%>" required></td>
+                            </tr>
+                            <tr>
+                                <td><label>appKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appKey"
+                                           value="<%=configs.wechat_appKey%>" required></td>
+                                <td><label>跳转Url</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_jump_code_url"
+                                           value="<%=configs.wechat_jump_code_url%>" required></td>
+                            </tr>
+
+                            <tr id="pay_type_tr">
+                                <th class="pt-10">
+                                    <select id="pay_type" name="pay_type" class="btn btn-default"
+                                            onchange="changePayType();">
+                                        <option value="WePay"
+                                        <%=configs.pay_type=="WePay"?"selected":""%>>WePay</option>
+                                        <option value="StarPay"
+                                        <%=configs.pay_type=="StarPay"?"selected":""%>>StarPay</option>
+                                    </select>
+                                </th>
+                            </tr>
+
+                            <%if(configs.pay_type=="WePay"){%>
+                            <tr class="WePay">
+                                <td><label>商户秘钥</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_partnerKey"
+                                           value="<%=configs.wepay_partnerKey%>" required></td>
+                                <td><label>支付回调Url</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_notify_url"
+                                           value="<%=configs.wepay_notify_url%>" required></td>
+                                <td><label>商户号</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_partner"
+                                           value="<%=configs.wepay_partner%>" required></td>
+                            </tr>
+
+                            <tr class="WePay">
+                                <td><label>证书路径</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_certPath"
+                                           value="<%=configs.wepay_certPath%>" required></td>
+                                <td><label>证书密码</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_certPwd"
+                                           value="<%=configs.wepay_certPwd%>" required></td>
+                                <td><label>财付通密码</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_TenpayPwd"
+                                           value="<%=configs.wepay_TenpayPwd%>" required></td>
+                            </tr>
+                            <tr class="WePay">
+                                <td><label>币种</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_fee_type"
+                                           value="<%=configs.wepay_fee_type%>"></td>
+                                <td><label>银行种类</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_bank_type"
+                                           value="<%=configs.wepay_bank_type%>"></td>
+                                <td><label>编码格式</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_input_charset"
+                                           value="<%=configs.wepay_input_charset%>"></td>
+                            </tr>
+                            <%}else if(configs.pay_type=="StarPay"){%>
+                            <tr class="StarPay">
+                                <td><label>商户merch_id</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="starpay_merch_id" placeholder="必填"
+                                           value="<%=configs.starpay_merch_id%>" required></td>
+                                <td><label>sign_key</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="starpay_sign_key" placeholder="必填"
+                                           value="<%=configs.starpay_sign_key%>" required></td>
+                                <td><label>银行种类</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="starpay_bank_type"
+                                           value="<%=configs.starpay_bank_type%>" placeholder="默认(WX)"></td>
+                            </tr>
+                            <tr class="StarPay">
+                                <td><label>币种</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="starpay_fee_type"
+                                           value="<%=configs.starpay_fee_type%>" placeholder="默认(CNY)"></td>
+                                <td><label>支付回调Url</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="starpay_notify_url"
+                                           value="<%=configs.starpay_notify_url%>"  placeholder="必填" required></td>
+                            </tr>
+                            <%}%>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">提交</button>
+            </div>
+        </form>
+    </div>
+</div>

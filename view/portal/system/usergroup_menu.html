@@ -1,0 +1,47 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">调整可访问的菜单</h4>
+    </div>
+    <form role="form" method="post" action="/system/usergroup/menu" onsubmit="return ajax.submit(this,__hide)">
+      <input type="hidden" name="id" value="<%=id%>">
+      <div class="modal-body">
+        <% var suffix=Math.floor(Math.random()*10000) %>
+        <div>
+          <!--条件区域-->
+          <div class="form-inline">
+            <div class="input-group">
+              <span class="input-group-addon">名称</span>
+              <input type="text" class="form-control input-sm"  id="__menu_name<%=suffix%>">
+            </div>
+
+            <input class="btn btn-default btn-sm" type="button" value="搜索" onclick="searchMenu('<%=suffix%>',1,'<%=id%>')">
+          </div>
+          <!--图片容器-->
+          <div class="imgselect-imgwraper" id="__menu_wraper<%=suffix%>">
+            <p style="margin-top:20px;text-align:center;color:darkgray">请搜索菜单</p>
+          </div>
+
+          <!--分页区-->
+          <div class="imgselect-paginationwraper pull-right">
+              <nav >
+                <ul class="pagination pagination-sm" id="__menu_paginationul<%=suffix%>">
+
+                </ul>
+              </nav>
+
+          </div>
+          <br>
+          <script type="text/javascript">
+            searchMenu('<%=suffix%>',1,'<%=id%>');
+          </script>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

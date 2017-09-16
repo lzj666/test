@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.css" rel="stylesheet">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+    <style media="screen">
+        .cmdt-table {
+            width: 100%;
+            margin: 0px;
+            border: 1px solid darkgreen;
+            border-collapse: collapse;
+        }
+
+        .cmdt-table td {
+            text-align: left;
+            border: 1px solid darkgreen;
+        }
+    </style>
+    <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body class="skin-green fixed">
+<div class='notifications top-right'></div>
+<div class="content-container">
+    <section class="content">
+
+        <div class="box">
+            <div class="box-header">
+                <div class="pull-left form-inline">
+                    <div class="input-group">
+                        <span class="input-group-addon">收件人</span>
+                        <input type="text" class="form-control" id="recipient_name" placeholder="收件人"
+                               style="width: 100px">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">订单编号</span>
+                        <input type="text" class="form-control" id="order_num" placeholder="订单编号">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">SKU名称</span>
+                        <input type="text" class="form-control" id="search_sku_name" placeholder="SKU名称">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">SKU条码</span>
+                        <input type="text" class="form-control" id="search_sku_bar_code" placeholder="SKU条码">
+                    </div>
+                    <button type="button" class="btn btn-default" onclick="search({page:1})"><i
+                            class="fa fa-search"></i> 搜索
+                    </button>
+                </div>
+            </div>
+            <div id="bodyAndFooter">
+                <%include ./sent_table.html%>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal" role="dialog" id="modal" tabindex="-1"></div>
+
+
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<!--<script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
+<!--<script src="<%=cdn_domain%>/static/js/app/app.js"></script>-->
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script type="text/javascript">
+    function search(param) {
+        var recipient_name = $("#recipient_name").val().trim();
+        if (recipient_name && recipient_name.length > 0) {
+            ajax.addParam({recipient_name: recipient_name});
+        } else {
+            ajax.removeParam('recipient_name');
+        }
+
+        var order_num = $("#order_num").val().trim();
+        if (order_num && order_num.length > 0) {
+            ajax.addParam({order_num: order_num});
+        } else {
+            ajax.removeParam('order_num');
+        }
+
+        var search_sku_name = $("#search_sku_name").val().trim();
+        if (search_sku_name && search_sku_name.length > 0) {
+            ajax.addParam({sku_name: search_sku_name});
+        } else {
+            ajax.removeParam('sku_name');
+        }
+
+        var search_sku_bar_code = $("#search_sku_bar_code").val().trim();
+        if (search_sku_bar_code && search_sku_bar_code.length > 0) {
+            ajax.addParam({bar_code: search_sku_bar_code});
+        } else {
+            ajax.removeParam('bar_code');
+        }
+
+        var page = $("#__pagination_page_index").val() || $(".pagination > li.current").data("id");
+        console.log(page);
+        if (page) {
+            ajax.addParam({page: page});
+        }
+        if (param && typeof param == 'object') {
+            ajax.addParam(param);
+        }
+        ajax.refresh(bindImgZoom);
+    }
+    //    function order(_this) {
+    //        var field = $(_this).data("field");
+    //        if (field && field.length > 0) {
+    //            var span = $(_this).find("span.order");
+    //            if (span.hasClass("fa-sort-desc")) {
+    //                search({order: field + " asc"});
+    //            } else {
+    //                search({order: field + " desc"});
+    //            }
+    //        }
+    //    }
+
+    function change(v) {
+        $.get("/order/sent/print", {id: v}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+    function change_note(v) {
+        $.get("/order/sent/change_note", {id: v}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+    function print_fhd(order_id) {
+        window.open('/order/payed/print_fhd?id=' + order_id);
+        return false;
+    }
+    function print_wld(order_id) {
+        window.open('/order/payed/print_wld?id=' + order_id);
+        return false;
+    }
+    function fill(id) {
+        var express_id = $("#express_id").val();
+        var express_no = $("#express_no").val();
+        if (express_no.length == 0) {
+            alert('请填写快递单号');
+            return;
+        }
+        $.post("/order/payed/fill", {
+            id: id,
+            express_id: express_id,
+            express_no: express_no,
+        }, function (r) {
+            if (r.errno) {
+                $(".notifications").notify({
+                    type: 'danger',
+                    message: {text: '失败：' + r.errmsg}
+                }).show();
+                return;
+            }
+            $(".notifications").notify({
+                message: {text: '填单成功'}
+            }).show();
+        }, 'json');
+    }
+
+//    function announce_change(id) {
+//        $.post("/order/sent/announce_change", {id: id}, function (r) {
+//            if (r.errno) {
+//                $(".notifications").notify({
+//                    type: 'danger',
+//                    message: {text: '失败：' + r.errmsg}
+//                }).show();
+//                return;
+//            }
+//            $(".notifications").notify({
+//                message: {text: '通知成功'}
+//            }).show();
+//        }, 'json');
+//    }
+
+    function bindImgZoom() {
+        // ajax.order();
+        $('.brand-img').imgZoom();
+    }
+    var ajax;
+    $(function () {
+        ajax = $.Reed.router.ajax();
+        ajax.init('/order/sent/table', '#bodyAndFooter');
+        $('.brand-img').imgZoom();
+    });
+</script>
+</body>
+
+</html>

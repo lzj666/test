@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>购物车｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<script type="text/javascript">
+    var exchange_rate =<%= exchange_rate%>;
+</script>
+<body>
+<input type="hidden" name="id" id="id" value="<%=cart_id%>">
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab">
+            <div class="select sele_check" id="selectAll"><input type="checkbox" name="controlAll">全选</div>
+            <button class="tab-item external sale_btn" id="payNow">去结算</button>
+            <div class="total">
+                <span class="pink">合计</span>
+                <div class="price" id="totalPrice">
+                    <span class="font_8"><%=total%></span><span class="font_6">円</span>
+                </div>
+                <div class="pink01" id="totalRMBPrice">(约<%=total_rmb%>RMB)</div>
+            </div>
+        </nav>
+        <div class="content">
+
+            <div class="cart_box" id="china">
+                <div class="cart_til">
+                    <div class="select selectwarhouse">
+                        <div class="sele_check"><input type="checkbox" value="北海道小笠原商店通贩部仓库发货" name="selected"></div>
+                        <!--<span class="icon iconfont font_7">&#xe678;</span>-->
+                        全选
+                    </div>
+                </div>
+                <%details.forEach(function(item){%>
+                <div class="cart_con cmdt_container" data-id="<%=item.cart_detail_id%>"
+                     data-ptid="<%=item.postage_template_id%>">
+                    <table class="cart_tab">
+                        <tr>
+                            <td width="20" rowspan="5">
+                                <div class="car_select"><input type="checkbox" name="selected"
+                                                               data-id="<%=item.cart_detail_id%>"
+                                                               class="single_check<%=item.checked?' checked':''%>">
+                                </div>
+                            </td>
+                            <td width="30%" rowspan="5">
+                                <div class="shop_img">
+                                    <img src="<%=cdn_differ_domain%><%=item.sku_pic_url%>" alt="<%=item.sku_name%>"
+                                         onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.sku_id%>'"/>
+                                    <%if(item.available==0){%>
+                                    <i class="sold_out">已售罄</i>
+                                    <%}%>
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div class="shop_til"
+                                     onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.sku_id%>'">
+                                    <%=item.cdmt_name%>&nbsp;<%=item.sku_name%>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="shop_grey">数量</td>
+                            <td colspan="2">
+                                <div class="shop_number">
+                                    <span class="icon iconfont sy_minus_gid">&#xe627;</span>
+                                    <div class="number"><input class="sy_num" id="sy_num_gid1" type="text"
+                                                               name="number1" value="<%=item.amount%>" data-min="1"
+                                                               data-max="<%=item.available%>"/></div>
+                                    <span class="icon iconfont sy_plus_gid">&#xe836;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                        <!--<td class="shop_grey">库存:</td>-->
+                        <!--<td colspan="2"><%=item.available%>件</td>-->
+                        <!--</tr>-->
+                        <tr>
+                            <td class="shop_grey">价格</td>
+                            <td>
+                                <div class="price pink">
+                                    <span class="font_8"><%=item.price%></span><span class="font_6">円</span><br/>
+                                    <span class="pink01">(约<%=item.rmb_price%>RMB)</span>
+                                </div>
+                            </td>
+                            <td class="text_r"><span class="dele shop_grey icon iconfont">&#xe65f;</span></td>
+                        </tr>
+                    </table>
+                </div>
+                <%})%>
+
+            </div>
+
+            <!--end cart con-->
+        </div>
+
+    </div>
+</div>
+
+    <%include ../common_js_recource.html%>
+    <script src="<%=cdn_differ_domain%>/static/js/shop/cart.js" charset='utf-8'></script>
+</body>
+</html>

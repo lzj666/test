@@ -1,0 +1,74 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">修改商品信息</h4>
+        </div>
+        <form role="form" method="post" action="/cmdt/cmdt/update_cmdt"
+              onsubmit="return ajax.submit(this,reload_cmdt_partial)">
+            <input type="hidden" name="id" value="<%=cmdt.id%>">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>名称</label>
+                    <input type="text" class="form-control" name="name" placeholder="必填" value="<%=cmdt.name%>"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label><span class="text-danger"></span>品牌</label>
+                    <select class="form-control" name="brand_id">
+                        <option value="" >选择品牌</option>
+                        <%brands.forEach(function(brand){%>
+                        <option value="<%=brand.id%>"
+                        <%=brand.id==cmdt.brand_id?'selected="selected"':''%> ><%=brand.name%></option>
+                        <%})%>
+                    </select>
+                </div>
+
+                <%if(user.shop.use_counter){%>
+                <div class="form-group">
+                    <label><span class="text-danger"></span>专柜</label>
+                    <select class="form-control" name="counter_id">
+                        <option value="" >选择专柜</option>
+                        <%counters.forEach(function(ele){%>
+                        <option value="<%=ele.id%>"
+                        <%=ele.id==cmdt.counter_id?'selected="selected"':''%> ><%=ele.name%></option>
+                        <%})%>
+                    </select>
+                </div>
+                <%}%>
+
+                <div class="form-group">
+                    <label><span class="text-danger">*</span>邮费模板</label>
+                    <select class="form-control" name="postage_template_id">
+                        <%postage_templates.forEach(function(ele){%>
+                        <option value="<%=ele.id%>"
+                        <%=ele.id==cmdt.postage_template_id?'selected="selected"':''%> ><%=ele.template_name%></option>
+                        <%})%>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>备注</label>
+                    <textarea name="description" rows="8" cols="80"
+                              class="form-control"><%=cmdt.description%></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">包邮</label>
+                    <div class="col-sm-10">
+                        <input type="checkbox" name="is_baoyou" value="true" <%=cmdt.is_baoyou?'checked="checked"':''%>
+                        >
+                    </div>
+                </div>
+
+                <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">提交</button>
+            </div>
+        </form>
+    </div>
+</div>

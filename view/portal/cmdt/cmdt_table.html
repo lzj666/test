@@ -1,0 +1,80 @@
+<div class="box-body">
+    <table id="dt1" class="table table-bordered table-hover">
+        <thead>
+        <tr data-order="<%=order%>">
+            <th>图片</th>
+            <th data-field="cc_name" onclick="order(this)">类别名称</th>
+            <th data-field="name" onclick="order(this)">名称</th>
+            <!-- <th data-field="description" onclick="order(this)">描述</th>
+            <th data-field="brand_name" onclick="order(this)">品牌</th> -->
+            <%if(user.shop.use_counter){%>
+            <th data-field="counter_name" onclick="order(this)">专柜</th>
+            <%}%>
+            <th data-field="is_baoyou" onclick="order(this)">包邮</th>
+            <th data-field="single_spec" onclick="order(this)">单规格</th>
+            <th data-field="sale_state" onclick="order(this)">上架状态</th>
+            <th data-field="updatedat" onclick="order(this)">更新时间<span
+                    class="fa fa-sort-desc pull-right text-success order"></span></th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <% var i=0;%>
+        <tbody>
+        <%cmdts.forEach(function(item){%>
+        <tr>
+            <td><img
+                    src="<%=cdn_differ_domain%><%=item.index_pic_url&&item.index_pic_url.length>0?item.index_pic_url[0]:'/static/images/logo.png'%>"
+                    alt="" class="brand-img"/></td>
+            <td><%=item.cc_name%></td>
+            <td><%=item.name%></td>
+            <!-- <td><%=item.description%></td>
+            <td><%=item.brand_name%></td> -->
+            <%if(user.shop.use_counter){%>
+            <td>
+                <%if(!think.isEmpty(item.counter_id)){%>
+                <%=item.counter_name%>
+                <%}%>
+            </td>
+            <%}%>
+            <td>
+                <%if(item.is_baoyou){%>
+                <i class="fa fa-check"></i>
+                <%}%>
+            </td>
+            <td>
+                <%if(item.single_spec){%>
+                <i class="fa fa-check"></i>
+                <%}%>
+            </td>
+            <td>
+                <%if(item.sale_state=='ON'){%>
+                <span class="text-success">上架</span>
+                <%}else if(item.sale_state=='PART'){%>
+                <span class="text-warning">部分上架</span>
+                <%}else if(item.sale_state=='OFF'){%>
+                <span class="text-danger">下架</span>
+                <%}%>
+            </td>
+            <td><%=item.updatedat%></td>
+
+            <td>
+                <a href="javascript:ajax.load('/cmdt/cmdt/update?id=<%=item.id%>','#main_section','#update_section')">修改</a>
+                <span class="explode">|</span>
+                <a href="javascript:$.ajaxModal('/cmdt/cmdt/delete',{id:'<%=item.id%>'})" class="text-danger">删除</a>
+            </td>
+        </tr>
+        <%})%>
+
+        </tbody>
+
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>购物车｜北海道土産探検隊</title>
+<link rel="dns-prefetch" href="<%=cdn_domain%>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="购物车,日本,购物,日货,彩妆,北海道土産探検隊" />
+<meta name="description" content="购物车页面，更多正品日货尽在北海道土産探検隊" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+      <% var nav_active_index='cart';%>
+      <% include ../index_nav.html%>
+
+        <div class="content">
+            <div class="preferential_box">
+                <a class="button-link button-nav pull-left cart_no" href="javascript:window.history.go(-1)">
+                  <span class="icon iconfont">&#xe611;</span>
+                </a>
+                <div class="add_tit">购物车</div>
+            </div>
+            <!--satrt ok con-->
+            <div class="ok_con">
+                <div class="ok_box" onclick="location='/'">
+                    <span class="icon iconfont shop_grey">&#xe609;</span><br>
+                    <span class="shop_grey">购物车内还没有商品<br>来挑点好货</span>
+                </div>
+            </div>
+            <!--end ok con-->
+        </div>
+        </div>
+    </div>
+</div>
+<%include ../common_js_recource.html%>
+</body>
+</html>

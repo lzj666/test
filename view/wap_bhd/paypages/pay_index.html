@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>确认支付｜北海道土産探検隊</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本直邮订单详情,日本,购物,日货,彩妆,北海道土産探検隊"/>
+    <meta name="description" content="日本直邮订单详情页面，更多正品日货尽在北海道土産探検隊"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+    <script type="text/javascript">
+        var order_num = '<%=orderinfo.order_num%>';
+    </script>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab">
+            <button class="tab-item external sale_btn" id="pay_now" onclick="payNow()">立即支付</button>
+            <div class="pay pink" id="sum_money" style="line-height:1">实际付款 <%=orderinfo.should_pay_money%>円
+                <div>
+                    <span class="pink01">(约<%=(orderinfo.should_pay_money*exchange_rate).toFixed(2)%>RMB)</span>
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <!--satrt add con-->
+            <div class="add_box" id="changeAddr" data-id="<%=user_contact.id%>"
+                 onclick="$.router.load('/user/address/list_pay?id=<%=user_contact.id%>&ordernum=<%=orderinfo.order_num%>', false)">
+                <table width="100%">
+                    <tr>
+                        <td><%=user_contact.recipient_name%></td>
+                        <td class="font_7"><%=user_contact.phone%>
+                            <%if(user_contact.is_default){%>
+                            <div class="bg_moren">默认</div>
+                            <%}%>
+                            <br>
+                            <%if(user_contact.cert_no&&user_contact.cert_no.length>0){%>
+                            <%=user_contact.cert_no.substr(0,5)+'************'+user_contact.cert_no.substr(-3)%>
+                            <%}%>
+                        </td>
+                        <td><span class="icon icon-right"></span></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td><span class="icon iconfont">&#xe679;</span></td>
+                        <td class="addinfo"><%=user_contact.str_address%></td>
+                    </tr>
+                </table>
+            </div>
+            <!--end add con-->
+            <!--satrt cart con-->
+            <div class="cart_box">
+                <%detail.forEach(function(item){%>
+                <div class="cart_con">
+                    <table class="cart_tab">
+                        <tr>
+                            <td width="30%" rowspan="5">
+                                <div class="shop_img"><img src="<%=cdn_differ_domain%><%=item.pic_url.split(',')[0]%>"
+                                                           alt=""></div>
+                            </td>
+                            <td colspan="4">
+                                <div class="shop_til"><%=item.cmdt_name%>&nbsp;<%=item.name%></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%" class="shop_grey">数量</td>
+                            <td class="font_8">x<%=item.amount%></td>
+                            <td class="shop_grey text_r">重量</td>
+                            <td class="font_8"><%=item.weight%>g</td>
+                        </tr>
+                        <tr>
+                            <td class="shop_grey">价格</td>
+                            <td>
+                                <div class="price pink">
+                                    <span class="font_8"><%=item.single_price%><span class="font_6">円</span></span>
+                                    <span class="pink01">(约<%=(item.single_price*exchange_rate).toFixed(2)%>RMB)</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <%if(item.from_japan){%>
+                        <tr>
+                            <td colspan="4" class="shop_grey">
+                                <div class="flag"><span class="flag_crile"></span></div>
+                                日本直邮商品
+                            </td>
+                        </tr>
+                        <%}%>
+                        <tr>
+                            <td colspan="5" class="express_add">
+                                该商品由&nbsp;<%=item.count_name%>&nbsp;</a> 提供
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <%})%>
+
+
+            </div>
+            <!--end cart con-->
+            <!--satrt preferential con-->
+
+            <div id="express">
+                <div class="express_list" id="express_inner">
+                </div>
+            </div>
+            <!--end preferential con-->
+            <!--satrt message con-->
+            <div class="preferential_box">
+                <textarea placeholder="买家备注（选填）" id="cus_desc"></textarea>
+            </div>
+            <!--end message con-->
+            <!--satrt shopinfo con-->
+            <div class="preferential_box">
+                <table class="cart_tab">
+                    <tr>
+                        <td width="70%">商品件数</td>
+                        <td class="shop_grey"><%=orderinfo.cmdt_count%>件</td>
+                    </tr>
+                    <tr>
+                        <td>商品价格</td>
+                        <td class="pink" id="cmdt_price">
+                            <%=orderinfo.original_cmdt_money%>円
+                            <span class="pink01">(约<%=(orderinfo.original_cmdt_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>会员折扣<span class="icon iconfont question">&#xe72d;</span></td>
+                        <td class="shop_grey">无</td>
+                    </tr> -->
+                    <tr>
+                        <td>优惠</td>
+                        <td class="pink" id="sale_money">
+                            <%=orderinfo.sale_money%>円
+                            <span class="pink01">(约<%=(orderinfo.sale_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮费合计</td>
+                        <td class="pink" id="post_fee">
+                            <%=orderinfo.post_fee%>円
+                            <span class="pink01">(约<%=(orderinfo.post_fee*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <%if(orderinfo.remote_money&&orderinfo.remote_money > 0){%>
+                    <tr>
+                        <td>偏远地区邮费差价</td>
+                        <td class="pink" id="remote_money">
+                            <%=orderinfo.remote_money%>円
+                            <span class="pink01">(约<%=(orderinfo.remote_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <%}%>
+                    <%if(orderinfo.cutfee&&orderinfo.cutfee!=0){%>
+                    <tr>
+                        <td>客服调价</td>
+                        <td class="pink" id="cutfee">
+                            <%=orderinfo.cutfee>0?'+'+orderinfo.cutfee:orderinfo.cutfee%>円
+                            <span class="pink01">(约<%=(orderinfo.cutfee*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <%}%>
+                </table>
+            </div>
+            <!--end shopinfo con-->
+        </div>
+    </div>
+</div>
+
+<script src="<%=cdn_domain%>/static/js/zepto/zepto.min.js"></script>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/sm/sm-with-router.min.js?v=2" charset='utf-8'></script>
+<script src="<%=cdn_differ_domain%>/static/js/shop/order.js?v=4"></script>
+<script src="<%=cdn_differ_domain%>/static/js/pinyin/transliteration.min.js"></script>
+<script type="text/javascript" language="javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type='text/javascript'>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        WeixinJSBridge.call('hideOptionMenu');
+    });
+</script>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/mustache/mustache.min.js' charset='utf-8'
+        async="true"></script>
+</body>
+</html>

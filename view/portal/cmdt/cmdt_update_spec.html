@@ -1,0 +1,129 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">修改规格</h4>
+        </div>
+        <form role="form" method="post" action="/cmdt/cmdt/update_spec"
+              onsubmit="return ajax.submit(this,reload_spec_partial)">
+            <input type="hidden" name="id" value="<%=sku.id%>">
+            <input type="hidden" class="form-control" name="original_amount" value="<%=sku.stock.total%>">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">规格名</span>
+                            <input type="text" class="form-control" name="spec_name" placeholder="必填"
+                                   value="<%=sku.name%>" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">价格</span>
+                            <input type="number" class="form-control" name="spec_price" value="<%=sku.price%>"
+                                   step="0.01" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <%if(is_show_japName){%>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">商品日文名</span>
+                            <input type="text" class="form-control" name="jap_name" placeholder="必填"
+                                   value="<%=sku.jap_name%>" required>
+                        </div>
+                        <%}%>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon"><a href="javascript:open_stock_log('<%=sku.stock.id%>')">数量&nbsp;&nbsp;</a><span class="label label-info">(占用:<%=sku.stock.assigned%>)</span></span>
+                            <input type="number" class="form-control" name="spec_amount" value="<%=sku.stock.total%>"
+                                   min="<%=sku.stock.assigned%>" required>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">修改数量<br/>的备注</span>
+                            <textarea name="amount_comment" class="form-control" rows="3" cols="80" placeholder="如果修改数量，必填"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group input-group">
+                          <span class="input-group-addon">重量(kg)</span>
+                          <input type="number" class="form-control" name="spec_weight" value="<%=sku.weight%>"
+                                 step="0.001" required>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group input-group">
+                          <span class="input-group-addon">条码</span>
+                          <input type="text" class="form-control" name="spec_code" value="<%=sku.bar_code%>" required>
+                      </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <span>原图片：</span>
+                            <img src="<%=cdn_domain%><%=sku.pic_url%>" style="width:100%" alt="">
+                        </div>
+                    </div>
+
+										<!--zhangyuan  -->
+										<div class="col-md-6">
+										<div class="form-group input-group">
+												<span class="input-group-addon">规格序号&nbsp;&nbsp;</span>
+												<input type="number" class="form-control" name="sort_num" value="<%=sku.sort_num%>" placeholder="只允许输入数字"
+															onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"	>
+										</div>
+                                        <div id="my" class="form-group input-group">
+                                                <span class="input-group-addon">优惠价格&nbsp;&nbsp;</span>
+                                                <input type="number" class="form-control" name="sale_price" value="<%=sku.sale_price%>" placeholder="只允许输入数字">
+                                        </div>
+                                        <div class="checkbox">
+                                                <label><input type="checkbox" name="show_sale_price" value="true"
+                                                    <%=sku.show_sale_price?'checked="checked"':''%> >&nbsp;是否显示优惠价</label>
+                                        </div>
+										</div>
+										<!-- end -->
+
+                    <div class="col-md-6">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">置顶序号&nbsp;&nbsp;</span>
+                            <input type="number" class="form-control" name="top_num" value="<%=sku.top_num%>" placeholder="0代表不置顶"
+                                   onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"	>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                      <div class="checkbox">
+                          <label><input type="checkbox" name="spec_sale" value="true"
+                              <%=sku.sale_state=='ON'?'checked="checked"':''%> >&nbsp;上架</label>
+                      </div>
+					  <div class="checkbox">
+                          <label><input type="checkbox" name="spec_fromJapan" value="true"
+                              <%=sku.from_japan?'checked="checked"':''%> >&nbsp;在日本</label>
+                      </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">改变图片</span>
+                            <input type="file" class="form-control" name="spec_file" accept="image/jpeg,image/png,image/bmp,image/gif" value="">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">提交</button>
+            </div>
+        </form>
+    </div>
+</div>

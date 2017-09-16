@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed-请选择店铺</title>
+  <base href="/">
+  <link rel="shortcut icon" href="<%=cdn_domain%>/static/favico.ico">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+  <% include ./partial/bootstrap_fontawesome_css.html %>
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/skins/skin-green.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/app.css">
+  <style media="screen">
+  body{font-family:'微软雅黑';background-color:white}
+  .content-wrapper .tab-content{padding: 0px;padding-top: 1px;}
+  .wrapper1{
+    background-color: #d2d6de;
+    width:60%;
+    margin: auto;
+    margin-top:30px;
+    padding:15px;
+  }
+  </style>
+
+</head>
+<body class="skin-green sidebar-mini ">
+  <div class="wrapper1">
+    <h1>请选择店铺</h1>
+    <br>
+    <%if(is_admin){%>
+      <div class="row">
+        <div class="col-md-3">
+          <a href="/index/index?shop=system">
+            <div class="info-box">
+              <span class="info-box-icon bg-aqua"><i class="fa fa-cog"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-number">系统管理</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+          </a>
+        </div>
+      </div>
+      <hr >
+    <%}%>
+  </div>
+  <!-- <script src="/static/js/jquery/jquery-2.2.0.min.js"></script> -->
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <!-- <script src="/static/js/bootstrap/bootstrap.min.js"></script> -->
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/app.js"></script>
+  <script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+
+  <script type="text/javascript">
+    $.Reed.router.init('#top_router_outlet');
+
+  </script>
+</body>
+</html>

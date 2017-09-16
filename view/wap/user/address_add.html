@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>添加地址｜呦西推荐</title>
+  <link rel="dns-prefetch" href="//wstatic.paduola.com">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="keywords" content="日本,购物,日货,彩妆" />
+  <meta name="description" content="更多正品日货尽在呦西推荐" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="<%=cdn_domain%>/static/logo.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <%include ../common_css_resource.html%>
+
+</head>
+<body>
+
+  <div class="page-group">
+    <div id="address_list" class="page page-current">
+      <div class="content" style="background-color:white">
+        <div class="add_pop modal-in">
+          <form  method="post" name="fff">
+            <input type="hidden" name="redirect_uri" value="<%=redirect_uri%>"/>
+            <input type="hidden" name="order_num" value="<%=order_num%>"/>
+          <div class="content-block ">
+            <div class="add_til">收货人信息</div>
+
+            <table class="add_tab">
+              <tr>
+                <td>姓名</td>
+                <td><input type="text" id="addr_name" required name="name"></td>
+              </tr>
+              <tr>
+                <td>电话</td>
+                <td><input type="tel" id="addr_phone" required name="phone"></td>
+              </tr>
+              <tr style="display:none">
+                <td>身份证</td>
+                <td><input type="text" required placeholder="必填 用于直邮商品海关清关" id="addr_cert_no" name="cert_no" ></td>
+              </tr>
+              <tr>
+                <td>省市区县</td>
+                <td class="add_select">
+                  <select id="input_Pro" name="province" required></select>
+                  <select id="input_City" name="city" required></select>
+                  <select id="input_Region" name="region" required></select>
+                </td>
+              </tr>
+              <tr>
+                <td class="vertical_top pt_1">详细地址</td>
+                <td>
+                  <textarea placeholder="街道,楼牌号等" id="addr_detail_addr" required name="addr"></textarea>
+                </td>
+              </tr>
+            </table>
+
+          </div>
+          <button class="btn_sure" type="button" onclick="check()" style="display:block;border:none">添加</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <%include ../common_js_recource.html%>
+  <script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/address_add.js" charset='utf-8'></script>
+  <script type="text/javascript">
+    function check(){
+      if($("#addr_name").val().trim().length==0){
+    		$.alert('请填写姓名');
+    		return;
+    	}
+    	if($("#addr_phone").val().trim().length==0){
+    		$.alert('请填写电话');
+    		return;
+    	}
+    	
+    	if($("#input_Pro").val().trim().length==0){
+    		$.alert('请选择省');
+    		return;
+    	}
+      if($("#input_City").val().trim().length==0){
+    		$.alert('请选择市');
+    		return;
+    	}
+      if($("#input_Region").val().trim().length==0){
+    		$.alert('请选择区县');
+    		return;
+    	}
+    	if($("#addr_detail_addr").val().trim().length==0){
+    		$.alert('请填写地址');
+    		return;
+    	}
+
+      //提交
+      document.forms["fff"].submit();
+    }
+  </script>
+</body>
+</html>

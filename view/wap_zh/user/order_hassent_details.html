@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>已发货订单详情｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="订单详情,日本,购物,日货,彩妆,札幌药妆"/>
+    <meta name="description" content="订单详情页面，更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <%var nav_active_index='me';%>
+        <%include ../index_nav.html%>
+        <div class="content">
+            <%if(order.cmdts==undefined){%>
+            <div class="ok_con">
+                <div class="ok_box">
+                    <p class="ok_text">福利购未中奖订单,并未发货</p>
+                </div>
+            </div>
+            <%}else{%>
+            <!--processing_box start-->
+            <div class="processing_box bg02">
+                <span class="ico_icon"><img src="<%=cdn_domain%>/static/images/order/deliver_ico.png"></span>
+                <div class="orage">已发货</div>
+            </div>
+            <!--processing_box end-->
+            <!--add_box start-->
+            <div class="cart_box">
+                <div class="cart_con">
+                    <table>
+                        <tr>
+                            <td class="black font_9"><%=order.recipient_name%></td>
+                            <td class="pl_2"><%=order.phone%></td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td><span class="iconfont">&#xe679;</span></td>
+                            <td class="pl_2 line_height"><%=order.str_addr%></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="cart_con">
+                    <div class="btn_dele" onclick="viewLogistics('<%=order.order_id%>')">物流跟踪</div>
+                    <!-- <div class="btn_dele01" onclick="viewLogistics(this)">申请退款</div> -->
+                </div>
+            </div>
+            <!--add_box start-->
+            <!--satrt cart con-->
+            <div class="cart_box">
+                <div class="cart_con line">
+                    <div>商品信息</div>
+                    <%order.cmdts.forEach(function(cmdt){%>
+                    <table class="cart_tab"
+                           onclick="location='/cmdt/detail/index?cmdt_id=<%=cmdt.cmdt_id%>&sku_id=<%=cmdt.sku_id%>'">
+                        <tr>
+                            <td width="30%" rowspan="5">
+                                <div class="shop_img"><img
+                                        src="<%=cdn_differ_domain%><%=cmdt.pic_url?cmdt.pic_url.split(',')[0]:'/static/images/none.jpg'%>">
+                                </div>
+                            </td>
+                            <td colspan="4">
+                                <div class="shop_til"><%=cmdt.cmdt_name%>&nbsp;<%=cmdt.name%></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%" class="shop_grey">数量</td>
+                            <td class="font_8">x<%=cmdt.amount%></td>
+                        </tr>
+                        <tr>
+                            <td class="shop_grey">价格</td>
+                            <td>
+                                <div class="price pink">
+                                    <span class="font_8"><%=cmdt.single_price%><span class="font_6">円</span></span>
+                                    <span class="pink01">(约<%=(cmdt.single_price*exchange_rate).toFixed(2)%>RMB)</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <%})%>
+                </div>
+            </div>
+            <!--end cart con-->
+            <!--satrt shopinfo con-->
+            <div class="preferential_box bg03">
+                <table class="cart_tab">
+                    <tr>
+                        <td width="50%">商品件数</td>
+                        <td class="shop_grey"><%=order.cmdt_count%>件</td>
+                    </tr>
+                    <tr>
+                        <td>商品价格</td>
+                        <td class="pink">
+                            <span class="font_8"><%=order.cmdt_money%>円</span>
+                            <span class="pink01">(约<%=(order.cmdt_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮费合计</td>
+                        <td class="pink">
+                            <span class="font_8"><%=order.post_fee%>円</span>
+                            <span class="pink01">(约<%=(order.post_fee*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>优惠金额</td>
+                        <td class="shop_grey">
+                            <span class="font_8"><%=order.sale_money%>円</span>
+                            <span class="pink01">(约<%=(order.sale_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pt_1">实际支付</td>
+                        <td class="pt_1 pink">
+                            <span class="font_8"><%=order.payed_money%>円</span>
+                            <span class="pink01">(约<%=(order.payed_money*exchange_rate).toFixed(2)%>RMB)</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--end shopinfo con-->
+
+            <%if(order.order_type=='normal_order'){%>
+            <div class="btn_edit" onclick="location='/user/order/apply_return?order_num=<%=order.order_num%>'">退款
+            </div>
+            <%}%>
+            <%}%>
+        </div>
+    </div>
+    <div style='display:none' id="get_mask_tmpl">
+        <div class="get_mask_tmpl">
+            <div>物流跟踪</div>
+            <table class="logistics_tab">
+                <tr>
+                    <th class="width">快递公司：</th>
+                    <td id="express_name"></td>
+                </tr>
+                <tr>
+                    <th>订单编号：</th>
+                    <td id="express_no"></td>
+                </tr>
+            </table>
+            <div class="logistics_box">
+
+            </div>
+        </div>
+    </div>
+</div>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/my_order_hassent.js?v=<%=Math.random()%>"
+        charset='utf-8'></script>
+</body>
+</html>

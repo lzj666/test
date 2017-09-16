@@ -1,0 +1,26 @@
+<nav class="bar bar-tab top_nav">
+    <a class="tab-item<%=nav_active_index=='index'?' active':''%>" href="/">
+        <span class="icon iconfont"><%-nav_active_index=='index'?'&#xe607;':'&#xe602;'%></span>
+
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item<%=nav_active_index=='cart'?' active':''%>" href="/cmdt/shopcart/index">
+        <span class="icon iconfont"><%-nav_active_index=='cart'?'&#xe608;':'&#xe609;'%></span>
+        <span class="tab-label">购物车</span>
+    </a>
+
+    <a class="tab-item<%=nav_active_index=='article'?' active':''%> bg_brown" href="/article/article/index">
+        <span class="icon iconfont"><%-nav_active_index=='actvt'?'&#xe620;':'&#xe606;'%></span>
+        <span class="tab-label">测评</span>
+        <span class="circle-red2"></span>
+    </a>
+    <a class="tab-item<%=nav_active_index=='all'?' active':''%>" href="/index/helper">
+        <span class="icon iconfont"><%-nav_active_index=='all'?'&#xe60a;':'&#xe60d;'%></span>
+        <span class="tab-label">客服</span>
+    </a>
+
+    <a class="tab-item<%=nav_active_index=='me'?' active':''%>" href="/user/order/index">
+        <span class="icon iconfont"><%-nav_active_index=='me'?'&#xe60c;':'&#xe60b;'%></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>

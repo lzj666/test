@@ -1,0 +1,46 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="search()"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">新增</h4>
+    </div>
+    <form role="form" method="post" action="/cmdt/category/insert" onsubmit="return ajax.submit(this,__hideAndSearch)" enctype="multipart/form-data" >
+      <div class="modal-body">
+
+        <div class="form-group" >
+          <label >名称</label>
+          <input type="text" class="form-control"  name="name" placeholder="必填" required>
+        </div>
+
+        <div class="form-group">
+          <label >图片</label>
+          <input type="file" class="form-control"  name="pic_url" accept="image/jpeg,image/png,image/bmp,image/gif">
+        </div>
+
+				<div>
+						<label>排序号</label>
+						<input type="text" class="form-control" name="sort_num" placeholder="请输入数字"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/ >
+				</div>
+
+        <div class="form-group">
+          <label >上级</label>
+          <select class="form-control" name="pid">
+            <option value="">无</option>
+            <% parents.forEach(function(item){ %>
+              <option value="<%= item.id %>"><%= item.name %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="deleted"> 已删除
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div>
+</div>

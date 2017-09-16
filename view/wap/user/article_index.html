@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的｜呦西推荐</title>
+    <link rel="dns-prefetch" href="//wstatic.paduola.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="我的,日本,购物,日货,彩妆,呦西推荐"/>
+    <meta name="description" content="我的页面，更多正品日货尽在呦西推荐"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <%var nav_active_index='me';%>
+        <%include ../index_nav.html%>
+        <div class="content">
+            <div class="my_box">
+                <!--start my header-->
+                <%include ./user_info_area.html%>
+                <!--end my header-->
+                <!--start my content-->
+                <div class="buttons-tab">
+                    <a href='/user/order/index' class="button">订单管理</a>
+                    <!-- <a href="/user/coupon/index" class="button">卡券管理</a>-->
+                    <a href="/user/favorite/index" class="button">我的收藏</a>
+                    <a href="/user/article/collections" class="active button">我的测评</a>
+                    <a href="/user/address/index" class="button">地址管理</a>
+                </div>
+                <div class="content-block">
+                    <div class="tabs">
+                        <div class="tab active">
+                            <div class="content-block">
+                                <div class="buttons-row">
+                                    <!--<a href="/user/article/index" class=" active button">发布测评</a>-->
+                                    <a href="/user/article/collections" class=" button">收藏测评</a>
+                                    <a href="/user/article/likes" class=" button">赞过测评</a>
+                                    <a href="/user/article/comment_reply" class=" button">评论回复</a>
+                                </div>
+                                <div class="tabs">
+                                    <div class='tab active cart_box' id='tab1-1'>
+                                        <center>即将开放</center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%include ../common_js_recource.html%>
+    <script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/my_order.js?v=2" charset='utf-8'></script>
+</body>
+</html>

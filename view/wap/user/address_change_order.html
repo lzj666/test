@@ -1,0 +1,23 @@
+<div class="add_box" id="changeAddr" data-id="<%=user_contact.id%>" onclick="$.router.load('/user/address/list_pay?id=<%=user_contact.id%>&ordernum=<%=order_num%>', false)">
+    <table width="100%">
+      <tr >
+            <td><%=user_contact.recipient_name%></td>
+            <td class="font_7"><%=user_contact.phone%>
+                <%if(!user_contact.is_default){%>
+                  <div class="bg_red">默认</div>
+                <%}%>
+              <br>
+            <%if(user_contact.cert_no&&user_contact.cert_no.length>0){%>
+              <%=user_contact.cert_no.substr(0,5)+'************'+user_contact.cert_no.substr(-3)%>
+            <%}%>
+            </td>
+            <td><span class="icon icon-right"></span></td>
+        </tr>
+      </table>
+    <table>
+        <tr>
+            <td><span class="icon iconfont">&#xe63e;</span></td>
+            <td class="addinfo"><%=user_contact.str_address%></td>
+        </tr>
+     </table>
+</div>

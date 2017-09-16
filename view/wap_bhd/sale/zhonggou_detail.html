@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商品详情</title>
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="北海道土産探検隊"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm-extend.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/shop/shop.css">
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <nav class="bar bar-tab shop_nav">
+            <!--<a class="tab-item external cart_btn" href="/cmdt/detail/index?cmdt_id=<%=zhonggou.cmdt_id%>&sku_id=<%=zhonggou.sku_id%>"><button style="background:#bc9880; border:none;">正价购买</button></a>-->
+            <a class="tab-item external pay_btn" id="buyNow" data-cmdtid="<%=zhonggou.cmdt_id%>"
+               data-skuid="<%=zhonggou.sku_id%>" data-zhonggouid="<%=zhonggou.id%>">
+                立即夺宝
+            </a>
+        </nav>
+        <div class="content">
+            <!--start 商品图片-->
+            <div class="swiper-container" id="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper">
+                    <div class="">
+                        <img src="<%=cdn_differ_domain%><%=zhonggou.pic_url%>"/>
+                    </div>
+                </div>
+            </div>
+            <!--end 商品图片-->
+            <div class="shop_content">
+                <div class="brown text_c font_8"><%=zhonggou.price%>元众购<br>只需<%=zhonggou.price%>元参与抽奖，奖品等你拿</div>
+            </div>
+            <!--start 商品信息-->
+            <div class="shop_content shop_box">
+                <div class="black"><%=zhonggou.shangpin_name%></div>
+                <p><span class="black">商品价值：</span>¥<%=zhonggou.original_price%><br>
+                    <span class="black">众购价格：</span><span class="brown">¥<%=zhonggou.price%></span></p>
+            </div>
+
+
+            <!--end 商品信息-->
+            <!--start 商品详情-->
+            <div class="buttons-tab">
+                <a href="#tab1" class="tab-link active button">商品详情</a>
+            </div>
+            <div class="content-block">
+                <div class="tabs">
+                    <div id="tab1" class="tab active">
+                        <div class="content-block">
+                            <%-zhonggou.intro%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end 商品详情-->
+        </div>
+    </div>
+    <a href="javascript:pagetop()" id="go-to-top">
+        <span class="iconfont">&#xe614;</span><br>
+        TOP
+    </a>
+</div>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/zepto/zepto.min.js" charset='utf-8'></script>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/sm/sm.min.js' charset='utf-8'></script>
+<script type="text/javascript">
+    $("#buyNow").click(function () {
+        var _this = $(this);
+        $.ajax({
+            type: 'POST',
+            url: '/sale/zhonggou/buy_now',
+            dataType: 'json',
+            data: {
+                zhonggou_id: _this.data('zhonggouid'),
+                cmdt_id: _this.data('cmdtid'),
+                sku_id: _this.data('skuid'),
+                amount: 1
+            },
+            beforeSend: function () {
+                $.showIndicator();
+            },
+            complete: function () {
+                $.hideIndicator();
+            },
+            success: function (r) {
+                if (r.errno) {
+                    if (r.errno == 2) {
+                        $.modal({
+                            title: '请关注公众号“北海道土産探検隊”',
+                            text: '<div style="margin:auto"><img src="<%=cdn_differ_domain%>/static/images/qr_code.jpg" style="width:80%"/></div>',
+                            buttons: [
+                                {
+                                    text: '好的，已关注'
+                                }
+                            ]
+                        });
+                        return;
+                    }
+                    $.alert(r.errmsg);
+                    return;
+                }
+                window.location = '/paypages/pay/index?order_num=' + r.data.order_num;
+            },
+            error: function (xhr, errorType, erro) {
+                console.error(erro);
+            }
+        });
+
+
+    });
+</script>
+</body>
+</html>

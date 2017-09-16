@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <style media="screen">
+  	.up{
+		color:green;
+	}
+	.down{
+		color:red;
+	}
+	.right{
+		float: right
+	}
+	.bg-system{
+		background-color: pink;
+		border-right-color: pink !important;
+	}
+  </style>
+</head>
+<body class="skin-black-light" style="background-color:transparent">
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+
+            <div id="bodyAndFooter">
+              <div class="box-body">
+                <table  class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>总数</th>
+                      <th>可用数</th>
+                      <th>锁定数</th>
+                      <th data-field="ope_type" >操作类型</th>
+                      <th data-field="ope_user" >操作人</th>
+                      <th data-field="ope_time" >操作时间</th>
+                      <th data-field="comment" >备注</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%data.forEach(function(item){%>
+                      <tr>
+						  	<% var total_diff=item.total-item.o_total%>
+                    	<td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.total%> <%-(total_diff>=0)?'<span class="up right">+'+total_diff+'</span>':'<span class="down right">'+total_diff+'</span>'%></td>
+							<% var available_diff=item.available-item.o_available%>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.available%> <%-(available_diff>=0)?'<span class="up right">+'+available_diff+'</span>':'<span class="down right">'+available_diff+'</span>'%></td>
+							<% var assigned_diff=item.assigned-item.o_assigned%>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.assigned%> <%-(assigned_diff>=0)?'<span class="up right">+'+assigned_diff+'</span>':'<span class="down right">'+assigned_diff+'</span>'%></td>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>">
+                          <%if(item.ope_type=='system'){%>
+                            <span>操作员</span>
+                            <%}else{%>
+                              <span>用户</span>
+                          <%}%>
+                        </td>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.ope_user%> </td>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.ope_time%> </td>
+                        <td class="<%=item.ope_type=='system'?'bg-system':''%>"><%=item.comment%> </td>
+                      </tr>
+                      <%})%>
+
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                  <div class="pull-left">
+
+                  </div>
+                  <div class="pull-right">
+                    <%include ../pagination.html%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    function search(param){
+      var page=param.page;
+      window.location='/cmdt/cmdt/stock_log?stock_id='+'<%=stock_id%>&page='+page;
+    }
+    </script>
+  </body>
+  </html>

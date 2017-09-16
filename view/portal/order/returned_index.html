@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.css" rel="stylesheet">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+    <style media="screen">
+        .cmdt-table {
+            width: 100%;
+            margin: 0px;
+            border: 1px solid darkgreen;
+            border-collapse: collapse;
+        }
+
+        .cmdt-table td {
+            text-align: left;
+            border: 1px solid darkgreen;
+        }
+    </style>
+    <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body class="skin-green fixed">
+<div class='notifications top-right'></div>
+<div class="content-container">
+    <section class="content">
+
+        <div class="box">
+            <div class="box-header">
+							<!-- zhangyuan -->
+							<div class="pull-left form-inline">
+							<div class="input-group">
+											<span class="input-group-addon">客户姓名</span>
+											<input type="text" class="form-control" id="recipient_name" placeholder="客户姓名"
+														 style="width: 100px">
+									</div>
+									<div class="input-group">
+                        <span class="input-group-addon">订单编号</span>
+                        <input type="text" class="form-control" id="order_num" placeholder="订单编号">
+                    </div>
+									<div class="input-group">
+											<span class="input-group-addon">SKU名称</span>
+											<input type="text" class="form-control" id="search_sku_name" placeholder="SKU名称">
+									</div>
+									<div class="input-group">
+											<span class="input-group-addon">SKU条码</span>
+											<input type="text" class="form-control" id="search_sku_bar_code" placeholder="SKU条码">
+									</div>
+									<!-- end -->
+
+                    <button type="button" class="btn btn-default" onclick="search({page:1})"><i
+                            class="fa fa-search"></i> 搜索
+                    </button>
+
+                <!--<div class="pull-right">-->
+                <!--<button type="button" class="btn btn-primary" onclick="add()"><i class="fa fa-plus"></i> 新增</button>-->
+                <!--</div>-->
+            </div>
+					</div>
+            <div id="bodyAndFooter">
+                <%include ./returned_table.html%>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal" role="dialog" id="modal" tabindex="-1"></div>
+
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<!--<script src="<%=cdn_domain%>/static/js/plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
+<!--<script src="<%=cdn_domain%>/static/js/app/app.js"></script>-->
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script type="text/javascript">
+    function search(param) {
+
+        var order_num = $("#order_num").val().trim();
+        if (order_num && order_num.length > 0) {
+            ajax.addParam({order_num: order_num});
+        } else {
+            ajax.removeParam('order_num');
+        }
+
+				// zhangyuan
+			var recipient_name = $("#recipient_name").val().trim();
+			if (recipient_name && recipient_name.length > 0) {
+					ajax.addParam({recipient_name: recipient_name});
+			} else {
+					ajax.removeParam('recipient_name');
+			}
+
+			var search_sku_name = $("#search_sku_name").val().trim();
+			if (search_sku_name && search_sku_name.length > 0) {
+					ajax.addParam({sku_name: search_sku_name});
+			} else {
+					ajax.removeParam('sku_name');
+			}
+			var search_sku_bar_code = $("#search_sku_bar_code").val().trim();
+			if (search_sku_bar_code && search_sku_bar_code.length > 0) {
+					ajax.addParam({bar_code: search_sku_bar_code});
+			} else {
+					ajax.removeParam('bar_code');
+			}
+
+
+
+			// end
+
+
+
+        var page = $("#__pagination_page_index").val() || $(".pagination > li.current").data("id");
+        console.log(page);
+        if (page) {
+            ajax.addParam({page: page});
+        }
+        if (param && typeof param == 'object') {
+            ajax.addParam(param);
+        }
+        ajax.refresh(bindImgZoom);
+    }
+    //    function order(_this) {
+    //        var field = $(_this).data("field");
+    //        if (field && field.length > 0) {
+    //            var span = $(_this).find("span.order");
+    //            if (span.hasClass("fa-sort-desc")) {
+    //                search({order: field + " asc"});
+    //            } else {
+    //                search({order: field + " desc"});
+    //            }
+    //        }
+    //    }
+
+
+
+
+    function agree(v) {
+        $.get("/order/returned/agree", {id: v}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+
+    function disagree(v) {
+        $.get("/order/returned/disagree", {id: v}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+
+    function pay_back(v, order_num) {
+        $.get("/order/returned/pay_back", {id: v, order_num: order_num}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+    function get_pay_back_info(v, order_num) {
+        $.get("/order/returned/payback_info", {order_id: v, order_num: order_num}, function (r) {
+            $("#modal").html(r).modal('show');
+        }, 'html');
+    }
+    //    function pay_no(v) {
+    //        $.get("/order/returned/pay_no", {id: v}, function (r) {
+    //            $("#modal").html(r).modal('show');
+    //        }, 'html');
+    //    }
+    function bindImgZoom() {
+        // ajax.order();
+        $('.brand-img').imgZoom();
+    }
+    var ajax;
+    $(function () {
+        ajax = $.Reed.router.ajax();
+        ajax.init('/order/returned/table', '#bodyAndFooter');
+        $('.brand-img').imgZoom();
+//        var moneyLengh = $("#longMoney").css('width');
+//        $("#money").css('width', moneyLengh);
+    });
+</script>
+</body>
+
+</html>

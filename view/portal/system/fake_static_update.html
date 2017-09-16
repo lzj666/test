@@ -1,0 +1,31 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">修改</h4>
+    </div>
+    <form role="form" method="post" action="/system/fake_static/update" onsubmit="return ajax.submit(this,__hideAndSearch)">
+      <input type="hidden" name="id" value="<%=fake_static.id%>"/>
+        <input type="hidden" name="ori_name" value="<%=fake_static.name%>"/>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>名称</label>
+          <input type="text" class="form-control"  name="name" placeholder="请填写英文或拼音" required value="<%=fake_static.name%>">
+        </div>
+
+        <div class="form-group">
+          <label>备注</label>
+          <input type="text" class="form-control"  name="description" value="<%=fake_static.description%>">
+        </div>
+
+        <div class="form-group">
+          <label>内容</label>
+          <textarea name="content" class="form-control" rows="8" cols="80"><%=fake_static.content%></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div>
+</div>

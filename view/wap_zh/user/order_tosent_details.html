@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>待发货详情</title>
+    <link rel="dns-prefetch" href="">
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆" />
+    <meta name="description" content="札幌药妆" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon " href="/static/img/favicon .ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <%var nav_active_index='me';%>
+    <%include ../index_nav.html%>
+    <!--start content-->
+    <div class="content">
+        <div class="my_box">
+            <!--start buttons-tab-->
+            <div class="tab_link">
+                <a href="/user/order/unpayment">待付款</a>
+                <a class="active" href="/user/order/tosent">待发货</a>
+                <a href="/user/order/hassent">已发货</a>
+                <a href="/user/order/returned">退款单</a>
+            </div>
+            <!--end buttons-tab-->
+            <!--start my content-->
+            <div class="my_con">
+                <div class="add_box">
+                    <p class="icon_processe"><span class="iconfont">&#xe62a;</span></p>
+                    <table class="add_tab">
+                        <tr>
+                            <td width="30px" rowspan="4"><span class="iconfont">&#xe64f;</span></td>
+                            <td width="50">姓名：</td>
+                            <td><%=order.recipient_name%></td>
+                        </tr>
+                        <tr>
+                            <td>电话：</td>
+                            <td><%=order.phone%></td>
+                        </tr>
+                        <tr>
+                            <td>证件：</td>
+                            <td><%=order.cert_no%></td>
+                        </tr>
+                        <tr>
+                            <td>地址：</td>
+                            <td><%=order.str_addr%></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="box_con">
+                    <div class="box_img"><img src="static/img/box_01.png"></div>
+                    <div class="box_text">
+                        <dl>
+                            <dt>2kg箱子</dt>
+                            <dd></dd>
+                        </dl>
+                        <dl>
+                            <dt>购物箱自重</dt>
+                            <dd>100g</dd>
+                        </dl>
+                        <dl>
+                            <dt>装箱比例</dt>
+                            <dd class="yellow">100%</dd>
+                        </dl>
+                    </div>
+                </div>
+                <%order.cmdts.forEach(function(cmdt){%>
+                <table class="my_shop_tab">
+                    <tr>
+                        <th rowspan="3" class="shop_img">
+                            <img src="<%=cdn_differ_domain%>/static/images/img_shop_01.png">
+                        </th>
+
+                        <td colspan="2" class="shop_til light_black"><%=cmdt.cmdt_name%>&nbsp;<%=cmdt.name%></td>
+                    </tr>
+                    <tr>
+                        <td>价格：<span class="yellow"><%=cmdt.single_price%>円 (<%=(cmdt.single_price*exchange_rate).toFixed(2)%>元)</span> </td>
+                        <td class="text_r">X <%=cmdt.amount%>件</td>
+                    </tr>
+                    <tr>
+                        <td>重量：<%=cmdt.weight%>g</td>
+                    </tr>
+                </table>
+                <%})%>
+
+                <table class="shopinfo_tab">
+                    <tr>
+                        <th>商品数量</th>
+                        <td>共<%=order.cmdt_count%>件</td>
+                    </tr>
+                    <tr>
+                        <th>商品总价</th>
+                        <td class="yellow"><%=order.cmdt_money%>円 (<%=(order.cmdt_money*exchange_rate).toFixed(2)%>元)</td>
+                    </tr>
+                    <tr>
+                        <th>优惠金额</th>
+                        <td><%=(order.sale_money*exchange_rate).toFixed(2)%></td>
+                    </tr>
+                    <tr>
+                        <th>直邮邮费</th>
+                        <td><%=(order.post_fee*exchange_rate).toFixed(2)%>元</td>
+                    </tr>
+                    <tr>
+                        <th>实际支付</th>
+                        <td><%=(order.payed_money*exchange_rate).toFixed(2)%>元</td>
+                    </tr>
+                </table>
+
+            </div>
+
+
+            <!--end my content-->
+        </div>
+    </div>
+    <!--end content-->
+</div>
+</body>
+</html>

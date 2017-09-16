@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>退款申请</title>
+    <link rel="dns-prefetch" href="//wstatic.paduola.com">
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon " href="//wstatic.paduola.com/static/img/favicon .ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <!--start content-->
+    <form method="post" id="f" onsubmit="return a();" enctype="multipart/form-data">
+        <input type="hidden" name="order_num" value="<%=order.order_num%>" id="order_num"/>
+        <div class="content">
+
+            <div class="refund_box">
+                <p><a class="iconfont" href="javascript:window.history.back()">&#xe6dd;</a> 返回</p>
+
+                <div class="my_con">
+                    <dl>
+                        <dt>订单编号：<%=order.order_num%></dt>
+                        <dd><%=order.createdat%></dd>
+                    </dl>
+                </div>
+            </div>
+            <p class="height_line"></p>
+            <div class="refund_box">
+                <table class="refund_tab">
+                    <tr>
+                        <th width="100">联系方式 <span class="yellow fl_r">※</span></th>
+                        <td><input type="tel" name="contact" required></td>
+                    </tr>
+                    <tr>
+                        <th>退款金额 <span class="yellow fl_r">※</span></th>
+                        <td><input type="number" step='0.01' id="return_money" name="return_money"
+                                   min="0" required min="0" max='<%=order.payed_money%>'
+                                   value="<%=order.payed_money%>"> <span
+                                class="font_6">最多可退<%=order.payed_money%>元</span></td>
+                    </tr>
+                    <tr>
+                        <th>退款原因 <span class="yellow fl_r" >※</span></th>
+                        <td>
+                            <select  name='return_reason' style="width:70%;">
+                                <option value="买错商品">买错商品</option>
+                                <option value="与商品描述不符">与商品描述不符</option>
+                                <option value="发错货">发错货</option>
+                                <option value="其他(请说明)">其他(请说明)</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>退款说明</th>
+                        <td><textarea name='return_desc'></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>凭证图片</th>
+                        <td><input type="file" class="input_n" name="pic_url" accept="image/*" value=""></td>
+                    </tr>
+                </table>
+                <p class="refund_text">审核通过后，将退款至您的支付账户，请留意提示信息</p>
+            </div>
+
+            <div class="btn_refund"><button>提交申请</button></div>
+        </div>
+
+    </form>
+    <!--end content-->
+</div>
+
+</body>
+<script src="<%=cdn_domain%>/static/js/zepto/zepto.min.js"></script>
+<script type="text/javascript">
+    function a() {
+        if ($('$return_money').val() > $('#return_money').data('max')) {
+            alert('退款金额不能超过' + $('#return_money').data('max'));
+            return false;
+        }
+
+    }
+</script>
+</html>

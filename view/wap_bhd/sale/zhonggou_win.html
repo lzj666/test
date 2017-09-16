@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>福利购</title>
+    <link rel="dns-prefetch" href="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="北海道土産探検隊"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/sm/sm.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/shop/shop.css">
+</head>
+
+<body>
+<div class="page-group">
+    <div class="page page-current">
+        <div class="content">
+            <div class="one_til">
+                <i class="icon icon-left fl_l pink" onclick="history.back()">返回</i>
+                <div class="fl_r"></div>
+            </div>
+            <div class="pay_banner"><img src="<%=cdn_differ_domain%>/static/uimg/be15fd48959f43afbe1be1d77d474b9c.jpg"></div>
+            <div class="crowdfunding_box">
+                <div class="crowdfunding_win">
+                    <div class="win_img"><img src="<%=cdn_differ_domain%><%=last.avatar%>"></div>
+                    <div class="win_info">
+                        <dl>
+                            <dt class="pink font_8">上期中奖用户</dt>
+                            <dd>订单号<br><%=last.order_num%><br><%=last.nick_name%></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <!--start 历史中奖用户-->
+            <div class="crowdfunding_box">
+                <div class="crowdfunding_box">
+                    <p class="pink font_8">历史中奖用户</p>
+                </div>
+                <div class="crowdfunding_scorll">
+                    <div id="marqueebox">
+                        <%all.forEach(function(item){%>
+                        <div>订单号
+                            <%=item.order_num.substr(0,3)+'*********'+item.order_num.substring(item.order_num.length-4,item.order_num.length-1)%>
+                            <%=item.nick_name%>
+                        </div>
+                        <%})%>
+                    </div>
+                </div>
+            </div>
+            <!--end 历史中奖用户-->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

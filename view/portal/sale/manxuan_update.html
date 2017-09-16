@@ -1,0 +1,77 @@
+<div class="modal-dialog ">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">修改</h4>
+    </div>
+    <form role="form" method="post" action="/sale/manxuan/update" onsubmit="return ajax.submit(this,__hideAndSearch)">
+      <input type="hidden"  name="id" value="<%=manxuan.id%>">
+      <div class="modal-body">
+        <div class="form-group input-group">
+          <span class="input-group-addon">方案名</span>
+          <input type="text" class="form-control"  name="name" required value="<%=manxuan.name%>">
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">满几件</span>
+              <input type="number" class="form-control"  name="man_value" step="0.01" required value="<%=manxuan.man_value%>">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">多少钱</span>
+              <input type="number" class="form-control"  name="jian_value" step="0.01" required value="<%=manxuan.jian_value%>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">背景色</span>
+              <input type="text" class="form-control"  name="bgcolor"  required placeholder="默认 red" value="<%=manxuan.bgcolor%>">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group input-group">
+              <span class="input-group-addon">前景色</span>
+              <input type="text" class="form-control"  name="fgcolor"  required placeholder="默认 white" value="<%=manxuan.fgcolor%>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group input-group">
+              <span class="input-group-addon">备注</span>
+              <textarea name="comment" class="form-control" rows="4" cols="40"><%=manxuan.comment%></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group input-group">
+              <span class="input-group-addon">购物车提示</span>
+              <textarea name="prompt_text" class="form-control" rows="4" cols="40"><%=manxuan.prompt_text%></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group input-group">
+              <span class="input-group-addon">优先级</span>
+              <input type="text" class="form-control"  name="sort_num"  value="<%=manxuan.sort_num%>" placeholder="越小优先级越高">
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">提交</button>
+      </div>
+    </form>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

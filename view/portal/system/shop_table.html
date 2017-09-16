@@ -1,0 +1,63 @@
+<div class="box-body">
+    <table id="dt1" class="table table-bordered table-hover">
+        <thead>
+        <tr data-order="<%=order%>">
+            <th>标志</th>
+            <th data-field="name" onclick="order(this)">店铺名称</th>
+            <th data-field="sub_domain" onclick="order(this)">子域名</th>
+            <th data-field="shop_id" onclick="order(this)">SHOP_ID</th>
+            <th data-field="createdat" onclick="order(this)">创建时间</th>
+            <th data-field="updatedat" onclick="order(this)">更新时间
+                <span class="fa fa-sort-desc pull-right text-success order"></span></th>
+            <th data-field="use_counter" onclick="order(this)">启用专柜</th>
+            <th data-field="deleted" onclick="order(this)">已删除</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <% var i=0;%>
+        <tbody>
+        <%shops.forEach(function(item){%>
+        <tr>
+            <td><img src="<%=cdn_domain%><%=item.imgurl%>" alt="" class="brand-img"/></td>
+            <td><%=item.name%></td>
+            <td><%=item.sub_domain%></td>
+            <td><%=item.shop_id%></td>
+            <td><%=item.createdat%></td>
+            <td><%=item.updatedat%></td>
+            <td>
+                <%if(item.use_counter){%>
+                <i class="fa fa-check"></i>
+                <%}%>
+            </td>
+            <td>
+                <%if(item.deleted){%>
+                <i class="fa fa-check"></i>
+                <%}%>
+            </td>
+            <td>
+                <a href="javascript:$.ajaxModal('/system/shop/update',{id:'<%=item.id%>'})">修改</a>
+                <span class="explode">|</span>
+                <%if(item.config_id==null){%>
+                <a href="javascript:$.ajaxModal('/system/shop/insert_configs',{id:'<%=item.id%>'})">添加配置</a>
+                <%}else{%>
+                <a href="javascript:$.ajaxModal('/system/shop/update_configs',{id:'<%=item.id%>'})">修改配置</a>
+                <%}%>
+                <span class="explode">|</span>
+                <a href="javascript:$.ajaxModal('/system/shop/delete',{id:'<%=item.id%>'})" class="text-danger">删除店铺</a>
+            </td>
+        </tr>
+        <%})%>
+
+        </tbody>
+
+    </table>
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+        <%include ../pagination.html%>
+    </div>
+</div>

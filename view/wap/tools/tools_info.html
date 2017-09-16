@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>商品详情</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="/static/css/tools/style.css" rel="stylesheet">
+    <script src="<%=cdn_domain%>/static/js/zepto/zepto.min.js"></script>
+</head>
+
+<body style="background:#FFF;">
+<div id="wrap">
+    <nav>
+        <a id="scanQRCode"><i class="iconfont">&#xe613;</i><span>扫描</span></a>
+        <a href="/tools/tools/history"><i class="iconfont">&#xe614;</i><span>历史记录</span></a>
+    </nav>
+    <div class="container">
+        <div class="good_img">
+            <img src="/static/images/tools/img_01.jpg">
+        </div>
+        <table class="good_tab">
+            <tr>
+                <td class="good_tit">QUALITY FIRST 多效合一面膜(超效抗衰老)30片装</td>
+            </tr>
+            <tr>
+                <td class="font_1">官方售价：<span class="pink">¥79</span></td>
+            </tr>
+            <tr>
+                <td><span class="pink">抗衰老</span>
+                    短时间内即可完成抗衰老护理！添加浓密熟成酵母精华等经过严格挑选的50多种奢华成分，低刺激性、无香料、无色素、不含矿物油，不含乙醇、不含防腐剂、无油配方、弱酸性
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <div class="good_introduction"><span>商品信息 introduction</span></div>
+        <table class="good_tab font_1">
+            <tr>
+                <td width="80">品牌名称</td>
+                <td class="navy">QUALITY FIRST</td>
+            </tr>
+            <tr>
+                <td>商品名称</td>
+                <td class="navy">多效合一面膜(超效抗衰老)30片装</td>
+            </tr>
+            <tr>
+                <td>产地</td>
+                <td class="navy">日本</td>
+            </tr>
+            <tr>
+                <td>有效期</td>
+                <td class="navy">3年（以收到实物为准）</td>
+            </tr>
+            <tr>
+                <td>规格</td>
+                <td class="navy">袋装</td>
+            </tr>
+            <tr>
+                <td>商品编号</td>
+                <td class="navy"><%=code%></td>
+            </tr>
+            </tr>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="appid" value="<%=appid%>">
+<input type="hidden" id="timestamp" value="<%=timestamp%>">
+<input type="hidden" id="nonceStr" value="<%=nonceStr%>">
+<input type="hidden" id="signature" value="<%=signature%>">
+</body>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    /*
+     * 注意：
+     * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+     * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+     * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+     *
+     * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+     * 邮箱地址：weixin-open@qq.com
+     * 邮件主题：【微信JS-SDK反馈】具体问题
+     * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+     */
+    var appId = $("#appid").val();
+    var timestamp = $("#timestamp").val();
+    var nonceStr = $("#nonceStr").val();
+    var signature = $("#signature").val();
+    wx.config({
+        debug: false,
+        appId: appId,
+        timestamp: timestamp,
+        nonceStr: nonceStr,
+        signature: signature,
+        jsApiList: [
+            'checkJsApi',
+            'scanQRCode'
+        ]
+    });
+
+</script>
+<script>
+    wx.ready(function () {
+        console.log("I am Ready! info")
+
+        document.querySelector('#scanQRCode').onclick = function () {
+            wx.scanQRCode({
+                needResult: 1,
+                desc: 'scanQRCode desc',
+                success: function (res) {
+                    window.location.href = "/tools/tools/info?code=" + res.resultStr.split(",")[1];
+                }
+            });
+        };
+    });
+
+    wx.error(function (res) {
+        alert(res.errMsg);
+    });
+</script>
+</html>

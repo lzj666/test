@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">同意退款</h4>
+        </div>
+        <form role="form" method="post" action="/order/returned/agree"
+              onsubmit="return ajax.submit(this,__hideAndSearch)">
+            <input type="hidden" name="id" value="<%=id%>">
+            <div class="modal-body">
+                <h3 class="text-warning" style="text-align:center">确定同意?</h3>
+                <h5 style="text-align: center">
+                    这会影响库存，未发货的库存会被归还.
+                </h5>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-dismiss="modal"-->
+                <!--onclick="search()">关闭-->
+                <!--</button>-->
+                <button type="submit" class="btn btn-primary">确定</button>
+            </div>
+        </form>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

@@ -1,0 +1,35 @@
+<div class="box-body">
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr data-order="<%=categories%>">
+            <th>分类名称</th>
+            <th>排序id</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
+            <th>已删除</th>
+            <th style="text-align: center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%categories.forEach(function(item){%>
+        <tr>
+            <td><%=item.article_category_name%></td>
+            <td><%=item.sort_id%></td>
+            <td><%=item.createdat%></td>
+            <td><%=item.updatedat%></td>
+            <td><%=item.deleted%></td>
+            <td style="text-align: center">
+                <div class="btn-group">
+                    <button class="btn btn-default btn-sm" onclick="modify('<%=item.id%>')"><i
+                            class="fa fa-edit"></i> 修改
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="del('<%=item.id%>')"><i
+                            class="fa fa-close"></i> 删除
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <%})%>
+        </tbody>
+    </table>
+</div>

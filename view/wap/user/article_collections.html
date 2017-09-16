@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的测评｜呦西推荐</title>
+    <link rel="dns-prefetch" href="//wstatic.paduola.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="我的,日本,购物,日货,彩妆,呦西推荐"/>
+    <meta name="description" content="我的页面，更多正品日货尽在呦西推荐"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <%var nav_active_index='me';%>
+        <%include ../index_nav.html%>
+        <div class="content">
+            <div class="my_box">
+                <!--start my header-->
+                <%include ./user_info_area.html%>
+                <!--end my header-->
+                <!--start my content-->
+                <div class="buttons-tab">
+                    <a href='/user/order/index' class="button">订单管理</a>
+                    <!-- <a href="/user/coupon/index" class="button">卡券管理</a>-->
+                    <a href="/user/favorite/index" class="button">我的收藏</a>
+                    <a href="/user/article/collections" class="active button">我的测评</a>
+                    <a href="/user/address/index" class="button">地址管理</a>
+                </div>
+                <div class="content-block">
+                    <div class="tabs">
+                        <div class="tab active">
+                            <div class="content-block">
+                                <div class="buttons-row">
+                                    <!--<a href="/user/article/index" class="button">发布测评</a>-->
+                                    <a href="/user/article/collections" class="active button">收藏测评</a>
+                                    <a href="/user/article/likes" class="button">赞过测评</a>
+                                    <a href="/user/article/comment_reply" class="button">评论回复</a>
+                                </div>
+                                <div class="tabs">
+                                    <div class='tab active cart_box' id='tab1-2'>
+                                        <%if(collections.length==0){%>
+                                        <div class="my_add">
+                                            <span class="iconfont">&#xe612;</span><br>
+                                            <span class="shop_grey">您还未收藏测评，快去</span><span class="black">测评</span><span class="shop_grey">看看吧！</span>
+                                        </div>
+                                        <%}else{%>
+                                        <div class="my_con">
+                                            <div class="article_box">
+                                                <%collections.forEach(function(article){%>
+
+                                                <div class="listcon line"
+                                                     onclick="location='/article/article/details?article_id=<%=article.id%>'">
+                                                    <div class="list_conent">
+                                                        <div class="shop_left article_icon">
+                                                            <div class="shop_til">
+                                                                <i><%=article.article_category_name%></i><%=article.title%>
+                                                            </div>
+                                                            <div class="cl_ov">
+                                                                <div class="shop_grey">标签：<%=article.tags%>
+                                                                </div>
+                                                            </div>
+                                                            <div class="cl_ov">
+                                                                <div class="shop_grey">
+                                                                    <div style="width:45%;float:left;-webkit-line-clamp: 1;display: -webkit-box;">
+                                                                        <%=article.show_auther_name%>
+                                                                    </div>
+                                                                    <a class="pink"><i class="iconfont">&#xe61f;</i><%=article.view_num%></a> <span
+                                                                        class="fl_r"><%=article.createdat%></span></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="shop_right article_icon">
+                                                            <img class="lazy-load" src="<%=cdn_domain%>/static/images/lazyload_gray.png"
+                                                                 data-url="<%=cdn_domain%><%=article.pic_url%>" alt="<%=article.title%>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <%})%>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                    </div>
+                                    <!--end 收藏的测评-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/my_order.js?v=2" charset='utf-8'></script>
+<script type="text/javascript">
+    $('.lazy-load').imglazyload({
+        container: '.content',
+        innerScroll: true,
+        threshold: 300
+    });
+</script>
+</body>
+</html>

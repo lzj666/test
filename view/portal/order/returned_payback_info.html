@@ -1,0 +1,46 @@
+<div class="modal-dialog modal-lg" style="width:95%">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">退款信息</h4>
+        </div>
+        <div class="modal-body">
+            <div class="box">
+                <div class="box-body">
+                    <table id="dt1" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>商户支付单号</th>
+                            <th>微信交易单号</th>
+                            <th>退款单号</th>
+                            <%if(is_starpay){%>
+                            <th>退款金额(円)</th>
+                            <%}else{%>
+                            <th>退款金额(元)</th>
+                            <%}%>
+                            <th>退款时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><%=order_num%></td>
+                            <td><%=payback_record.sysem_num%></td>
+                            <td><%=payback_record.transaction_id%></td>
+                            <td><%=payback_record.refund_num%></td>
+                            <%if(is_starpay){%>
+                            <td><%=payback_record.refund_money%></td>
+                            <%}else{%>
+                            <td><%=(payback_record.refund_money/100).toFixed(2)%></td>
+                            <%}%>
+                            <td><%=payback_record.createdat.toLocaleString()%></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

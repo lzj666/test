@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>订单管理｜北海道土産探検隊</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="我的,日本,购物,日货,彩妆,北海道土産探検隊"/>
+    <meta name="description" content="我的页面，更多正品日货尽在北海道土産探検隊"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <%include ../common_css_resource.html%>
+</head>
+<body>
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+        <%var nav_active_index='me';%>
+        <%include ../index_nav.html%>
+        <div class="content">
+            <div class="my_box">
+                <!--start my header-->
+                <%include ./user_info_area.html%>
+                <!--end my header-->
+                <!--start my content-->
+                <div class="buttons-tab">
+                    <a href='/user/order/index' class=" active button">订单管理</a>
+                    <!-- <a href="/user/coupon/index" class="button">卡券管理</a>-->
+                    <a href="/user/favorite/index" class="button">我的收藏</a>
+                    <a href="/user/article/collections" class="button">我的测评</a>
+                    <a href="/user/address/index" class="button">地址管理</a>
+                </div>
+                <div class="content-block">
+                    <div class="tabs">
+                        <div class="tab active">
+                            <div class="content-block">
+                                <div class="buttons-row">
+                                    <a href="/user/order/index" class="button">待付款</a>
+                                    <a href="/user/order/tosent" class="button">待发货</a>
+                                    <a href="/user/order/hassent" class="button active">已发货</a>
+                                    <a href="/user/order/returned" class="button">退款单</a>
+                                </div>
+                                <div class="tabs">
+                                    <!--start 待付款-->
+                                    <div class='tab active cart_box' id='tab1-1'>
+                                        <!--start 订单1-->
+                                        <%order.forEach(function(item){%>
+                                        <div class="my_con __wraper" data-id='<%=item.order_id%>'
+                                             onclick="location='/user/order/hassent_details?order_num=<%=item.order_num%>'">
+                                            <div class="cart_con">
+                                                <table class="cart_tab">
+                                                    <tr>
+                                                        <td>订单编号：<span><%=item.order_num%></span></td>
+                                                        <td class="text_r"><%=item.createdat%></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="cart_con">
+                                                <table class="cart_tab">
+                                                    <%item.cmdts.forEach(function(cmdt){%>
+                                                    <tr>
+                                                        <td width="30%" rowspan="2">
+                                                            <div class="shop_img"><img
+                                                                    src="<%=cdn_differ_domain%><%=cmdt.pic_url?cmdt.pic_url.split(',')[0]:'/static/images/none.jpg'%>">
+                                                            </div>
+                                                        </td>
+                                                        <th colspan="2">
+                                                            <div class="shop_til"><%=cmdt.cmdt_name%>&nbsp;<%=cmdt.name%></div>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="font_8"><%=cmdt.single_price%></span><span class="font_6">円</span><span class="pink01">(约<%=cmdt.rmb_price%>RMB)</span></td>
+                                                        <td class="text_r">x<%=cmdt.amount%></td>
+                                                    </tr>
+                                                    <%})%>
+                                                </table>
+                                            </div>
+                                            <div class="cart_con">
+                                                <table class="cart_tab">
+                                                    <tr>
+                                                        <td class="text_r">共<%=item.cmdt_count%>件商品　合计 <span class="pink font_8"><%=item.sum_money%>円</span><span class="pink01">(约<%=item.rmb_sum_money%>RMB)</span>
+                                                            <br/>
+                                                            （含运费 <%=item.post_fee>0?item.post_fee+'':'0.00'%>円）<span class="pink01">(约<%=item.rmb_post_fee%>RMB)</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <!-- <div class="cart_con">
+                                                 <div class="btn_dele" onclick="viewLogistics(this)">查看物流</div>
+                                              </div> -->
+                                        </div>
+                                        <%})%>
+
+                                        <%if(order.length==0){%>
+                                        <div class="my_add">
+                                            <span class="iconfont">&#xe61b;</span><br>
+                                            <span class="shop_grey">暂无订单</span>
+                                        </div>
+                                        <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end my content-->
+                </div>
+            </div>
+            <!--end content-->
+        </div>
+
+    </div>
+    <%include ../common_js_recource.html%>
+    <script type='text/javascript' src="<%=cdn_domain%>/static/js/shop/my_order_hassent.js" charset='utf-8'></script>
+</body>
+</html>

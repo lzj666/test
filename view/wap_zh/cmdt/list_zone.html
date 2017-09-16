@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>最新活动</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆" />
+    <meta name="description" content="札幌药妆" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon " href="<%=cdn_differ_domain%>/static/img/favicon .ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+</head>
+<body>
+<div class="warp">
+    <% var nav_active_index='index';%>
+    <% include ../index_nav.html%>
+    <div class="content">
+        <div class="list_box">
+            <div class="list_til">最新活动</div>
+        </div>
+        <a href="/" class="backtop icon_com">
+            <span class="iconfont">&#xe645;</span>
+        </a>
+        <a href="/cmdt/shopcart/index" class="cart icon_com">
+            <span class="iconfont">&#xe644;</span>
+            <span class="badge">2</span>
+        </a>
+        <div class="ui-slider">
+            <!--start banner-->
+            <%if(img&&img.length>0){%>
+            <img src="<%=cdn_differ_domain%><%=img%>">
+            <%}%>
+            <!--end banner-->
+            <!--start 排行-->
+            <div class="shop_com my_con">
+                <%cmdts.forEach(function(item){%>
+                <table class="my_shop_tab">
+                    <tr>
+                        <th rowspan="3" class="shop_img">
+                            <a href="/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.id%>">
+                                <img src="<%=cdn_domain%>/static/images/lazyload_gray.png" data-url="<%=cdn_differ_domain%><%=item.pic_url%>" alt=""></a>
+                            <%if(item.available==0){%>
+                            <i class="sold_out">已售罄</i>
+                            <%}%>
+                        </th>
+                        <td colspan="2" class="shop_til"><a href="/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.id%>"><span class="yellow"><%=item.cmdt_name%></span>
+                            <span class="light_black"><%=item.name%></span></a></td>
+                    </tr>
+                    <tr>
+                        <td>价格：<span class="yellow"><%=item.price%>円 (约<%=item.rmb_price%>元)</span> </td>
+                    </tr>
+                    <tr>
+                        <td>重量：<%=item.weight*1000%>g
+                            <%if(item.is_baoyou){%>
+                            <div class="category bg_pink">包邮</div>
+                            <%}%>
+                        </td>
+                        <%if(item.available>0){%>
+                        <td>
+                            <div class="btn_cart"><span class="iconfont" href="javascript:;" onclick="bindAddCart(this)"
+                                                        data-stock='<%=item.available%>' data-skuid='<%=item.id%>'
+                                                        data-cmdtid='<%=item.cmdt_id%>'>&#xe62f;</span> 购物车
+                            </div>
+                        </td>
+                        <%}%>
+                    </tr>
+                </table>
+                <%})%>
+
+
+
+            </div>
+            <!--end 排行-->
+        </div>
+        <a id="go-to-top">
+            <span class="iconfont">&#xe623;</span><br>
+            TOP
+        </a>
+    </div>
+</div>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>
+<script type="text/javascript" src="<%=cdn_differ_domain%>/static/js/pagetop/pagetop.js"></script>
+</body>
+</html>

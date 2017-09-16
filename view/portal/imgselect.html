@@ -1,0 +1,40 @@
+<% var suffix=Math.floor(Math.random()*10000) %>
+<% var chose_type=locals.imgselect_box_type?imgselect_box_type:'checkbox' %>
+
+<div>
+  <!--条件区域-->
+  <div class="form-inline">
+    <div class="input-group">
+      <span class="input-group-addon">类别</span>
+      <select class="form-control input-sm" id="__imgselect_category<%=suffix%>">
+
+      </select>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">名称</span>
+      <input type="text" class="form-control input-sm"  id="__imgselect_name<%=suffix%>">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">时间</span>
+      <input type="date" class="form-control input-sm"  id="__imgselect_date<%=suffix%>">
+    </div>
+    <input class="btn btn-default btn-sm" type="button" value="搜索" onclick="__searchImg('<%=suffix%>',1,'<%=chose_type%>','<%= locals.shop_id %>','<%=cdn_differ_domain%>')">
+  </div>
+  <!--图片容器-->
+  <div class="imgselect-imgwraper" id="__imgselect-imgwraper<%=suffix%>">
+    <p style="margin-top:20px;text-align:center;color:darkgray">请搜索图片</p>
+  </div>
+  <!--分页区-->
+  <div class="imgselect-paginationwraper pull-right">
+      <nav >
+        <ul class="pagination pagination-sm" id="__imgselect_paginationul<%=suffix%>">
+
+        </ul>
+      </nav>
+
+  </div>
+  <script type="text/javascript">
+    __loadImgCategory('#__imgselect_category<%=suffix%>');
+    //__searchImg('<%=suffix%>',1);
+  </script>
+</div>

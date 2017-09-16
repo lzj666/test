@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加地址｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="日本,购物,日货,彩妆"/>
+    <meta name="description" content="更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+    <script src="<%=cdn_differ_domain%>/static/js/pinyin/transliteration.min.js"></script>
+    <script>
+        function addressValueChange() {
+            var value = $("#addr_detail_addr").val().trim();
+            transl.config({lowercase: false});
+            if (value != null && value != "") {
+                $("#eg_addr_detail_addr").val(transl(value));
+            }
+        }
+    </script>
+</head>
+<body>
+
+
+<div class="content">
+    <div class="refund_box" onclick="window.location.href='/user/address/index'">
+        <p><span class="iconfont">&#xe6dd;</span> 返回</p>
+    </div>
+
+    <form method="post" name="fff">
+        <div class="refund_box">
+
+
+            <input type="hidden" name="redirect_uri" value="<%=redirect_uri%>"/>
+            <input type="hidden" name="order_num" value="<%=order_num%>"/>
+            <!--<div class="content">-->
+
+            <table class="refund_tab">
+
+                <tr>
+                    <th width="100">收货姓名</th>
+                    <td><input type="text" id="addr_name" required name="name"></td>
+                </tr>
+                <tr>
+                    <th>联系方式</th>
+                    <td><input type="tel" id="addr_phone" required name="phone"></td>
+                </tr>
+                <tr>
+                    <td>身份证</td>
+                    <td><input type="text" required placeholder="必填 用于直邮商品海关清关" id="addr_cert_no"
+                               name="cert_no"></td>
+                </tr>
+                <tr>
+                    <td>省市区县</td>
+                    <td class="add_select">
+                        <select id="input_Pro" name="province" required></select>
+                        <select id="input_City" name="city" required></select>
+                        <select id="input_Region" name="regin" required></select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="vertical_top pt_1">详细地址</td>
+                    <td>
+                        <textarea placeholder="街道,楼牌号等" id="addr_detail_addr" oninput="addressValueChange()" required name="addr"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="vertical_top pt_1">拼音详细地址</td>
+                    <td>
+                        <textarea placeholder="Zhong Shan Lu 226 Hao,1-602 Shi" id="eg_addr_detail_addr" required
+                                  name="eg_address"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <div class="pinyin_box">
+                <dl>
+                    <dt><input type="radio" value="我已确认拼音地址准确" required class="font_6"></dt>
+                    <dd>我已确认拼音地址准确,有误请手动修改</dd>
+                </dl>
+            </div>
+            <div class="default_box">
+                <dl>
+                    <dt><input type="radio" value="默认地址"></dt>
+                    <dd><span class="font_6">设为默认地址</span><span class="font_5">（每次购物时会默认使用该地址）</span></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="btn_refund">
+            <button type="button" onclick="check()">保存</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+</div>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>
+<%include ../common_js_recource.html%>
+
+<script type='text/javascript' src="<%=cdn_differ_domain%>/static/js/shop/address_add.js?v=4" charset='utf-8'></script>
+<script type="text/javascript">
+    function check() {
+        if ($("#addr_name").val().length == 0) {
+            $.alert('请填写姓名');
+            return;
+        }
+        if ($("#addr_phone").val().length == 0) {
+            $.alert('请填写电话');
+            return;
+        }
+        if ($("#addr_cert_no").val().length == 0) {
+            $.alert('请填写身份证');
+            return;
+        }
+        // if ($("#picker").val().length == 0) {
+        //     $.alert('请选择省市区');
+        //     return;
+        // zhangyuan
+        if ($("#input_Pro").val().trim().length == 0) {
+            $.alert('请选择省');
+            return;
+        }
+        if ($("#input_City").val().trim().length == 0) {
+            $.alert('请选择市');
+            return;
+        }
+        if ($("#input_Region").val().trim().length == 0) {
+            $.alert('请选择区县');
+            return;
+        }
+        //end
+
+        if ($("#addr_detail_addr").val().length == 0) {
+            $.alert('请填写地址');
+            return;
+        }
+        if ($("#eg_addr_detail_addr").val().length == 0) {
+            $.alert('请填写拼音地址');
+            return;
+        }
+        if (!$('.popup-add-address .pinyin_box').eq(0).find('input').is('.checked')) {
+            $.alert('请确认拼音地址准确，有误请手动修改');
+            return false;
+        }
+
+        //提交
+        document.forms["fff"].submit();
+    }
+</script>
+</body>
+</html>

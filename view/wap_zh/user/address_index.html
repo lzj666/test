@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>地址管理｜札幌药妆</title>
+    <link rel="dns-prefetch" href="<%=cdn_domain%>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="我的,日本,购物,日货,彩妆，札幌药妆"/>
+    <meta name="description" content="我的页面，更多正品日货尽在札幌药妆"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/logo.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="<%=cdn_differ_domain%>/static/css/site.css">
+    <script src="<%=cdn_differ_domain%>/static/js/pinyin/transliteration.min.js"></script>
+    <script>
+        function addressValueChange() {
+            var value = $("#addr_detail_addr").val().trim();
+            transl.config({ lowercase: false });
+//            slugify.config({ lowercase: false, separator: ' ' });
+//            console.log( transl(value));
+//            console.log( slugify(value));
+            if (value != null && value != "") {
+                $("#eg_addr_detail_addr").val(transl(value));
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="warp">
+    <div class="content">
+        <div class="list_box" onclick="window.location.href='/user/address/add'">
+            <div class="list_til"><span class="iconfont">&#xe62f;</span> 新增收货地址</div>
+        </div>
+
+        <div class="ui-slider">
+            <%contact.forEach(function(item){%>
+            <div class="edit_add_box my_con checked" data-id='<%=item.id%>'>
+                <table class="my_shop_tab">
+                    <tr>
+                        <td><%=item.recipient_name%></td>
+                        <td class="text_r"><%=item.phone%></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><%if(item.cert_no&&item.cert_no.length>0){%>
+                            <%=item.cert_no.substr(0,5)+'************'+item.cert_no.substr(-3)%>
+                            <%}%></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><%=item.str_address%></td>
+                    </tr>
+                </table>
+                <table class="my_shop_tab">
+                    <tr>
+
+                        <td>
+
+                            <input class="fl_l" name="默认地址" type="radio"> <span class="blue">默认地址</span>
+
+                        </td>
+
+                        <td class="text_r">
+                            <div class="btn_com" onclick="deleteAddr(this)">删除</div>
+                            <div class="btn_com" onclick="showEditAddress(this)">编辑</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <%})%>
+        </div>
+
+
+
+
+
+    </div>
+    <div class="edit_add_box my_con">
+        <table class="my_shop_tab">
+            <tr>
+                <td>某某某</td>
+                <td class="text_r">15623452698</td>
+            </tr>
+            <tr>
+                <td colspan="2">230115XXXXXXXX0447</td>
+            </tr>
+            <tr>
+                <td colspan="2">辽宁省 大连市 高新园区 礼贤街32号海外学子园B座110</td>
+            </tr>
+        </table>
+        <table class="my_shop_tab">
+            <tr>
+                <td><input class="fl_l" name="默认地址" type="radio"> <span class="blue">默认地址</span></td>
+                <td class="text_r">
+                    <div class="btn_com">删除</div>
+                    <div class="btn_com" onClick="window.location.href='my_edit_add.html'">编辑</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+<script type='text/javascript' src="<%=cdn_domain%>/static/js/jquery/jquery-2.2.0.min.js" charset='utf-8'></script>
+<script type="text/javascript" src="<%=cdn_differ_domain%>/static/js/my/my.js"></script>
+<!--<script type="text/javascript" src="<%=cdn_domain%>/static/js/sm/sm.js"></script>-->
+</body>
+</html>

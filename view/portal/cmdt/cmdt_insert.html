@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reed</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <% include ../partial/bootstrap_fontawesome_css.html %>
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/js/plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+    <link rel="stylesheet" href="<%=cdn_domain%>/static/js/wangeditor/css/wangeditor.min.css">
+    <style media="screen">
+        .content {
+            min-height: 150px;
+        }
+
+        .pic-url-file {
+            display: inline-block !important;
+        }
+    </style>
+    <script type="text/javascript">
+        var img_upload_param = {
+            description: '商品详情图片',
+            shop_id: '<%=shop_id%>',
+            category_id: '<%=category_id%>'
+        }
+    </script>
+</head>
+<body class="skin-black-light" style="background-color:transparent">
+<div class='notifications top-right'></div>
+<div>
+    <div style="background-color:white;height:50px;margin-bottom:10px;" class="light-shadow">
+        <a href="javascript:ajax.back('#insert_section','#main_section')"
+           style="position:absolute;z-index:3;left:10px;top:10px"><span
+                class="fa fa-chevron-left"></span>&nbsp;返回商品列表</a>
+        <h4 class="text-muted"
+            style="position:absolute;z-index:2;left:0px;top:10px;width:100%;text-align:center;cursor:pointer"
+            onclick="window.location.reload()">新增商品</h4>
+    </div>
+    <form class="form-horizontal" action="/cmdt/cmdt/insert" method="post" enctype="multipart/form-data" id="post-form">
+        <input type="hidden" name="cmdt_detail" id="cmdt_detail" value="">
+        <input type="hidden" name="cc_id" value="<%=cc_id%>">
+        <div style="width:1024px;margin:auto;background-color:white" class="light-shadow">
+            <div class="content">
+
+                <fieldset>
+                    <legend>商品信息</legend>
+                    <div class="content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger">*</span>商品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="cmdt_name" id="cmdt_name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger"></span>品牌</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="brand_id">
+                                    <option value="" >选择品牌</option>
+                                    <%brands.forEach(function(brand){%>
+                                    <option value="<%=brand.id%>"><%=brand.name%></option>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <%if(user.shop.use_counter){%>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger"></span>专柜</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="counter_id">
+                                    <option value="" >选择专柜</option>
+                                    <%counters.forEach(function(ele){%>
+                                    <option value="<%=ele.id%>"><%=ele.name%></option>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+                        <%}%>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="text-danger">*</span>邮费模板</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="postage_template_id">
+                                    <%postage_templates.forEach(function(ele){%>
+                                    <option value="<%=ele.id%>"><%=ele.template_name%></option>
+                                    <%})%>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control select2" name="cmdt_description"
+                                          id="cmdt_description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">包邮</label>
+                            <div class="col-sm-10" style="padding-top:6px;">
+                                <input type="checkbox" name="is_baoyou" value="true">
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>规格</legend>
+                    <div class="content" style="padding-left: 0 !important;padding-right: 0px !important;">
+                        <button type="button" class="btn btn-default btn-sm" name="button" onclick="add_spec('<%=is_show_japName%>')">添加规格
+                        </button>
+                        <br><br>
+                        <table class="spec-table" id="spec-table">
+                            <thead>
+                            <th style="width:14%;"><span class="text-danger">*</span>规格名</th>
+                            <%if(is_show_japName){%>
+                            <th style="width:22%;">日文全名</th>
+                            <%}%>
+                            <th style="width:7%;"><span class="text-danger">*</span>价格</th>
+                            <th style="width:5%;"><span class="text-danger">*</span>数量</th>
+                            <th style="width:7%;"><span class="text-danger">*</span>重量(kg)</th>
+                            <th style="width:12%;"><span class="text-danger">*</span>条码</th>
+                            <th style="width:13%;"><span class="text-danger">*</span>图片</th>
+                            <th style="width:5%;">上架</th>
+							<th style="width:5%;">在日本</th>
+                            <th style="width:9%;">操作</th>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="msg-attention" id="spec-attention">
+                            <span class="fa fa-info-circle text-info"></span>&nbsp;请至少添加一个规格
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>商品图片</legend>
+                    <div class="content">
+                        <div class="" id="pic-url-wrapper">
+                            <div class="pic-url-container">
+                                <input type="file" name="pic_url__0" accept="image/jpeg,image/png,image/bmp,image/gif" value="" class="pic-url-file">
+                                <span class="text-danger text-button hidden" onclick="del_pic_url(this)">删除</span>
+                            </div>
+                        </div>
+                        <div class="msg-attention" id="pic-url-attention">
+                            <span class="fa fa-info-circle text-info"></span>&nbsp;请至少选择一张商品图片
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>图文详情</legend>
+                    <div class="content">
+                        <div class="" id="cmdt-detail" style="min-height:400px;">
+
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button type="button" name="button" class="btn btn-success" onclick="save()">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script type="text/template" id="spec-tmpl">
+    <tr>
+        <td><input type="text" name="spec_name__@index" value="" required></td>
+        <td><input type="text" name="spec_japName__@index" value="" required></td>
+        <td><input type="number" name="spec_price__@index" value="" step="0.01" required></td>
+        <td><input type="number" name="spec_amount__@index" value="" required></td>
+        <td><input type="number" name="spec_weight__@index" value="" required step="0.001"></td>
+        <td><input type="text" name="spec_code__@index" value="" required></td>
+        <td><input type="file" name="spec_file__@index" accept="image/jpeg,image/png,image/bmp,image/gif" value="" required></td>
+		<td><input type="checkbox" name="spec_fromJapan__@index" value="true"></td>
+        <td><input type="checkbox" name="spec_sale__@index" value="true"></td>
+        <td><span class="text-danger text-button" onclick="del_spec(this)">删除</span></td>
+    </tr>
+</script>
+<script type="text/template" id="loading-tmpl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span class="fa fa-spin fa-spinner"></span> 请稍候...
+            </div>
+        </div>
+    </div>
+</script>
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/plugins/select2/select2.full.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/plugins/select2/i18n/zh-CN.js"></script>
+<script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/wangeditor/js/wangeditor.min.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/util.js"></script>
+<script src="<%=cdn_domain%>/static/js/app/cmdt_insert.js"></script>
+
+</body>
+</html>

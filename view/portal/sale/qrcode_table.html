@@ -1,0 +1,55 @@
+<div class="box-body">
+  <table  class="table table-bordered table-hover">
+    <thead>
+      <tr data-order="<%=order%>">
+        <th data-field="qrcode_name" onclick="order(this)">渠道名称</th>
+        <th data-field="qrcode_id" onclick="order(this)">ID</th>
+        <th data-field="qrcode_url" onclick="order(this)">二维码</th>
+        <th data-field="qrcode_content" onclick="order(this)">扫码回复</th>
+        <th data-field="add_num" onclick="order(this)">粉丝数</th>
+        <th data-field="createdat" onclick="order(this)">创建时间<span class="fa fa-sort-desc pull-right text-success order"></span></th>
+        <th>
+          操作
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%data.forEach(function(item){%>
+        <tr>
+          <td><%=item.qrcode_name%></td>
+          <td>
+            <%=item.qrcode_id%>
+          </td>
+          <td>
+            <img src="<%=item.qrcode_url%>" alt="" class="brand-img"/>
+          </td>
+          <td>
+            <%=item.qrcode_content%>
+          </td>
+          <td>
+            <%=item.add_num%>
+          </td>
+          <td>
+            <%=item.createdat%>
+          </td>
+          <td>
+            <a href="javascript:$.ajaxModal('/sale/qrcode/update',{id:'<%=item.id%>'})">修改</a>
+            <span class="explode">|</span>
+            <a href="javascript:$.ajaxModal('/sale/qrcode/delete',{id:'<%=item.id%>'})" class="text-danger">删除</a>
+          </td>
+        </tr>
+        <%})%>
+
+        </tbody>
+
+      </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+      <div class="pull-left">
+      </div>
+      <div class="pull-right">
+        <%include ../pagination.html%>
+        </div>
+      </div>

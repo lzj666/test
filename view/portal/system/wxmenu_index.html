@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Reed</title>
+  <base href="/">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <% include ../partial/bootstrap_fontawesome_css.html %>
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/adminlte/adminlte.min.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/app/portal.css">
+  <link rel="stylesheet" href="<%=cdn_domain%>/static/css/bootstrap-notify/bootstrap-notify.css">
+</head>
+<body class="skin-black-light">
+  <div class='notifications top-right'></div>
+  <div class="content-container">
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-3">
+            <div class="pull-left form-inline condition-area">
+              <div class="input-group">
+                <span class="input-group-addon">请选择店铺</span>
+                <select class="form-control" name="" id="shop">
+                    <option value="">请选择</option>
+                </select>
+              </div>
+            </div>
+        </div>
+        <div class="col-xs-9">
+          <textarea name="name" id="content" style="height:500px" rows="18" cols="80" class="form-control"></textarea>
+          <button type="button" name="button" class="btn btn-success" id="btn">提交</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="<%=cdn_domain%>/static/js/bootstrap-notify/bootstrap-notify.js"></script>
+  <script src="<%=cdn_domain%>/static/js/jquery-form/jquery.form.min.js"></script>
+  <script type="text/javascript">
+    function initShop(){
+        $.get('/system/wxmenu/getshop',null,function(r){
+            var c=$('#shop')
+            r.data.forEach(function(ele){
+                c.append($('<option>').val(ele.id).html(ele.name))
+            })
+            c.on('change',function(e){
+                var shop_id=e.target.value
+                if (shop_id.length==0) {
+                    return
+                }
+                $.get('/system/wxmenu/getcontent',{shop_id:shop_id},function(r){
+                    console.log(r);
+                    $('#content').val(r.data.content)
+                })
+            })
+        })
+    }
+    $(function(){
+        initShop()
+        $('#btn').click(function(){
+            var shop_id=$('#shop').val()
+            if (shop_id.length==0) {
+                $(".notifications").notify({
+                  type:'danger',
+                  message:{text:'请选择店铺'}
+                }).show()
+                return
+            }
+            var content=$('#content').val()
+            var parsed_content=undefined
+            try {
+                parsed_content=JSON.parse(content)
+            } catch (e) {
+                $(".notifications").notify({
+                  type:'danger',
+                  message:{text:'内容格式错误'}
+                }).show()
+                return
+            }
+            $.post('/system/wxmenu/confirm',{
+                shop_id:shop_id,
+                content:content
+            },function(r){
+                if (r.errno) {
+                    $(".notifications").notify({
+                      type:'danger',
+                      message:{text:r.errmsg}
+                    }).show()
+                }else{
+                    $(".notifications").notify({
+                      type:'success',
+                      message:{text:'操作成功'}
+                    }).show()
+                }
+            })
+        })
+    })
+  </script>
+</body>
+</html>

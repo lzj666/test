@@ -1,0 +1,48 @@
+<div class="box-body">
+  <table id="dt1" class="table table-bordered table-hover">
+    <thead>
+      <tr data-order="<%=order%>">
+        <th>图片</th>
+        <th data-field="name" onclick="order(this)">名称</th>
+        <th data-field="description" onclick="order(this)">描述</th>
+        <th data-field="createdat" onclick="order(this)">创建时间</th>
+        <th data-field="updatedat" onclick="order(this)">更新时间<span class="fa fa-sort-desc pull-right text-success order"></th>
+        <th data-field="deleted" onclick="order(this)">已删除</th>
+        <th >操作</th>
+      </tr>
+    </thead>
+    <% var i=0;%>
+    <tbody>
+      <%staffs.forEach(function(item){%>
+        <tr>
+          <td><img src="<%=cdn_differ_domain%><%=item.pic_url%>" alt="" class="brand-img"/></td>
+          <td><%=item.name%> </td>
+          <td><%=item.description%> </td>
+          <td><%=item.createdat%> </td>
+          <td><%=item.updatedat%> </td>
+          <td>
+          <%if(item.deleted){%>
+            <i class="fa fa-check"></i>
+            <%}%>
+          </td>
+          <td>
+            <a href="javascript:$.ajaxModal('/cmdt/brand/update',{id:'<%=item.id%>'})">修改</a>
+            <span class="explode">|</span>
+            <a href="javascript:$.ajaxModal('/cmdt/brand/delete',{id:'<%=item.id%>'})" class="text-danger">删除</a>
+          </td>
+        </tr>
+        <%})%>
+
+      </tbody>
+
+    </table>
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <div class="pull-left">
+
+    </div>
+    <div class="pull-right">
+      <%include ../pagination.html%>
+    </div>
+  </div>

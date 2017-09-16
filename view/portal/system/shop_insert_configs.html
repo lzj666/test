@@ -1,0 +1,198 @@
+<div class="modal-dialog" style="width: 900px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="search()"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">新增店铺配置</h4>
+        </div>
+        <script>
+            function changePayType() {
+                var payType = $("#pay_type").val();
+                if (payType == "WePay") {
+                    $(".StarPay").remove();
+                    $("#pay_type_tr").after(
+                            '<tr class="WePay">' +
+                            '<td><label>商户秘钥</label> <br> ' +
+                            '<input type="text" class="form-control" name="wepay_partnerKey" placeholder="必填"required></td>' +
+                            '<td><label>支付回调Url</label>' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_notify_url" placeholder="必填"required></td>' +
+                            '<td><label>商户号</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_partner" placeholder="必填"required></td>' +
+                            '</tr>' +
+                            '<tr class="WePay">' +
+                            '<td><label>证书路径</label>' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_certPath" placeholder="必填"required></td> ' +
+                            '<td><label>证书密码</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="wepay_certPwd" placeholder="必填"required></td> ' +
+                            '<td><label>财付通密码</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_TenpayPwd" placeholder="必填"required></td> ' +
+                            '</tr> ' +
+                            '<tr class="WePay"> ' +
+                            '<td><label>币种</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_fee_type" placeholder="默认(CNY)"> </td> ' +
+                            '<td><label>银行种类</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_bank_type" placeholder="默认(WX)"> ' +
+                            '</td> ' +
+                            '<td><label>编码格式</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="wepay_input_charset"placeholder="默认(UTF-8)"></td> ' +
+                            '</tr>'
+                    );
+                } else if (payType == "StarPay") {
+                    $(".WePay").remove();
+                    $("#pay_type_tr").after(
+                            '<tr class="StarPay"> ' +
+                            '<td><label>商户merch_id</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_merch_id" placeholder="必填"required></td> ' +
+                            '<td><label>sign_key</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_sign_key" placeholder="必填"required></td> ' +
+                            '<td><label>银行种类</label> ' +
+                            '<br> ' +
+                            '<input type="text" class="form-control" name="starpay_bank_type"placeholder="默认(WX)"></td> ' +
+                            '</tr> ' +
+                            '<tr class="StarPay"> ' +
+                            '<td><label>币种</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="starpay_fee_type"placeholder="默认(CNY)"></td> ' +
+                            '<td><label>支付回调Url</label> ' +
+                            '<br>' +
+                            '<input type="text" class="form-control" name="starpay_notify_url" placeholder="必填"required></td> ' +
+                            '</tr>'
+                    );
+                }
+            }
+        </script>
+        <form role="form" method="post" action="/system/shop/insert_configs"
+              onsubmit="return ajax.submit(this,__hideAndSearch)">
+            <input type="hidden" id="shop_id" name="shop_id" value="<%=shop_id%>">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="border-right:1px solid #eee">
+                        <table class="store_tab">
+                            <tr>
+                                <th class="ml_10 store_til btn">七牛</th>
+                            </tr>
+                            <tr>
+                                <td><label>AccessKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_ak" placeholder="必填" required>
+                                </td>
+                                <td><label>SecretKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_sk" placeholder="必填" required>
+                                </td>
+                                <td><label>静态文件域名前缀</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="cdn_domain_prefix"
+                                           placeholder="默认(空字符串)"></td>
+                            </tr>
+                            <tr>
+                                <td><label>上传空间名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_bucket" placeholder="必填"
+                                           required></td>
+                                <td><label>Js、CSS、系统图片、文件获取域名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_cdn_domain" placeholder="必填"
+                                           required></td>
+                            </tr>
+                            <tr>
+                                <td><label>要区分的上传空间名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_differ_bucket" placeholder="必填"
+                                           required></td>
+                                <td><label>要区分的域名</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="qiniu_differ_cdn_domain" placeholder="必填"
+                                           required></td>
+
+                            </tr>
+                            <tr>
+                                <th class="ml_10 mt_10 store_til btn">微信服务号</th>
+                            </tr>
+                            <tr>
+                                <td><label>appid</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appid" placeholder="必填"
+                                           required></td>
+                                <td><label>app秘钥</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appsecret" placeholder="必填"
+                                           required></td>
+                                <td><label>获取baseTokenUrl</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_get_basetoken_url"
+                                           placeholder="必填" required></td>
+                            </tr>
+                            <tr>
+                                <td><label>appKey</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_appKey" placeholder="必填"
+                                           required></td>
+                                <td><label>跳转Url</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wechat_jump_code_url" placeholder="必填"
+                                           required></td>
+                            </tr>
+                            <tr id="pay_type_tr">
+                                <th class="pt-10">
+                                    <select id="pay_type" name="pay_type" class="btn btn-default"
+                                            onchange="changePayType();">
+                                        <option value="WePay">WePay</option>
+                                        <option value="StarPay">StarPay</option>
+                                    </select>
+                                </th>
+                            </tr>
+                            <tr class="WePay">
+                                <td><label>商户秘钥</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_partnerKey" placeholder="必填" required></td>
+                                <td><label>支付回调Url</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_notify_url" placeholder="必填" required></td>
+                                <td><label>商户号</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_partner" placeholder="必填" required></td>
+                            </tr>
+
+                            <tr class="WePay">
+                                <td><label>证书路径</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_certPath" placeholder="必填" required></td>
+                                <td><label>证书密码</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_certPwd" placeholder="必填" required></td>
+                                <td><label>财付通密码</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_TenpayPwd" placeholder="必填" required></td>
+                            </tr>
+                            <tr class="WePay">
+                                <td><label>币种</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_fee_type" placeholder="默认(CNY)"></td>
+                                <td><label>银行种类</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_bank_type" placeholder="默认(WX)"></td>
+                                <td><label>编码格式</label>
+                                    <br>
+                                    <input type="text" class="form-control" name="wepay_input_charset" placeholder="默认(UTF-8)"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">提交</button>
+            </div>
+        </form>
+    </div>
+</div>

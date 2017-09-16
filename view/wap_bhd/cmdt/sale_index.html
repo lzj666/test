@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title><%=sale.name%> ｜北海道土産探検隊</title>
+<link rel="dns-prefetch" href="<%=cdn_domain%>">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="全部零食,日本,购物,日货,彩妆,北海道土産探検隊" />
+<meta name="description" content="全部零食页面，更多正品日货尽在北海道土産探検隊" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<link rel="shortcut icon" href="<%=cdn_differ_domain%>/static/favicon.ico">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<%include ../common_css_resource.html%>
+</head>
+<body>
+    <input type="hidden" name="id" id="id" value="<%=id%>">
+<div class="page-group">
+    <div id="page-action" class="page page-current">
+
+            <!--start list_box-->
+        	<div class="list_box">
+            	<div class="list_conbox">
+                    <div class="list_til font_9">
+                      <%=sale.name%>
+                    </div>
+                </div>
+
+            </div>
+            <a href="/" class="backtop">
+                <span class="iconfont">&#xe669;</span>
+            </a>
+             <a href="/cmdt/shopcart/index" class="cart" style="width:40px;padding-left:12px">
+                <span class="iconfont">&#xe61e;</span>
+                <span class="badge" id="cartAmount" >0</span>
+            </a>
+            <!--end list_box-->
+            <div class="content">
+            <!--start tag_box-->
+            <div class="tag_box font_7">
+              <%=sale.comment%>
+            </div>
+            <!--end tag_box-->
+            <div class="infinite-scroll" >
+              <div id="cmdt_container">
+                <!--start listcon-->
+                <%cmdts.forEach(function(item){%>
+                  <div class="listcon">
+                    <div class="list_con">
+                          <div class="shop_left" onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.sku_id%>'">
+                            <img src="<%=cdn_differ_domain%><%=item.sku_pic_url?item.sku_pic_url.split(',')[0]:''%>" alt="">
+                            <%if(item.available==0){%>
+                              <i class="sold_out">已售罄</i>
+                            <%}%>
+                          <%if(item.is_hot){%>
+                            <i class="bg_orange">热销</i>
+                            <%}%>
+                          <%if(item.is_new){%>
+                            <i class="bg_pink">新品</i>
+                            <%}%>
+                          </div>
+                          <div class="shop_right" onclick="location='/cmdt/detail/index?cmdt_id=<%=item.cmdt_id%>&sku_id=<%=item.sku_id%>'">
+                              <div class="shop_til"><%=item.cmdt_name%>&nbsp;<%=item.sku_name%></div>
+                              <div class="shop_price"><%=item.price%>
+                                  <span class="font_6">円</span>
+                                  <span class="pink01">（约 <%=item.rmb_price%>RMB）</span>
+                              </div>
+                              <%if(item.price != item.original_price){%>
+                                <div class="shop_grey">原价<span class="list_price">¥<%=item.original_price%></span></div>
+                              <%}%>
+                              <%if(item.available>0){%>
+                                <a href="javascript:;" onclick="bindAddCart(this)" class="cart_btn" data-stock='<%=item.available%>' data-skuid='<%=item.sku_id%>' data-cmdtid='<%=item.cmdt_id%>'data-sccmdtid='<%=item.sell_channel_cmdt_id%>'>
+                                    <span class="iconfont">&#xe603;</span>
+                                </a>
+                              <%}%>
+                          </div>
+                      </div>
+                  </div>
+                <%})%>
+              </div>
+              <%if(cmdts.length==0){%>
+                <div id="no_data" style="text-align:center;font-size:14px;color:gray;margin:5px auto">
+                  <div >该分类下暂无商品</span>
+                  </div>
+                </div>
+              <%}else{%>
+                <!--start 加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                  <div class="preloader">加载更多 ...</span>
+                  </div>
+                </div>
+                <!--end 加载提示符 -->
+                <!--start 加载提示符 -->
+                <div id="no_more" style="display:none;text-align:center;font-size:14px;color:gray;margin:5px auto">
+                  <div >没有更多商品了</span>
+                  </div>
+                </div>
+                <!--end 加载提示符 -->
+              <%}%>
+
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:pagetop()" id="go-to-top">
+    <span class="icon icon-up"></span><br>
+    TOP
+</a>
+<script type="text/template" id="cmdt_tmpl">
+  <div class="listcon">
+    <div class="list_con">
+          <div class="shop_left" onclick="location='/cmdt/detail/index?cmdt_id={{cmdt_id}}&sku_id={{sku_id}}'">
+            <img src="<%=cdn_differ_domain%>{{sku_pic_url}}" alt="">
+            {{^available}}
+              <i class="sold_out">已售罄</i>
+            {{/available}}
+          {{#is_hot}}
+            <i class="bg_orange">热销</i>
+          {{/is_hot}}
+          {{#is_new}}
+            <i class="bg_pink">新品</i>
+          {{/is_new}}
+          </div>
+          <div class="shop_right" onclick="location='/cmdt/detail/index?cmdt_id={{cmdt_id}}&sku_id={{sku_id}}'">
+              <div class="shop_til" >{{cmdt_name}} {{sku_name}}</div>
+              <div class="shop_price">¥{{price}}
+                  <span class="font_6">円</span>
+                  <span class="pink01">（约 {{rmb_price}}RMB）</span>
+              </div>
+              {{#show_original_price}}
+                <div class="shop_grey">原价<span class="list_price">¥{{original_price}}</span></div>
+              {{/show_original_price}}
+              {{#available}}
+              <a href="javascript:;" onclick="bindAddCart(this)" class="cart_btn" data-stock='{{available}}' data-skuid='{{sku_id}}' data-cmdtid='{{cmdt_id}}' data-sccmdtid='{{sell_channel_cmdt_id}}'>
+                  <span class="iconfont">&#xe603;</span>
+              </a>
+              {{/available}}
+          </div>
+      </div>
+  </div>
+</script>
+<%include ../common_js_recource.html%>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/shop/sale.js?v=6' charset='utf-8'></script>
+<script type='text/javascript' src='<%=cdn_domain%>/static/js/mustache/mustache.min.js' charset='utf-8'></script>
+</body>
+</html>

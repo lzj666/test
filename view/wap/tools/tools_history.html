@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>历史记录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="/static/css/tools/style.css" rel="stylesheet">
+    <script src="<%=cdn_domain%>/static/js/zepto/zepto.min.js"></script>
+</head>
+
+<body style="background:#f6f6f6;">
+<div id="wrap">
+    <nav>
+        <a id="scanQRCode"><i class="iconfont">&#xe613;</i><span>扫描</span></a>
+        <a><i class="iconfont active">&#xe614;</i><span class="active">历史记录</span></a>
+    </nav>
+    <div class="container">
+        <table class="history_tab">
+            <tr>
+                <th rowspan="4"><img src="/static/images/tools/img_02.jpg" alt="山本汉方 大麦若叶青汁粉末分条装44袋/盒"></th>
+            </tr>
+            <tr>
+                <td colspan="2" class="good_tit">山本汉方 大麦若叶青汁粉末分条装44袋/盒</td>
+            </tr>
+            <tr>
+                <td>规格：44条/盒</td>
+                <td valign="top" rowspan="2">
+                    <div class="btn_dele">删除</div>
+                </td>
+            </tr>
+            <tr>
+                <td>官方价格：¥86.00</td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <table class="history_tab">
+            <tr>
+                <th width="90" rowspan="4"><img src="/static/images/tools/img_03.jpg" alt="QUALITY FIRST 钻石女王面膜 超保湿面膜">
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2" class="good_tit">QUALITY FIRST 钻石女王面膜 超保湿面膜</td>
+            </tr>
+            <tr>
+                <td>规格：5片/盒</td>
+                <td valign="top" rowspan="2">
+                    <div class="btn_dele">删除</div>
+                </td>
+            </tr>
+            <tr>
+                <td>官方价格：¥66.00</td>
+            </tr>
+        </table>
+    </div>
+    <div class="container">
+        <table class="history_tab">
+            <tr>
+                <th width="90" rowspan="4"><img src="/static/images/tools/img_04.jpg" alt="资生堂 资生堂Fino浸透美容液发膜230g"></th>
+            </tr>
+            <tr>
+                <td colspan="2" class="good_tit">资生堂 资生堂Fino浸透美容液发膜230g</td>
+            </tr>
+            <tr>
+                <td>规格：230G/盒</td>
+                <td valign="top" rowspan="2">
+                    <div class="btn_dele">删除</div>
+                </td>
+            </tr>
+            <tr>
+                <td>官方价格：¥103.00</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="appid" value="<%=appid%>">
+<input type="hidden" id="timestamp" value="<%=timestamp%>">
+<input type="hidden" id="nonceStr" value="<%=nonceStr%>">
+<input type="hidden" id="signature" value="<%=signature%>">
+</body>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    /*
+     * 注意：
+     * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+     * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+     * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+     *
+     * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+     * 邮箱地址：weixin-open@qq.com
+     * 邮件主题：【微信JS-SDK反馈】具体问题
+     * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+     */
+    var appId = $("#appid").val();
+    var timestamp = $("#timestamp").val();
+    var nonceStr = $("#nonceStr").val();
+    var signature = $("#signature").val();
+    wx.config({
+        debug: false,
+        appId: appId,
+        timestamp: timestamp,
+        nonceStr: nonceStr,
+        signature: signature,
+        jsApiList: [
+            'checkJsApi',
+            'scanQRCode'
+        ]
+    });
+
+</script>
+<script>
+    wx.ready(function () {
+        console.log("I am Ready!!! history")
+
+        document.querySelector('#scanQRCode').onclick = function () {
+            wx.scanQRCode({
+                needResult: 1,
+                desc: 'scanQRCode desc',
+                success: function (res) {
+                    window.location.href = "/tools/tools/info?code=" + res.resultStr.split(",")[1];
+                }
+            });
+        };
+
+    });
+
+    wx.error(function (res) {
+        alert(res.errMsg);
+    });
+</script>
+</html>
